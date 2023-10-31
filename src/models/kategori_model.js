@@ -1,11 +1,11 @@
 import DB from "../config/db.js";
 
 const kategoriModel = {
-  fetchByName: (name) => {
+  fetchKategoriTanah: () => {
     let query = `
         SELECT aset.kategoris.nama, aset.kategoris.id
         FROM aset.kategoris
-        WHERE nama LIKE '${name}%'
+        WHERE nama LIKE 'Tanah%'
         GROUP BY nama, id;
         `;
 

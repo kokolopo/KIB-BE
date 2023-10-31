@@ -1,11 +1,13 @@
 import DB from "../config/db.js";
 
 const penetapanModel = {
-  fetchByDepartemen: (idDepartemen, idKategori = 0, perPage = 10, page = 1) => {
+  fetchByDepartemen: (idDepartemen, perPage = 10, page = 1) => {
     const offset = (page - 1) * perPage;
     let query = `
-            SELECT * FROM aset.penetapan
-            WHERE departemen_id = ${idDepartemen}
+          SELECT aset.penetapan.*, aset.kategoris.nama
+          FROM aset.penetapan
+          JOIN aset.kategoris ON aset.penetapan.kategori_id = aset.kategoris.id
+          WHERE departemen_id = ${idDepartemen} AND aset.kategoris.nama LIKE 'Tanah%'
         `;
 
     if (perPage !== "" && page !== "")
