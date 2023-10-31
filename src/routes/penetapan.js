@@ -8,4 +8,9 @@ penetapan.get(
   penetapanController.getTanahByDepartemen
 );
 
+penetapan.get(
+  "/:id_departemen/perkakas",
+  penetapanController.getPerkakasByDepartemen
+);
+
 export default penetapan;
