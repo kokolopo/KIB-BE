@@ -1,5 +1,5 @@
 import express from "express";
-import departemen from "./departemen";
+import departemen from "./departemen.js";
 
 const routes = express.Router();
 

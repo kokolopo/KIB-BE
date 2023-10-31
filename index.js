@@ -1,5 +1,5 @@
 import express from "express";
-import router from "./src/routes";
+import router from "./src/routes/index.js";
 import bodyParser from "body-parser";
 import cors from "cors";
 import dotEnv from "dotenv";
