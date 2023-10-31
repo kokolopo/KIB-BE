@@ -1,0 +1,159 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Penetapan {
+  id            Int      @id    @default(autoincrement())
+  uraian        String
+  tahun         Int
+  no_register   Int
+  tgl_perolehan DateTime
+  cara_perolehan String
+  th_beli       Int
+  asal_usul     String
+  harga         Float    @default(0)
+  jumlah        Int      @default(0)
+  satuan        String
+  kondisi       String
+  masa_manfaat  Int
+  nilai_sisa    Float    @default(0)
+  masa_sisa     Int
+  penyusutan    Float    @default(0)
+  akumulasi     Float    @default(0)
+  thn_nilai     Int
+  no_sp2d       String
+  no_id         Int?
+  kib           String
+  keterangan    String?
+  lat           String
+  long          String
+  a_rtrw        String
+  a_nop         String
+  a_luas_m2     Int?
+  a_alamat      String
+  a_hak_tanah   String
+  a_sertifikat_tanggal DateTime?
+  a_sertifikat_nomor   String
+  a_penggunaan  String
+  a_kelurahan_id Int
+  a_kecamatan_id Int
+  a_batas_utara String
+  a_batas_selatan String
+  a_batas_barat String
+  a_batas_timur String
+  a_ukur_tgl    DateTime?
+  a_ukur_ba     String
+  a_ukur_hasil  String
+  a_ukur_notes  String
+  a_fisik_jenis String
+  a_fisik_tgl   DateTime?
+  a_dok_jenis   String
+  a_dok_no      String
+  a_dok_tgl     DateTime?
+  a_dok_notes   String
+  a_dok_simpan  String
+  a_tata_ruang  String
+  a_manfaat     String
+  a_manfaat_alamat String
+  a_manfaat_sk_no   String
+  a_manfaat_sk_tgl  DateTime?
+  a_manfaat_mulai   DateTime?
+  a_manfaat_selesai DateTime?
+  b_merk        String
+  b_type        String
+  b_cc          String
+  b_bahan       String
+  b_nomor_pabrik String
+  b_nomor_rangka String
+  b_nomor_mesin String
+  b_nomor_polisi String
+  b_nomor_bpkb  String
+  b_ukuran      String
+  b_warna       String
+  b_thbuat      String
+  c_bertingkat_tidak String
+  c_beton_tidak String
+  c_luas_lantai Int?
+  c_lokasi      String
+  c_dokumen_tanggal  DateTime?
+  c_dokumen_nomor   String
+  c_status_tanah    String
+  c_kode_tanah      String
+  c_luas_bangunan   Int?
+  d_konstruksi  String
+  d_panjang     Int?
+  d_lebar       Int?
+  d_luas        Int?
+  d_lokasi      String
+  d_dokumen_tanggal  DateTime?
+  d_dokumen_nomor   String
+  d_status_tanah    String
+  d_kode_tanah      String
+  e_judul       String
+  e_pencipta    String
+  e_bahan       String
+  e_spek        String
+  e_asal        String
+  e_ukuran      String
+  e_jenis       String
+  f_bertingkat_tidak String
+  f_beton_tidak String
+  f_panjang     Int?
+  f_lebar       Int?
+  f_luas_lantai Int?
+  f_lokasi      String
+  f_dokumen_tanggal  DateTime?
+  f_dokumen_nomor   String
+  f_status_tanah    String
+  f_kode_tanah      String
+  f_luas_bangunan   Int?
+  created       DateTime @default("2020-02-09T18:50:07.243794Z")
+  updated       DateTime?
+  create_uid    Int      @default(1)
+  update_uid    Int?
+  status        Int
+  g_jenis_barang String
+  g_keterangan1 String
+  g_keterangan2 String
+  g_keterangan3 String
+  perolehan_item_id  BigInt?
+  kib_id        BigInt   @map("kib_id")
+  kategori_id   Int
+  departemen_id Int
+  pemilik_id    Int
+  b_kd_ruang    Int?
+  file_nm       Json
+  kondisi_audited_2019  String
+  koreksi       Float    @default(0)
+  selisih       Float?
+  old_kondisi   String
+  harga_old     Float
+  koma          Float
+  dasar_susut   Float
+  perolehan     Float    @default(0)
+  max_manfaat   Int
+  b_pemakai     String
+  b_nip_pemakai String
+  b_jabatan_pemakai String
+  pemecahan_id  Int?
+  no_bast       String
+  tgl_bast      DateTime
+  a_manfaat_nilai_sewa Float @default(0)
+  b_tanggal_stnk DateTime?
+  manfaat_file_nm Json
+  manfaat_kategori_id BigInt?
+  manfaat_status_id  BigInt
+  a_kelurahan   String 
+  a_kecamatan   String 
+  category      String 
+  owner         String    
+}
