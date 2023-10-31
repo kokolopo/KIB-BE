@@ -5,9 +5,9 @@ const { fetchByDepartemen } = penetapanModel;
 
 const penetapanController = {
   getByDepartemen: async (req, res) => {
-    const { id_depatemen } = req.params;
+    const { id_departemen } = req.params;
     try {
-      const data = await fetchByDepartemen(parseInt(id_depatemen));
+      const data = await fetchByDepartemen(parseInt(id_departemen));
 
       res.status(200).json(responseAPI("list penetapan", data));
     } catch (error) {
