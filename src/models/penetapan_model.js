@@ -3,7 +3,7 @@ import DB from "../config/db.js";
 const penetapanModel = {
   fetchByDepartemen: (idDepartemen, idKategori = 0) => {
     let query = `
-            SELECT * FROM aset.penetapan FROM aset.penetapan
+            SELECT * FROM aset.penetapan
             WHERE departemen_id = ${idDepartemen}
         `;
 
