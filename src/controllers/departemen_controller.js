@@ -9,7 +9,7 @@ const departemenController = {
       const departemens = await fetchAll();
       res.status(200).json(responseAPI("list departemens", departemens));
     } catch (error) {
-      res.status(400).json({ msg: "gagal mengambil resep!", error });
+      res.status(400).json({ msg: "gagal mengambil departemens!", error });
     }
   },
 };
