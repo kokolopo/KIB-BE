@@ -23,7 +23,7 @@ const penetapanModel = {
           SELECT aset.penetapan.*, aset.kategoris.nama
           FROM aset.penetapan
           JOIN aset.kategoris ON aset.penetapan.kategori_id = aset.kategoris.id
-          WHERE departemen_id = ${idDepartemen} AND aset.kategoris.nama LIKE 'Tanah% AND thn_nilai = 2022'
+          WHERE departemen_id = ${idDepartemen} AND aset.kategoris.nama LIKE 'Tanah%' AND thn_nilai = 2022
         `;
 
     if (perPage !== "" && page !== "")
@@ -48,7 +48,7 @@ const penetapanModel = {
           FROM aset.penetapan
           JOIN aset.kategoris ON aset.penetapan.kategori_id = aset.kategoris.id
           WHERE departemen_id = ${idDepartemen}
-          AND aset.kategoris.nama LIKE 'Mesin%' OR nama LIKE 'Peralatan%' OR nama LIKE 'Alat% AND thn_nilai = 2022'
+          AND aset.kategoris.nama LIKE 'Mesin%' OR nama LIKE 'Peralatan%' OR nama LIKE 'Alat%' AND thn_nilai = 2022
         `;
 
     if (perPage !== "" && page !== "")
