@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,150 +7,246 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model kategoris {
+  id          Int         @id @default(autoincrement())
+  kode        String?     @db.VarChar(32)
+  status      Int         @db.SmallInt
+  created     DateTime?   @db.Timestamp(6)
+  updated     DateTime?   @db.Timestamp(6)
+  create_uid  Int?
+  update_uid  Int?
+  nama        String?     @db.VarChar(128)
+  child_count Int?
+  level       Int?
+  susut_id    Int?
+  susut_kd    String?     @db.VarChar(32)
+  penetapan   penetapan[]
 
-model Penetapan {
-  id            Int      @id    @default(autoincrement())
-  uraian        String
-  tahun         Int
-  no_register   Int
-  tgl_perolehan DateTime
-  cara_perolehan String
-  th_beli       Int
-  asal_usul     String
-  harga         Float    @default(0)
-  jumlah        Int      @default(0)
-  satuan        String
-  kondisi       String
-  masa_manfaat  Int
-  nilai_sisa    Float    @default(0)
-  masa_sisa     Int
-  penyusutan    Float    @default(0)
-  akumulasi     Float    @default(0)
-  thn_nilai     Int
-  no_sp2d       String
-  no_id         Int?
-  kib           String
-  keterangan    String?
-  lat           String
-  long          String
-  a_rtrw        String
-  a_nop         String
-  a_luas_m2     Int?
-  a_alamat      String
-  a_hak_tanah   String
-  a_sertifikat_tanggal DateTime?
-  a_sertifikat_nomor   String
-  a_penggunaan  String
-  a_kelurahan_id Int
-  a_kecamatan_id Int
-  a_batas_utara String
-  a_batas_selatan String
-  a_batas_barat String
-  a_batas_timur String
-  a_ukur_tgl    DateTime?
-  a_ukur_ba     String
-  a_ukur_hasil  String
-  a_ukur_notes  String
-  a_fisik_jenis String
-  a_fisik_tgl   DateTime?
-  a_dok_jenis   String
-  a_dok_no      String
-  a_dok_tgl     DateTime?
-  a_dok_notes   String
-  a_dok_simpan  String
-  a_tata_ruang  String
-  a_manfaat     String
-  a_manfaat_alamat String
-  a_manfaat_sk_no   String
-  a_manfaat_sk_tgl  DateTime?
-  a_manfaat_mulai   DateTime?
-  a_manfaat_selesai DateTime?
-  b_merk        String
-  b_type        String
-  b_cc          String
-  b_bahan       String
-  b_nomor_pabrik String
-  b_nomor_rangka String
-  b_nomor_mesin String
-  b_nomor_polisi String
-  b_nomor_bpkb  String
-  b_ukuran      String
-  b_warna       String
-  b_thbuat      String
-  c_bertingkat_tidak String
-  c_beton_tidak String
-  c_luas_lantai Int?
-  c_lokasi      String
-  c_dokumen_tanggal  DateTime?
-  c_dokumen_nomor   String
-  c_status_tanah    String
-  c_kode_tanah      String
-  c_luas_bangunan   Int?
-  d_konstruksi  String
-  d_panjang     Int?
-  d_lebar       Int?
-  d_luas        Int?
-  d_lokasi      String
-  d_dokumen_tanggal  DateTime?
-  d_dokumen_nomor   String
-  d_status_tanah    String
-  d_kode_tanah      String
-  e_judul       String
-  e_pencipta    String
-  e_bahan       String
-  e_spek        String
-  e_asal        String
-  e_ukuran      String
-  e_jenis       String
-  f_bertingkat_tidak String
-  f_beton_tidak String
-  f_panjang     Int?
-  f_lebar       Int?
-  f_luas_lantai Int?
-  f_lokasi      String
-  f_dokumen_tanggal  DateTime?
-  f_dokumen_nomor   String
-  f_status_tanah    String
-  f_kode_tanah      String
-  f_luas_bangunan   Int?
-  created       DateTime @default("2020-02-09T18:50:07.243794Z")
-  updated       DateTime?
-  create_uid    Int      @default(1)
-  update_uid    Int?
-  status        Int
-  g_jenis_barang String
-  g_keterangan1 String
-  g_keterangan2 String
-  g_keterangan3 String
-  perolehan_item_id  BigInt?
-  kib_id        BigInt   @map("kib_id")
-  kategori_id   Int
-  departemen_id Int
-  pemilik_id    Int
-  b_kd_ruang    Int?
-  file_nm       Json
-  kondisi_audited_2019  String
-  koreksi       Float    @default(0)
-  selisih       Float?
-  old_kondisi   String
-  harga_old     Float
-  koma          Float
-  dasar_susut   Float
-  perolehan     Float    @default(0)
-  max_manfaat   Int
-  b_pemakai     String
-  b_nip_pemakai String
-  b_jabatan_pemakai String
-  pemecahan_id  Int?
-  no_bast       String
-  tgl_bast      DateTime
-  a_manfaat_nilai_sewa Float @default(0)
-  b_tanggal_stnk DateTime?
-  manfaat_file_nm Json
-  manfaat_kategori_id BigInt?
-  manfaat_status_id  BigInt
-  a_kelurahan   String 
-  a_kecamatan   String 
-  category      String 
-  owner         String    
+  @@index([kode], map: "kategori_kode_idx")
+}
+
+model kib_inventaris {
+  id                    Int       @id @default(autoincrement())
+  kode                  String?   @db.VarChar(32)
+  created               DateTime? @db.Timestamp(6)
+  updated               DateTime? @db.Timestamp(6)
+  create_uid            Int?
+  update_uid            Int?
+  nama                  String?   @db.VarChar(128)
+  kib_id                Int?
+  kategori_id           Int?
+  departemen_id         Int?
+  tgl_inventaris        DateTime? @db.Date
+  no_register_awal      Int?
+  no_register_akhir     Int?
+  no_register_status    Int?
+  kategori_id_awal      Int?
+  kategori_id_akhir     Int?
+  kategori_id_status    Int?
+  keberadaan_fisik      Int?
+  a_alamat_awal         String?   @db.VarChar(255)
+  a_alamat_akhir        String?   @db.VarChar(255)
+  a_alamat_status       Int?
+  b_merk_awal           String?   @db.VarChar(50)
+  b_merk_akhir          String?   @db.VarChar(50)
+  b_merk_status         Int?
+  b_nomor_rangka_awal   String?   @db.VarChar(50)
+  b_nomor_rangka_akhir  String?   @db.VarChar(50)
+  b_nomor_rangka_status Int?
+  b_nomor_bpkb_awal     String?   @db.VarChar(50)
+  b_nomor_bpkb_akhir    String?   @db.VarChar(50)
+  b_nomor_bpkb_status   Int?
+  c_status_tanah_awal   String?   @db.VarChar(50)
+  c_status_tanah_akhir  String?   @db.VarChar(50)
+  c_status_tanah_status Int?
+  c_lokasi_awal         String?   @db.VarChar(255)
+  c_lokasi_akhir        String?   @db.VarChar(255)
+  c_lokasi_status       Int?
+  d_status_tanah_awal   String?   @db.VarChar(50)
+  d_status_tanah_akhir  String?   @db.VarChar(50)
+  d_status_tanah_status Int?
+  d_konstruksi_awal     String?   @db.VarChar(20)
+  d_konstruksi_akhir    String?   @db.VarChar(20)
+  d_konstruksi_status   Int?
+  d_lokasi_awal         String?   @db.VarChar(255)
+  d_lokasi_akhir        String?   @db.VarChar(255)
+  d_lokasi_status       Int?
+  e_judul_awal          String?   @db.VarChar(255)
+  e_judul_akhir         String?   @db.VarChar(255)
+  e_judul_status        Int?
+  e_spek_awal           String?   @db.VarChar(50)
+  e_spek_akhir          String?   @db.VarChar(50)
+  e_spek_status         Int?
+  kondisi_awal          String    @db.VarChar(3)
+  kondisi_akhir         String    @db.VarChar(3)
+  kondisi_status        Int?
+  pemilik_id            Int?
+  tercatat_ganda        Int?
+  lat                   String?   @db.VarChar(64)
+  long                  String?   @db.VarChar(64)
+  lainnya               String?   @db.VarChar(255)
+  keterangan            String?   @db.VarChar(255)
+  status                Int
+  file_nm               Json?     @db.Json
+  perolehan_awal        Float?
+  perolehan_akhir       Float?
+  perolehan_status      Int?
+  penggunaan_awal       String?   @db.VarChar(50)
+  penggunaan_akhir      String?   @db.VarChar(50)
+  penggunaan_status     Int?
+  petugas_1             String?   @db.VarChar(255)
+  petugas_2             String?   @db.VarChar(255)
+  b_nomor_polisi_awal   String?   @db.VarChar(10)
+  b_nomor_polisi_akhir  String?   @db.VarChar(10)
+  b_nomor_polisi_status Int?
+  petugas               Json?     @db.Json
+}
+
+model penetapan {
+  id                   Int       @id @default(autoincrement())
+  uraian               String?   @db.VarChar(255)
+  tahun                Int       @db.SmallInt
+  no_register          Int
+  tgl_perolehan        DateTime  @db.Date
+  cara_perolehan       String?   @db.VarChar(100)
+  th_beli              Int
+  asal_usul            String
+  harga                Float     @default(0)
+  jumlah               BigInt    @default(0)
+  satuan               String?   @db.VarChar(50)
+  kondisi              String    @db.VarChar(3)
+  masa_manfaat         Int       @db.SmallInt
+  nilai_sisa           Float     @default(0)
+  masa_sisa            Int
+  penyusutan           Float     @default(0)
+  akumulasi            Float     @default(0)
+  thn_nilai            Int
+  no_sp2d              String?   @db.VarChar(125)
+  no_id                Int?
+  kib                  String    @db.VarChar(1)
+  keterangan           String?
+  lat                  String?   @db.VarChar(64)
+  long                 String?   @db.VarChar(64)
+  a_rtrw               String?   @db.VarChar(128)
+  a_nop                String?   @db.VarChar(255)
+  a_luas_m2            BigInt?
+  a_alamat             String?   @db.VarChar(500)
+  a_hak_tanah          String?   @db.VarChar(220)
+  a_sertifikat_tanggal DateTime? @db.Date
+  a_sertifikat_nomor   String?   @db.VarChar(50)
+  a_penggunaan         String?   @db.VarChar(1024)
+  a_kelurahan_id       Int?
+  a_kecamatan_id       Int?
+  a_batas_utara        String?   @db.VarChar(128)
+  a_batas_selatan      String?   @db.VarChar(128)
+  a_batas_barat        String?   @db.VarChar(128)
+  a_batas_timur        String?   @db.VarChar(128)
+  a_ukur_tgl           DateTime? @db.Timestamp(6)
+  a_ukur_ba            String?   @db.VarChar(128)
+  a_ukur_hasil         String?   @db.VarChar(128)
+  a_ukur_notes         String?   @db.VarChar(128)
+  a_fisik_jenis        String?   @db.VarChar(128)
+  a_fisik_tgl          DateTime? @db.Timestamp(6)
+  a_dok_jenis          String?   @db.VarChar(128)
+  a_dok_no             String?   @db.VarChar(128)
+  a_dok_tgl            DateTime? @db.Timestamp(6)
+  a_dok_notes          String?   @db.VarChar(128)
+  a_dok_simpan         String?   @db.VarChar(128)
+  a_tata_ruang         String?   @db.VarChar(128)
+  a_manfaat            String?   @db.VarChar(128)
+  a_manfaat_alamat     String?   @db.VarChar(128)
+  a_manfaat_sk_no      String?   @db.VarChar(128)
+  a_manfaat_sk_tgl     DateTime? @db.Timestamp(6)
+  a_manfaat_mulai      DateTime? @db.Timestamp(6)
+  a_manfaat_selesai    DateTime? @db.Timestamp(6)
+  b_merk               String?   @db.VarChar(1500)
+  b_type               String?   @db.VarChar(1025)
+  b_cc                 String?   @db.VarChar(1500)
+  b_bahan              String?   @db.VarChar(1024)
+  b_nomor_pabrik       String?   @db.VarChar(1024)
+  b_nomor_rangka       String?   @db.VarChar(1024)
+  b_nomor_mesin        String?   @db.VarChar(50)
+  b_nomor_polisi       String?   @db.VarChar(50)
+  b_nomor_bpkb         String?   @db.VarChar(50)
+  b_ukuran             String?   @db.VarChar(1024)
+  b_warna              String?   @db.VarChar(50)
+  b_thbuat             String?   @db.VarChar(4)
+  c_bertingkat_tidak   String?   @db.VarChar(100)
+  c_beton_tidak        String?   @db.VarChar(100)
+  c_luas_lantai        BigInt?
+  c_lokasi             String?   @db.VarChar(2024)
+  c_dokumen_tanggal    DateTime? @db.Date
+  c_dokumen_nomor      String?   @db.VarChar(1024)
+  c_status_tanah       String?   @db.VarChar(50)
+  c_kode_tanah         String?   @db.VarChar(64)
+  c_luas_bangunan      BigInt?
+  d_konstruksi         String?   @db.VarChar(64)
+  d_panjang            BigInt?
+  d_lebar              BigInt?
+  d_luas               BigInt?
+  d_lokasi             String?   @db.VarChar(2024)
+  d_dokumen_tanggal    DateTime? @db.Date
+  d_dokumen_nomor      String?   @db.VarChar(1024)
+  d_status_tanah       String?   @db.VarChar(50)
+  d_kode_tanah         String?   @db.VarChar(64)
+  e_judul              String?   @db.VarChar(255)
+  e_pencipta           String?   @db.VarChar(255)
+  e_bahan              String?   @db.VarChar(1024)
+  e_spek               String?   @db.VarChar(1024)
+  e_asal               String?   @db.VarChar(50)
+  e_ukuran             String?   @db.VarChar(1024)
+  e_jenis              String?   @db.VarChar(50)
+  f_bertingkat_tidak   String?   @db.VarChar(20)
+  f_beton_tidak        String?   @db.VarChar(20)
+  f_panjang            BigInt?
+  f_lebar              BigInt?
+  f_luas_lantai        BigInt?
+  f_lokasi             String?   @db.VarChar(255)
+  f_dokumen_tanggal    DateTime? @db.Date
+  f_dokumen_nomor      String?   @db.VarChar(50)
+  f_status_tanah       String?   @db.VarChar(50)
+  f_kode_tanah         String?   @db.VarChar(64)
+  f_luas_bangunan      BigInt?
+  created              DateTime  @default(dbgenerated("'2020-02-09 18:50:07.243794'::timestamp without time zone")) @db.Timestamp(6)
+  updated              DateTime? @db.Timestamp(6)
+  create_uid           Int       @default(1)
+  update_uid           Int?
+  status               Int
+  g_jenis_barang       String?   @db.VarChar(50)
+  g_keterangan1        String?   @db.VarChar(255)
+  g_keterangan2        String?   @db.VarChar(255)
+  g_keterangan3        String?   @db.VarChar(255)
+  perolehan_item_id    BigInt?
+  kib_id               BigInt
+  kategori_id          Int
+  departemen_id        Int
+  pemilik_id           Int       @db.SmallInt
+  b_kd_ruang           Int?      @db.SmallInt
+  file_nm              Json?     @db.Json
+  kondisi_audited_2019 String?   @db.VarChar(3)
+  koreksi              Float?    @default(0)
+  selisih              Float?
+  old_kondisi          String?   @db.VarChar(5)
+  harga_old            Float?
+  koma                 Float?
+  dasar_susut          Float?
+  perolehan            Float?    @default(0)
+  max_manfaat          Int?
+  b_pemakai            String?   @db.VarChar(1024)
+  b_nip_pemakai        String?   @db.VarChar(32)
+  b_jabatan_pemakai    String?   @db.VarChar(1024)
+  pemecahan_id         Int?
+  no_bast              String?   @db.VarChar(100)
+  tgl_bast             DateTime  @db.Date
+  a_manfaat_nilai_sewa Float?    @default(0)
+  b_tanggal_stnk       DateTime? @db.Timestamp(6)
+  manfaat_file_nm      Json?     @db.Json
+  manfaat_kategori_id  BigInt?
+  manfaat_status_id    BigInt?
+  kategoris            kategoris @relation(fields: [kategori_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([kategori_id], map: "penetapan_kategori_idx")
+  @@index([kib_id], map: "penetapan_kib")
+  @@index([kondisi])
+  @@index([thn_nilai])
 }
