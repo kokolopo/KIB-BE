@@ -4,6 +4,11 @@ import penetapanController from "../controllers/penetapan_controller.js";
 const penetapan = express.Router();
 
 penetapan.get(
+  "/:id",
+  penetapanController.getDataById
+);
+
+penetapan.get(
   "/:id_departemen/tanah",
   penetapanController.getTanahByDepartemen
 );

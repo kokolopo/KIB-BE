@@ -1,6 +1,22 @@
 import DB from "../config/db.js";
 
 const penetapanModel = {
+  fetchDataById: (id) => {
+    let query = `
+      SELECT aset.penetapan.*, public.departemen.kode, public.departemen.nama 
+      FROM aset.penetapan
+      JOIN public.departemen ON aset.penetapan.departemen_id = public.departemen.id
+      WHERE aset.penetapan.id = ${id}
+    `;
+
+    return new Promise((resolve, reject) => {
+      DB.query(query, (err, result) => {
+        if (err) reject(err);
+        resolve(result.rows);
+      });
+    });
+  },
+
   fetchTanahByDepartemen: (idDepartemen, perPage = 10, page = 1) => {
     const offset = (page - 1) * perPage;
     let query = `
