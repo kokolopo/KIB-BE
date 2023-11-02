@@ -12,7 +12,7 @@ const penetapanModel = {
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
         if (err) reject(err);
-        resolve(result.rows);
+        resolve(result.rows[0]);
       });
     });
   },
