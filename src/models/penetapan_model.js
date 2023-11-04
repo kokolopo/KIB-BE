@@ -3,9 +3,10 @@ import DB from "../config/db.js";
 const penetapanModel = {
   fetchDataById: (id) => {
     let query = `
-      SELECT aset.penetapan.*, public.departemen.kode, public.departemen.nama 
+      SELECT aset.penetapan.*, public.departemen.kode, public.departemen.nama, aset.kategoris.kode AS barang, aset.kategoris.nama AS nama_barang 
       FROM aset.penetapan
       JOIN public.departemen ON aset.penetapan.departemen_id = public.departemen.id
+      JOIN aset.kategoris ON aset.penetapan.kategori_id = aset.kategoris.id
       WHERE aset.penetapan.id = ${id}
     `;
 
