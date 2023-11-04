@@ -5,14 +5,25 @@ const penetapan = express.Router();
 
 penetapan.get("/:id", penetapanController.getDataPenetapanById);
 
-penetapan.get(
-  "/:id_departemen/tanah",
-  penetapanController.getTanahByDepartemen
-);
+penetapan.get("/:id_departemen/A", penetapanController.getTanahByDepartemen);
 
-penetapan.get(
-  "/:id_departemen/perkakas",
-  penetapanController.getPerkakasByDepartemen
-);
+penetapan.get("/:id_departemen/B", penetapanController.getPerkakasByDepartemen);
+
+// penetapan.get(
+//   "/:id_departemen/C",
+//   penetapanController.getGedungBangunanByDepartemen
+// );
+
+// penetapan.get(
+//   "/:id_departemen/D",
+//   penetapanController.getJalanJaringanIrigasiByDepartemen
+// );
+
+// penetapan.get(
+//   "/:id_departemen/E",
+//   penetapanController.getAsetTetapLainnyaByDepartemen
+// );
+
+// penetapan.get("/:id_departemen/F", penetapanController.getKDPByDepartemen);
 
 export default penetapan;
