@@ -45,7 +45,7 @@ const penetapanModel = {
   ) => {
     const offset = (page - 1) * perPage;
     let query = `
-          SELECT aset.penetapan.*, TO_CHAR(tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated, aset.kategoris.nama
+          SELECT ROW_NUMBER() OVER (ORDER BY id) AS nomor, aset.penetapan.*, TO_CHAR(tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated, aset.kategoris.nama
           FROM aset.penetapan
           JOIN aset.kategoris ON aset.penetapan.kategori_id = aset.kategoris.id
           WHERE departemen_id = ${idDepartemen}
