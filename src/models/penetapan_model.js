@@ -25,9 +25,10 @@ const penetapanModel = {
     tahun = 2023
   ) => {
     const offset = (page - 1) * perPage;
-
+      
     let query = `
-      SELECT p.*, k.nama, ROW_NUMBER() OVER (ORDER BY p.id) AS nomor, 
+      SELECT p.*, k.nama, k.kode, k.nama, i.tgl_inventaris, i.keberadaan_fisik, i.kondisi_akhir, i.penggunaan_status, i.file_nm,
+      ROW_NUMBER() OVER (ORDER BY p.id) AS nomor, 
       TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated,
       TO_CHAR(a_sertifikat_tanggal, 'DD-MM-YYYY') AS sertifikat_tgl
       FROM aset.penetapan AS p
