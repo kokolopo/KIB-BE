@@ -10,6 +10,7 @@ const {
   fetchJalanJaringanIrigasiByDepartemen,
   fetchAsetTetapLainnyaByDepartemen,
   fetchKDPBByDepartemen,
+  contTotalRows,
 } = penetapanModel;
 
 const penetapanController = {
@@ -30,6 +31,7 @@ const penetapanController = {
     const { perPage, page, tahun } = req.query;
     try {
       let data;
+      let total_data;
       switch (kategori) {
         case "A":
           data = await fetchTanahByDepartemen(
@@ -38,6 +40,7 @@ const penetapanController = {
             page,
             tahun
           );
+          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
         case "B":
           data = await fetchPeralatanMesinAlatByDepartemen(
@@ -46,6 +49,7 @@ const penetapanController = {
             page,
             tahun
           );
+          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
         case "C":
           data = await fetchGedungBangunanByDepartemen(
@@ -54,6 +58,7 @@ const penetapanController = {
             page,
             tahun
           );
+          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
         case "D":
           data = await fetchJalanJaringanIrigasiByDepartemen(
@@ -62,6 +67,7 @@ const penetapanController = {
             page,
             tahun
           );
+          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
         case "E":
           data = await fetchAsetTetapLainnyaByDepartemen(
@@ -70,6 +76,7 @@ const penetapanController = {
             page,
             tahun
           );
+          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
         case "F":
           data = await fetchKDPBByDepartemen(
@@ -78,13 +85,14 @@ const penetapanController = {
             page,
             tahun
           );
+          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
 
         default:
           break;
       }
 
-      res.status(200).json(responseAPI("list penetapan", data));
+      res.status(200).json(responseAPI("list penetapan", data, total_data));
     } catch (error) {
       res.status(400).json({ msg: "gagal mengambil penetapan!", error });
     }
