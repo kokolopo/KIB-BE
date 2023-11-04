@@ -6,6 +6,10 @@ const {
   fetchDataById,
   fetchTanahByDepartemen,
   fetchPeralatanMesinAlatByDepartemen,
+  fetchGedungBangunanByDepartemen,
+  fetchJalanJaringanIrigasiByDepartemen,
+  fetchAsetTetapLainnyaByDepartemen,
+  fetchKDPBByDepartemen,
 } = penetapanModel;
 
 const penetapanController = {
@@ -22,49 +26,63 @@ const penetapanController = {
 
   getTanahByDepartemen: async (req, res) => {
     // localhost:5000/penetapan/:id_departemen/A?perPage=5&page=1&tahun=2022
-    const { id_departemen } = req.params;
+    const { id_departemen, kategori } = req.params;
     const { perPage, page, tahun } = req.query;
     try {
-      const data = await fetchTanahByDepartemen(
-        parseInt(id_departemen),
-        perPage,
-        page,
-        tahun
-      );
+      let data;
+      switch (kategori) {
+        case "A":
+          data = await fetchTanahByDepartemen(
+            parseInt(id_departemen),
+            perPage,
+            page,
+            tahun
+          );
+          break;
+        case "B":
+          data = await fetchPeralatanMesinAlatByDepartemen(
+            parseInt(id_departemen),
+            perPage,
+            page,
+            tahun
+          );
+          break;
+        case "C":
+          data = await fetchGedungBangunanByDepartemen(
+            parseInt(id_departemen),
+            perPage,
+            page,
+            tahun
+          );
+          break;
+        case "D":
+          data = await fetchJalanJaringanIrigasiByDepartemen(
+            parseInt(id_departemen),
+            perPage,
+            page,
+            tahun
+          );
+          break;
+        case "E":
+          data = await fetchAsetTetapLainnyaByDepartemen(
+            parseInt(id_departemen),
+            perPage,
+            page,
+            tahun
+          );
+          break;
+        case "F":
+          data = await fetchKDPBByDepartemen(
+            parseInt(id_departemen),
+            perPage,
+            page,
+            tahun
+          );
+          break;
 
-      res.status(200).json(responseAPI("list penetapan", data));
-    } catch (error) {
-      res.status(400).json({ msg: "gagal mengambil penetapan!", error });
-    }
-  },
-
-  getPerkakasByDepartemen: async (req, res) => {
-    const { id_departemen } = req.params;
-    const { perPage, page, tahun } = req.query;
-    try {
-      const data = await fetchPeralatanMesinAlatByDepartemen(
-        parseInt(id_departemen),
-        perPage,
-        page,
-        tahun
-      );
-
-      res.status(200).json(responseAPI("list penetapan", data));
-    } catch (error) {
-      res.status(400).json({ msg: "gagal mengambil penetapan!", error });
-    }
-  },
-
-  getGedungBangunanByDepartemen: async (req, res) => {
-    const { id_departemen } = req.params;
-    const { perPage, page, tahun } = req.query;
-    try {
-      const data = await fetchPeralatanMesinAlatByDepartemen(
-        parseInt(id_departemen),
-        perPage,
-        page,
-        tahun
-      );
+        default:
+          break;
+      }
 
       res.status(200).json(responseAPI("list penetapan", data));
     } catch (error) {

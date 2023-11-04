@@ -5,9 +5,12 @@ const penetapan = express.Router();
 
 penetapan.get("/:id", penetapanController.getDataPenetapanById);
 
-penetapan.get("/:id_departemen/A", penetapanController.getTanahByDepartemen);
+penetapan.get(
+  "/:id_departemen/:kategori",
+  penetapanController.getTanahByDepartemen
+);
 
-penetapan.get("/:id_departemen/B", penetapanController.getPerkakasByDepartemen);
+// penetapan.get("/:id_departemen/B", penetapanController.getPerkakasByDepartemen);
 
 // penetapan.get(
 //   "/:id_departemen/C",
