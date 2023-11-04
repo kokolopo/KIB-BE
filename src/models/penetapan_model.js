@@ -70,6 +70,12 @@ const penetapanModel = {
     const offset = (page - 1) * perPage;
     let query = `
     SELECT p.*, k.nama, ROW_NUMBER() OVER (ORDER BY p.id) AS nomor, TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated,
+    (SELECT COUNT(*) FROM aset.penetapan 
+    WHERE aset.penetapan.thn_nilai = ${tahun} - 1
+    AND p.departemen_id = ${idDepartemen}
+    AND p.kondisi IN ('B', 'KB')
+    AND p.kib='A'
+    ) AS total_data
     FROM aset.penetapan AS p
     JOIN public.departemen AS d ON p.departemen_id = d.id
     JOIN aset.kategoris AS k ON p.kategori_id = k.id
