@@ -3,12 +3,14 @@ import DB from "../config/db.js";
 const penetapanModel = {
   fetchDataById: (id) => {
     let query = `
-      SELECT aset.penetapan.*, public.departemen.kode, public.departemen.nama, aset.kategoris.kode AS barang, aset.kategoris.nama AS nama_barang 
+      SELECT aset.penetapan.*, public.departemen.kode, public.departemen.nama, aset.kategoris.kode AS barang, aset.kategoris.nama AS nama_barang
       FROM aset.penetapan
       JOIN public.departemen ON aset.penetapan.departemen_id = public.departemen.id
       JOIN aset.kategoris ON aset.penetapan.kategori_id = aset.kategoris.id
       WHERE aset.penetapan.id = ${id}
     `;
+
+    // let query = `select *, TO_CHAR(tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated from aset.penetapan WHERE aset.penetapan.id = ${id}`;
 
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
@@ -45,7 +47,7 @@ const penetapanModel = {
   ) => {
     const offset = (page - 1) * perPage;
     let query = `
-          SELECT aset.penetapan.*, aset.kategoris.nama
+          SELECT aset.penetapan.*, TO_CHAR(tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated, aset.kategoris.nama
           FROM aset.penetapan
           JOIN aset.kategoris ON aset.penetapan.kategori_id = aset.kategoris.id
           WHERE departemen_id = ${idDepartemen}
