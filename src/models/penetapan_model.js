@@ -89,6 +89,13 @@ const penetapanModel = {
       SELECT 
         p.*, 
         k.nama, 
+        k.kode, 
+        k.nama, 
+        i.tgl_inventaris, 
+        i.keberadaan_fisik, 
+        i.kondisi_akhir, 
+        i.penggunaan_status, 
+        i.file_nm,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor, 
         TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated
       FROM 
@@ -141,7 +148,7 @@ const penetapanModel = {
         i.file_nm,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor, 
         TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated,
-        TO_CHAR(a_sertifikat_tanggal, 'DD-MM-YYYY') AS sertifikat_tgl
+        TO_CHAR(c_dokumen_tanggal, 'DD-MM-YYYY') AS dokumen_tgl
       FROM 
         aset.penetapan AS p
       JOIN 
@@ -192,7 +199,7 @@ const penetapanModel = {
         i.file_nm,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor, 
         TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated,
-        TO_CHAR(a_sertifikat_tanggal, 'DD-MM-YYYY') AS sertifikat_tgl,
+        TO_CHAR(d_dokumen_tanggal, 'DD-MM-YYYY') AS dokumen_tgl
       FROM 
         aset.penetapan AS p
       JOIN 
@@ -242,8 +249,7 @@ const penetapanModel = {
         i.penggunaan_status, 
         i.file_nm,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor, 
-        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated,
-        TO_CHAR(a_sertifikat_tanggal, 'DD-MM-YYYY') AS sertifikat_tgl,
+        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated
       FROM 
         aset.penetapan AS p
       JOIN 
@@ -294,7 +300,7 @@ const penetapanModel = {
         i.file_nm,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor, 
         TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated,
-        TO_CHAR(a_sertifikat_tanggal, 'DD-MM-YYYY') AS sertifikat_tgl,
+        TO_CHAR(f_dokumen_tanggal, 'DD-MM-YYYY') AS dokumen_tgl
       FROM 
         aset.penetapan AS p
       JOIN 
