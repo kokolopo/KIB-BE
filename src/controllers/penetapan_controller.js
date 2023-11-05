@@ -5,11 +5,11 @@ import penetapanModel from "../models/penetapan_model.js";
 const {
   fetchDataById,
   fetchTanahByDepartemen,
-  fetchPeralatanMesinAlatByDepartemen,
+  fetchPeralatanMesinByDepartemen,
   fetchGedungBangunanByDepartemen,
   fetchJalanJaringanIrigasiByDepartemen,
   fetchAsetTetapLainnyaByDepartemen,
-  fetchKDPBByDepartemen,
+  fetchKDPByDepartemen,
   contTotalRows,
 } = penetapanModel;
 
@@ -25,8 +25,7 @@ const penetapanController = {
     }
   },
 
-  getTanahByDepartemen: async (req, res) => {
-    // localhost:5000/penetapan/:id_departemen/A?perPage=5&page=1&tahun=2022
+  getInventarisByDepartemen: async (req, res) => {
     const { id_departemen, kategori } = req.params;
     const { perPage, page, tahun } = req.query;
     try {
@@ -40,16 +39,14 @@ const penetapanController = {
             page,
             tahun
           );
-          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
         case "B":
-          data = await fetchPeralatanMesinAlatByDepartemen(
+          data = await fetchPeralatanMesinByDepartemen(
             parseInt(id_departemen),
             perPage,
             page,
             tahun
           );
-          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
         case "C":
           data = await fetchGedungBangunanByDepartemen(
@@ -58,7 +55,6 @@ const penetapanController = {
             page,
             tahun
           );
-          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
         case "D":
           data = await fetchJalanJaringanIrigasiByDepartemen(
@@ -67,7 +63,6 @@ const penetapanController = {
             page,
             tahun
           );
-          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
         case "E":
           data = await fetchAsetTetapLainnyaByDepartemen(
@@ -76,16 +71,14 @@ const penetapanController = {
             page,
             tahun
           );
-          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
         case "F":
-          data = await fetchKDPBByDepartemen(
+          data = await fetchKDPByDepartemen(
             parseInt(id_departemen),
             perPage,
             page,
             tahun
           );
-          total_data = await contTotalRows(id_departemen, kategori, tahun);
           break;
 
         default:

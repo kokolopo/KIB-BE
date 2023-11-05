@@ -7,7 +7,7 @@ penetapan.get("/:id", penetapanController.getDataPenetapanById);
 
 penetapan.get(
   "/:id_departemen/:kategori",
-  penetapanController.getTanahByDepartemen
+  penetapanController.getInventarisByDepartemen
 );
 
 // penetapan.get("/:id_departemen/B", penetapanController.getPerkakasByDepartemen);
