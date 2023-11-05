@@ -323,30 +323,6 @@ const penetapanModel = {
       });
     });
   },
-
-  // contTotalRows: (idDepartemen, kategori, tahun = 2023) => {
-  //   let query = `
-  //     SELECT p.*, k.nama, ROW_NUMBER() OVER (ORDER BY p.id) AS nomor, TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated
-  //     FROM aset.penetapan AS p
-  //     JOIN public.departemen AS d ON p.departemen_id = d.id
-  //     JOIN aset.kategoris AS k ON p.kategori_id = k.id
-  //     LEFT JOIN aset.kib_inventaris AS i on i.kib_id = p.kib_id
-  //     AND i.id = p.id
-  //     AND i.departemen_id = p.departemen_id
-  //     AND extract(year from i.tgl_inventaris) = ${tahun}
-  //     WHERE p.thn_nilai = ${tahun} - 1
-  //     AND p.departemen_id = ${idDepartemen}
-  //     AND p.kondisi IN ('B', 'KB')
-  //     AND p.kib='${kategori}'
-  //   `;
-
-  //   return new Promise((resolve, reject) => {
-  //     DB.query(query, (err, result) => {
-  //       if (err) reject(err);
-  //       resolve(result.rowCount);
-  //     });
-  //   });
-  // },
 };
 
 export default penetapanModel;

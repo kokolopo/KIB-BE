@@ -10,23 +10,4 @@ penetapan.get(
   penetapanController.getInventarisByDepartemen
 );
 
-// penetapan.get("/:id_departemen/B", penetapanController.getPerkakasByDepartemen);
-
-// penetapan.get(
-//   "/:id_departemen/C",
-//   penetapanController.getGedungBangunanByDepartemen
-// );
-
-// penetapan.get(
-//   "/:id_departemen/D",
-//   penetapanController.getJalanJaringanIrigasiByDepartemen
-// );
-
-// penetapan.get(
-//   "/:id_departemen/E",
-//   penetapanController.getAsetTetapLainnyaByDepartemen
-// );
-
-// penetapan.get("/:id_departemen/F", penetapanController.getKDPByDepartemen);
-
 export default penetapan;

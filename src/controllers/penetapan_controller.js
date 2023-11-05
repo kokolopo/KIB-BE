@@ -10,7 +10,6 @@ const {
   fetchJalanJaringanIrigasiByDepartemen,
   fetchAsetTetapLainnyaByDepartemen,
   fetchKDPByDepartemen,
-  contTotalRows,
 } = penetapanModel;
 
 const penetapanController = {
