@@ -4,6 +4,7 @@ const kategoriModel = {
   fetchKategoriTanah: () => {
     let query = `
         SELECT DISTINCT
+          k.id,
           k.kode, 
           k.nama
         FROM 
@@ -13,7 +14,6 @@ const kategoriModel = {
         WHERE
           p.kib = 'A'
           AND p.kondisi IN ('B', 'KB')
-
         `;
 
     return new Promise((resolve, reject) => {
@@ -27,6 +27,7 @@ const kategoriModel = {
   fetchKategoriPeralatanMesin: () => {
     let query = `
         SELECT DISTINCT
+          k.id,
           k.kode, 
           k.nama
         FROM 
@@ -50,6 +51,7 @@ const kategoriModel = {
   fetchKategoriGedungBangunan: () => {
     let query = `
         SELECT DISTINCT
+          k.id,
           k.kode, 
           k.nama
         FROM 
@@ -73,6 +75,7 @@ const kategoriModel = {
   fetchKategoriJalanJaringanIrigasi: () => {
     let query = `
         SELECT DISTINCT
+          k.id,
           k.kode, 
           k.nama
         FROM 
@@ -96,6 +99,7 @@ const kategoriModel = {
   fetchKategoriAsetLainnya: () => {
     let query = `
         SELECT DISTINCT
+          k.id,
           k.kode, 
           k.nama
         FROM 
@@ -119,6 +123,7 @@ const kategoriModel = {
   fetchKategoriKDP: () => {
     let query = `
         SELECT DISTINCT
+          k.id,
           k.kode, 
           k.nama
         FROM 

@@ -4,19 +4,23 @@ const penetapanModel = {
   fetchDataById: (id) => {
     let query = `
       SELECT 
-        aset.penetapan.*, 
-        TO_CHAR(tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated, 
-        public.departemen.kode, public.departemen.nama, 
-        aset.kategoris.kode AS barang, 
-        aset.kategoris.nama AS nama_barang
+        p.*, 
+        TO_CHAR(tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated,
+        TO_CHAR(a_sertifikat_tanggal, 'DD-MM-YYYY') AS sertifikat_tgl,
+        REPLACE(TO_CHAR(perolehan, 'FM999,999,999,999'), ',', '.') AS perolehan_formated,
+        d.kode,
+        d.nama,
+        k.kode AS kode_kategori,
+        k.nama AS nama_kategori,
+        k.id AS id_kategori
       FROM 
-        aset.penetapan
+        aset.penetapan AS p
       JOIN 
-        public.departemen ON aset.penetapan.departemen_id = public.departemen.id
+        public.departemen AS d ON p.departemen_id = d.id
       JOIN 
-        aset.kategoris ON aset.penetapan.kategori_id = aset.kategoris.id
+        aset.kategoris AS k ON p.kategori_id = k.id
       WHERE 
-        aset.penetapan.id = ${id}
+        p.id = ${id}
     `;
 
     return new Promise((resolve, reject) => {
@@ -41,14 +45,15 @@ const penetapanModel = {
         k.nama, 
         k.kode, 
         k.nama, 
-        i.tgl_inventaris, 
+        TO_CHAR(i.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formated,
         i.keberadaan_fisik, 
         i.kondisi_akhir, 
         i.penggunaan_status, 
         i.file_nm,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor, 
         TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated,
-        TO_CHAR(a_sertifikat_tanggal, 'DD-MM-YYYY') AS sertifikat_tgl
+        TO_CHAR(a_sertifikat_tanggal, 'DD-MM-YYYY') AS sertifikat_tgl,
+        'Rp.' || REPLACE(TO_CHAR(harga, 'FM999,999,999,999'), ',', '.') AS harga_formated
       FROM 
         aset.penetapan AS p
       JOIN 
@@ -57,7 +62,6 @@ const penetapanModel = {
         aset.kategoris AS k ON p.kategori_id = k.id
       LEFT JOIN 
         aset.kib_inventaris AS i on i.kib_id = p.kib_id
-        AND i.id = p.id
         AND i.departemen_id = p.departemen_id
         AND extract(year from i.tgl_inventaris) = ${tahun}
       WHERE 
@@ -91,13 +95,14 @@ const penetapanModel = {
         k.nama, 
         k.kode, 
         k.nama, 
-        i.tgl_inventaris, 
+        TO_CHAR(i.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formated,
         i.keberadaan_fisik, 
         i.kondisi_akhir, 
         i.penggunaan_status, 
         i.file_nm,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor, 
-        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated
+        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formated,
+        'Rp.' || REPLACE(TO_CHAR(harga, 'FM999,999,999,999'), ',', '.') AS harga_formated
       FROM 
         aset.penetapan AS p
       JOIN 
