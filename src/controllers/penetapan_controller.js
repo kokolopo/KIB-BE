@@ -39,7 +39,7 @@ const penetapanController = {
             page,
             tahun
           );
-          total_page = await countTotalPage(kategori);
+          total_page = await countTotalPage(kategori, id_departemen, perPage, tahun);
           break;
         case "B":
           data = await fetchPeralatanMesinByDepartemen(
@@ -48,7 +48,7 @@ const penetapanController = {
             page,
             tahun
           );
-          total_page = await countTotalPage(kategori);
+          total_page = await countTotalPage(kategori, id_departemen, perPage, tahun);
           break;
         case "C":
           data = await fetchGedungBangunanByDepartemen(
@@ -57,7 +57,7 @@ const penetapanController = {
             page,
             tahun
           );
-          total_page = await countTotalPage(kategori);
+          total_page = await countTotalPage(kategori, id_departemen, perPage, tahun);
           break;
         case "D":
           data = await fetchJalanJaringanIrigasiByDepartemen(
@@ -66,7 +66,7 @@ const penetapanController = {
             page,
             tahun
           );
-          total_page = await countTotalPage(kategori);
+          total_page = await countTotalPage(kategori, id_departemen, perPage, tahun);
           break;
         case "E":
           data = await fetchAsetTetapLainnyaByDepartemen(
@@ -75,7 +75,7 @@ const penetapanController = {
             page,
             tahun
           );
-          total_page = await countTotalPage(kategori);
+          total_page = await countTotalPage(kategori, id_departemen, perPage, tahun);
           break;
         case "F":
           data = await fetchKDPByDepartemen(
@@ -84,7 +84,7 @@ const penetapanController = {
             page,
             tahun
           );
-          total_page = await countTotalPage(kategori);
+          total_page = await countTotalPage(kategori, id_departemen, perPage, tahun);
           break;
 
         default:

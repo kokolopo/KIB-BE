@@ -462,8 +462,19 @@ const penetapanModel = {
     });
   },
 
-  countTotalPage: (kategori = "") => {
-    let query = `SELECT CEIL(COUNT(*)::float / 2) AS total_halaman FROM aset.penetapan WHERE aset.penetapan.kib = '${kategori}'`;
+  countTotalPage: (kategori, idDepartemen, perPage=10, tahun=2023) => {
+    let query = `
+      SELECT 
+        CEIL(COUNT(*)::float / ${perPage}) AS total_halaman 
+      FROM 
+        aset.penetapan AS p
+      WHERE 
+        p.kib = '${kategori}' 
+        AND p.departemen_id=${idDepartemen} 
+        AND p.thn_nilai = ${tahun}-1 
+        AND p.kondisi IN ('B', 'KB')
+        AND p.status < 9
+    `;
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
         if (err) reject(err);
