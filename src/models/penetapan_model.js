@@ -38,7 +38,7 @@ const penetapanModel = {
     tahun = 2023
   ) => {
     const offset = (page - 1) * perPage;
-
+    
     let query = `
       SELECT
         p.id AS penetapan_id,
@@ -64,7 +64,7 @@ const penetapanModel = {
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         inv.keberadaan_barang_status,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor,
-        -- 	CASE WHEN inv.id IS NULL THEN 0 ELSE status_inventaris END,
+        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris,
         CASE 
           WHEN inv.penggunaan_pemda_status = 1 THEN 'Pemerintah Daerah'
           WHEN inv.penggunaan_pempus_status = 1 THEN 'Pemerintah Pusat'
@@ -137,7 +137,7 @@ const penetapanModel = {
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         inv.keberadaan_barang_status,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor,
-      -- 	CASE WHEN inv.id IS NULL THEN 0 ELSE status_inventaris END,
+        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris,
         CASE 
           WHEN inv.penggunaan_pemda_status = 1 THEN 'Pemerintah Daerah'
           WHEN inv.penggunaan_pempus_status = 1 THEN 'Pemerintah Pusat'
@@ -211,7 +211,7 @@ const penetapanModel = {
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         inv.keberadaan_barang_status,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor,
-      -- 	CASE WHEN inv.id IS NULL THEN 0 ELSE status_inventaris END,
+        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris,
         CASE 
           WHEN inv.penggunaan_pemda_status = 1 THEN 'Pemerintah Daerah'
           WHEN inv.penggunaan_pempus_status = 1 THEN 'Pemerintah Pusat'
@@ -283,7 +283,7 @@ const penetapanModel = {
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         inv.keberadaan_barang_status,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor,
-      -- 	CASE WHEN inv.id IS NULL THEN 0 ELSE status_inventaris END,
+        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris,
         CASE 
           WHEN inv.penggunaan_pemda_status = 1 THEN 'Pemerintah Daerah'
           WHEN inv.penggunaan_pempus_status = 1 THEN 'Pemerintah Pusat'
@@ -353,7 +353,7 @@ const penetapanModel = {
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         inv.keberadaan_barang_status,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor,
-      -- 	CASE WHEN inv.id IS NULL THEN 0 ELSE status_inventaris END,
+        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris,
         CASE 
           WHEN inv.penggunaan_pemda_status = 1 THEN 'Pemerintah Daerah'
           WHEN inv.penggunaan_pempus_status = 1 THEN 'Pemerintah Pusat'
@@ -425,7 +425,7 @@ const penetapanModel = {
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         inv.keberadaan_barang_status,
         ROW_NUMBER() OVER (ORDER BY p.id) AS nomor,
-      -- 	CASE WHEN inv.id IS NULL THEN 0 ELSE status_inventaris END,
+        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris,
         CASE 
           WHEN inv.penggunaan_pemda_status = 1 THEN 'Pemerintah Daerah'
           WHEN inv.penggunaan_pempus_status = 1 THEN 'Pemerintah Pusat'

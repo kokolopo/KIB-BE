@@ -1,8 +1,8 @@
-export const responseAPI = (message, data = null, total_data = 0) => {
+export const responseAPI = (message, data = null, total_page = 0) => {
   let result = {
     message,
     data,
-    total_data,
+    total_page,
   };
   return result;
 };
