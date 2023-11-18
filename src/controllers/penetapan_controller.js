@@ -10,6 +10,7 @@ const {
   fetchJalanJaringanIrigasiByDepartemen,
   fetchAsetTetapLainnyaByDepartemen,
   fetchKDPByDepartemen,
+  countTotalPage,
 } = penetapanModel;
 
 const penetapanController = {
@@ -29,7 +30,7 @@ const penetapanController = {
     const { perPage, page, tahun } = req.query;
     try {
       let data;
-      let total_data;
+      let total_page;
       switch (kategori) {
         case "A":
           data = await fetchTanahByDepartemen(
@@ -38,6 +39,7 @@ const penetapanController = {
             page,
             tahun
           );
+          total_page = await countTotalPage(kategori);
           break;
         case "B":
           data = await fetchPeralatanMesinByDepartemen(
@@ -46,6 +48,7 @@ const penetapanController = {
             page,
             tahun
           );
+          total_page = await countTotalPage(kategori);
           break;
         case "C":
           data = await fetchGedungBangunanByDepartemen(
@@ -54,6 +57,7 @@ const penetapanController = {
             page,
             tahun
           );
+          total_page = await countTotalPage(kategori);
           break;
         case "D":
           data = await fetchJalanJaringanIrigasiByDepartemen(
@@ -62,6 +66,7 @@ const penetapanController = {
             page,
             tahun
           );
+          total_page = await countTotalPage(kategori);
           break;
         case "E":
           data = await fetchAsetTetapLainnyaByDepartemen(
@@ -70,6 +75,7 @@ const penetapanController = {
             page,
             tahun
           );
+          total_page = await countTotalPage(kategori);
           break;
         case "F":
           data = await fetchKDPByDepartemen(
@@ -78,13 +84,14 @@ const penetapanController = {
             page,
             tahun
           );
+          total_page = await countTotalPage(kategori);
           break;
 
         default:
           break;
       }
 
-      res.status(200).json(responseAPI("list penetapan", data, total_data));
+      res.status(200).json(responseAPI("list penetapan", data, total_page));
     } catch (error) {
       res.status(400).json({ msg: "gagal mengambil penetapan!", error });
     }

@@ -38,7 +38,7 @@ const penetapanModel = {
     tahun = 2023
   ) => {
     const offset = (page - 1) * perPage;
-    
+
     let query = `
       SELECT
         p.id AS penetapan_id,
@@ -458,6 +458,16 @@ const penetapanModel = {
       DB.query(query, (err, result) => {
         if (err) reject(err);
         resolve(result.rows);
+      });
+    });
+  },
+
+  countTotalPage: (kategori = "") => {
+    let query = `SELECT CEIL(COUNT(*)::float / 2) AS total_halaman FROM aset.penetapan WHERE aset.penetapan.kib = '${kategori}'`;
+    return new Promise((resolve, reject) => {
+      DB.query(query, (err, result) => {
+        if (err) reject(err);
+        resolve(result.rows[0].total_halaman);
       });
     });
   },
