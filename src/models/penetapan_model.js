@@ -1,74 +1,120 @@
 import DB from "../config/db.js";
 
 const penetapanModel = {
+  // INVENTARIS BY ID
   fetchTanahById: (id) => {
     let query = `
       SELECT 
-        inv.tgl_inventaris,
+        inv.kib_id,
+        TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         d.kode AS departemen_kd,
         d.nama AS departemen_nm,
-        p.no_register,
-        p.kategori_id,
-        k.kode AS kategori_kd,
-        k.nama AS kategori_nm,
-        p.jumlah,
-        p.satuan,
-        p.cara_perolehan,
-        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formatted,
-        p.th_beli,
-        REPLACE(TO_CHAR(p.perolehan, 'FM999,999,999,999'), ',', '.') AS perolehan_formatted,
-        p.alamat,
-        p.a_hak_tanah,
-        p.a_sertifikat_nomor,
-        TO_CHAR(p.a_sertifikat_tanggal, 'DD-MM-YYYY') AS a_sertifikat_tanggal_formatted,
+        inv.no_register_awal,
+        inv.no_register_akhir,
+        inv.no_register_status,
+        inv.kategori_id_awal,
+        inv.kategori_id_akhir,
+        inv.kategori_id_status,
+        kat.kode AS kategori_kd,
+        kat.nama AS kategori_nm,
+        inv.nama_spesifikasi_awal,
+        inv.nama_spesifikasi_akhir,
+        inv.nama_spesifikasi_status,
+        inv.jumlah_awal,
+        inv.jumlah_akhir,
+        inv.jumlah_status,
+        inv.a_luas_m2_awal,
+        inv.a_luas_m2_akhir,
+        inv.a_luas_m2_status,
+        inv.satuan,
+        inv.cara_perolehan_awal,
+        inv.cara_perolehan_akhir,
+        inv.cara_perolehan_status,
+        TO_CHAR(inv.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formatted,
+        inv.tahun_perolehan,
+        REPLACE(TO_CHAR(inv.perolehan_awal, 'FM999,999,999,999'), ',', '.') AS perolehan_awal_formatted,
+        REPLACE(TO_CHAR(inv.perolehan_akhir, 'FM999,999,999,999'), ',', '.') AS perolehan_akhir_formatted,
+        inv.perolehan_status,
+        inv.atribusi_status,
+        inv.atribusi_nibar,
+        inv.atribusi_kode_barang,
+        inv.atribusi_kode_lokasi,
+        inv.atribusi_no_register,
+        inv.atribusi_nama_barang,
+        inv.atribusi_spesifikasi_barang,
+        inv.a_alamat_awal,
+        inv.a_alamat_akhir,
+        inv.a_alamat_status,
+        inv.alamat_kota,
+        inv.alamat_kecamatan,
+        inv.alamat_kelurahan,
+        inv.alamat_jalan,
+        inv.alamat_no,
+        inv.alamat_rt,
+        inv.alamat_rw,
+        inv.alamat_kodepos,
+        inv.a_hak_tanah_awal,
+        inv.a_hak_tanah_akhir,
+        inv.a_hak_tanah_status,
+        inv.a_sertifikat_nomor_awal,
+        inv.a_sertifikat_nomor_akhir,
+        inv.a_sertifikat_nomor_status,
+        TO_CHAR(inv.a_sertifikat_tanggal_awal, 'DD-MM-YYYY') AS a_sertifikat_tanggal_awal_formatted,
+        TO_CHAR(inv.a_sertifikat_tanggal_akhir, 'DD-MM-YYYY') AS a_sertifikat_tanggal_akhir_formatted,
+        inv.a_sertifikat_tanggal_status,
         inv.keberadaan_barang_status,
-        p.kondisi,
-        p.asal_usul,
+        inv.kondisi_awal,
+        inv.kondisi_akhir,
+        inv.kondisi_status,
+        inv.asal_usul_awal,
+        inv.asal_usul_akhir,
+        inv.asal_usul_status,
         inv.penggunaan_status,
+        inv.penggunaan_awal,
         inv.penggunaan_pemda_status,
-        inv.penggunaan_pemda_nama_kuasa_pengguna,
+        inv.penggunaan_pemda_akhir,
         inv.penggunaan_pempus_status,
-        inv.penggunaan_pempus_y,        
-        inv.penggunaan_pempus_y_nama,
+        inv.penggunaan_pempus_yt,
+        inv.penggunaan_pempus_y_nm,
         inv.penggunaan_pempus_y_doc,
-        inv.penggunaan_pempus_t,  
-        inv.penggunaan_pempus_t_nama,
+        inv.penggunaan_pempus_t_nm,
         inv.penggunaan_pdl_status,
-        inv.penggunaan_pdl_y,        
-        inv.penggunaan_pdl_y_nama,
+        inv.penggunaan_pdl_yt,
+        inv.penggunaan_pdl_y_nm,
         inv.penggunaan_pdl_y_doc,
-        inv.penggunaan_pdl_t,  
-        inv.penggunaan_pdl_t_nama,
+        inv.penggunaan_pdl_t_nm,
         inv.penggunaan_pl_status,
-        inv.penggunaan_pl_y,        
-        inv.penggunaan_pl_y_nama,
+        inv.penggunaan_pl_yt,
+        inv.penggunaan_pl_y_nm,
         inv.penggunaan_pl_y_doc,
-        inv.penggunaan_pl_t,  
-        inv.penggunaan_pl_t_nama,
-        inv.tercatat_ganda_status,
+        inv.penggunaan_pl_t_nm,
+        inv.tercatat_ganda,
         inv.tercatat_ganda_nibar,
         inv.tercatat_ganda_no_register,
         inv.tercatat_ganda_kode_barang,
-        inv.tercatat_ganda_kode_lokasi,
         inv.tercatat_ganda_nama_barang,
         inv.tercatat_ganda_spesifikasi_barang,
         inv.tercatat_ganda_luas,
         inv.tercatat_ganda_satuan,
-        inv.tercatat_ganda_tgl_perolehan,
+        inv.tercatat_ganda_perolehan,
+        inv.tercatat_ganda_tanggal_perolehan,
         inv.tercatat_ganda_kuasa_pengguna,
-        p.lat,
-        p.long,
+        inv.pemilik_id,
+        inv.lat,
+        inv.long,
         inv.lainnya,
-        inv.keterangan
-      FROM 
+        inv.keterangan,
+        inv.petugas
+        FROM 
         aset.penetapan AS p
-      JOIN 
-        public.departemen AS d ON p.departemen_id = d.id
-      JOIN 
-        aset.kategoris AS k ON p.kategori_id = k.id
-      LEFT JOIN
-        aset.kib_inventaris AS inv ON p.kib_id = inv.kib_id
-      WHERE 
+        JOIN 
+        public.departemen AS d ON d.id = p.departemen_id
+        JOIN 
+        aset.kategoris AS kat ON kat.id = p.kategori_id
+        LEFT JOIN 
+        aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
+        AND inv.kib_id = p.kib_id 
+        WHERE 
         p.id = ${id}
     `;
 
@@ -80,85 +126,7 @@ const penetapanModel = {
     });
   },
 
-  fetchPeralatanMesinById: (id) => {
-    let query = `
-      SELECT 
-        inv.tgl_inventaris,
-        d.kode AS departemen_kd,
-        d.nama AS departemen_nm,
-        p.no_register,
-        p.kategori_id,
-        k.kode AS kategori_kd,
-        k.nama AS kategori_nm,
-        p.jumlah,
-        p.satuan,
-        p.cara_perolehan,
-        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formatted,
-        p.th_beli,
-        REPLACE(TO_CHAR(p.perolehan, 'FM999,999,999,999'), ',', '.') AS perolehan_formatted,
-        p.alamat,
-        p.a_hak_tanah,
-        p.a_sertifikat_nomor,
-        TO_CHAR(p.a_sertifikat_tanggal, 'DD-MM-YYYY') AS a_sertifikat_tanggal_formatted,
-        inv.keberadaan_barang_status,
-        p.kondisi,
-        p.asal_usul,
-        inv.penggunaan_status,
-        inv.penggunaan_pemda_status,
-        inv.penggunaan_pemda_nama_kuasa_pengguna,
-        inv.penggunaan_pempus_status,
-        inv.penggunaan_pempus_y,        
-        inv.penggunaan_pempus_y_nama,
-        inv.penggunaan_pempus_y_doc,
-        inv.penggunaan_pempus_t,  
-        inv.penggunaan_pempus_t_nama,
-        inv.penggunaan_pdl_status,
-        inv.penggunaan_pdl_y,        
-        inv.penggunaan_pdl_y_nama,
-        inv.penggunaan_pdl_y_doc,
-        inv.penggunaan_pdl_t,  
-        inv.penggunaan_pdl_t_nama,
-        inv.penggunaan_pl_status,
-        inv.penggunaan_pl_y,        
-        inv.penggunaan_pl_y_nama,
-        inv.penggunaan_pl_y_doc,
-        inv.penggunaan_pl_t,  
-        inv.penggunaan_pl_t_nama,
-        inv.tercatat_ganda_status,
-        inv.tercatat_ganda_nibar,
-        inv.tercatat_ganda_no_register,
-        inv.tercatat_ganda_kode_barang,
-        inv.tercatat_ganda_kode_lokasi,
-        inv.tercatat_ganda_nama_barang,
-        inv.tercatat_ganda_spesifikasi_barang,
-        inv.tercatat_ganda_luas,
-        inv.tercatat_ganda_satuan,
-        inv.tercatat_ganda_tgl_perolehan,
-        inv.tercatat_ganda_kuasa_pengguna,
-        p.lat,
-        p.long,
-        inv.lainnya,
-        inv.keterangan
-      FROM 
-        aset.penetapan AS p
-      JOIN 
-        public.departemen AS d ON p.departemen_id = d.id
-      JOIN 
-        aset.kategoris AS k ON p.kategori_id = k.id
-      LEFT JOIN
-        aset.kib_inventaris AS inv ON p.kib_id = inv.kib_id
-      WHERE 
-        p.id = ${id}
-    `;
-
-    return new Promise((resolve, reject) => {
-      DB.query(query, (err, result) => {
-        if (err) reject(err);
-        resolve(result.rows[0]);
-      });
-    });
-  },
-
+  // INVENTARIS BY DEPARTEMENT
   fetchTanahByDepartemen: (
     idDepartemen,
     perPage = 10,
@@ -201,13 +169,13 @@ const penetapanModel = {
           ELSE ''
         END AS penguasaan
       FROM 
-        aset.penetapan p
+        aset.penetapan AS p
       JOIN 
-        public.departemen d ON d.id = p.departemen_id
+        public.departemen AS d ON d.id = p.departemen_id
       JOIN 
-        aset.kategoris kat ON kat.id = p.kategori_id
+        aset.kategoris AS kat ON kat.id = p.kategori_id
       LEFT JOIN 
-        aset.kib_inventaris inv ON inv.penetapan_id = p.id
+        aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
         AND inv.kib_id = p.kib_id 
         AND inv.tahun = ${tahun}
       WHERE 
@@ -274,13 +242,13 @@ const penetapanModel = {
           ELSE ''
         END AS penguasaan
       FROM 
-        aset.penetapan p
+        aset.penetapan AS p
       JOIN 
-        public.departemen d ON d.id = p.departemen_id
+        public.departemen AS d ON d.id = p.departemen_id
       JOIN 
-        aset.kategoris kat ON kat.id = p.kategori_id
+        aset.kategoris AS kat ON kat.id = p.kategori_id
       LEFT JOIN 
-        aset.kib_inventaris inv ON inv.penetapan_id = p.id
+        aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
         AND inv.kib_id = p.kib_id 
         AND inv.tahun = ${tahun}
       WHERE 
@@ -348,13 +316,13 @@ const penetapanModel = {
           ELSE ''
         END AS penguasaan
       FROM 
-        aset.penetapan p
+        aset.penetapan AS p
       JOIN 
-        public.departemen d ON d.id = p.departemen_id
+        public.departemen AS d ON d.id = p.departemen_id
       JOIN 
-        aset.kategoris kat ON kat.id = p.kategori_id
+        aset.kategoris AS kat ON kat.id = p.kategori_id
       LEFT JOIN 
-        aset.kib_inventaris inv ON inv.penetapan_id = p.id
+        aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
         AND inv.kib_id = p.kib_id 
         AND inv.tahun = ${tahun}
       WHERE 
@@ -420,13 +388,13 @@ const penetapanModel = {
           ELSE ''
         END AS penguasaan
       FROM 
-        aset.penetapan p
+        aset.penetapan AS p
       JOIN 
-        public.departemen d ON d.id = p.departemen_id
+        public.departemen AS d ON d.id = p.departemen_id
       JOIN 
-        aset.kategoris kat ON kat.id = p.kategori_id
+        aset.kategoris AS kat ON kat.id = p.kategori_id
       LEFT JOIN 
-        aset.kib_inventaris inv ON inv.penetapan_id = p.id
+        aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
         AND inv.kib_id = p.kib_id 
         AND inv.tahun = ${tahun}
       WHERE 
@@ -490,13 +458,13 @@ const penetapanModel = {
           ELSE ''
         END AS penguasaan
       FROM 
-        aset.penetapan p
+        aset.penetapan AS p
       JOIN 
-        public.departemen d ON d.id = p.departemen_id
+        public.departemen AS d ON d.id = p.departemen_id
       JOIN 
-        aset.kategoris kat ON kat.id = p.kategori_id
+        aset.kategoris kat AS ON kat.id = p.kategori_id
       LEFT JOIN 
-        aset.kib_inventaris inv ON inv.penetapan_id = p.id
+        aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
         AND inv.kib_id = p.kib_id 
         AND inv.tahun = ${tahun}
       WHERE 
@@ -562,11 +530,11 @@ const penetapanModel = {
           ELSE ''
         END AS penguasaan
       FROM 
-        aset.penetapan p
+        aset.penetapan AS p
       JOIN 
-        public.departemen d ON d.id = p.departemen_id
+        public.departemen AS d ON d.id = p.departemen_id
       JOIN 
-        aset.kategoris kat ON kat.id = p.kategori_id
+        aset.kategoris AS kat ON kat.id = p.kategori_id
       LEFT JOIN 
         aset.kib_inventaris inv ON inv.penetapan_id = p.id
         AND inv.kib_id = p.kib_id 

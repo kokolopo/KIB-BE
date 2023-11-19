@@ -3,7 +3,7 @@ import penetapanController from "../controllers/penetapan_controller.js";
 
 const penetapan = express.Router();
 
-penetapan.get("/:id", penetapanController.getDataPenetapanById);
+penetapan.get("/:id", penetapanController.getInventarisAById);
 
 penetapan.get(
   "/:id_departemen/:kategori",

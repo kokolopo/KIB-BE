@@ -4,11 +4,6 @@ import penetapanModel from "../models/penetapan_model.js";
 
 const {
   fetchTanahById,
-  fetchPeralatanMesinById,
-  fetchGedungBangunanById,
-  fetchJalanJaringanIrigasiById,
-  fetchAsetTetapLainnyaById,
-  fetchKDPById,
   fetchTanahByDepartemen,
   fetchPeralatanMesinByDepartemen,
   fetchGedungBangunanByDepartemen,
@@ -19,30 +14,10 @@ const {
 } = penetapanModel;
 
 const penetapanController = {
-  getInventarisById: async (req, res) => {
-    const { id, kategori } = req.params;
+  getInventarisAById: async (req, res) => {
+    const { id } = req.params;
     try {
-      let data;
-      switch (kategori) {
-        case "A":
-          data = await fetchTanahById(parseInt(id));
-          break;
-        case "B":
-          data = await fetchPeralatanMesinById(parseInt(id));
-          break;
-        case "C":
-          data = await fetchGedungBangunanById(parseInt(id));
-          break;
-        case "D":
-          data = await fetchJalanJaringanIrigasiById(parseInt(id));
-          break;
-        case "E":
-          data = await fetchAsetTetapLainnyaById(parseInt(id));
-          break;
-        case "F":
-          data = await fetchKDPById(parseInt(id));
-          break;
-      }
+      const data = await fetchTanahById(parseInt(id));
 
       res.status(200).json(responseAPI("berhasil", data));
     } catch (error) {
