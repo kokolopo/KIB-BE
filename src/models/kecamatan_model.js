@@ -5,7 +5,7 @@ const kecamatanModel = {
         let query = `
             SELECT 
                 kec.kode as kecamatan_kd,
-                kec.nama as kecamatan_nm,
+                kec.nama as kecamatan_nm
             FROM 
                 aset_manfaat.kecamatan AS kec
         `;

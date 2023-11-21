@@ -1,13 +1,13 @@
 import DB from "../config/db.js";
 
-const kelurahanModel = {
+const ruangModel = {
     fetchAll: () => {
         let query = `
             SELECT 
-                kel.kode as kelurahan_kd,
-                kel.nama as kelurahan_nm
+                r.kode as ruang_kd,
+                r.nama as ruang_nm
             FROM 
-                aset_manfaat.kelurahan AS kel
+                aset.ruangs AS r
         `;
 
         return new Promise((resolve, reject) => {
@@ -19,4 +19,4 @@ const kelurahanModel = {
     },
 };
 
-export default kelurahanModel;
+export default ruangModel;

@@ -4,7 +4,8 @@ const satuanModel = {
     fetchAll: () => {
         let query = `
             SELECT 
-                s.kode as satuan_kd
+                s.kode as satuan_kd,
+                s.nama as satuan_nm
             FROM 
                 aset.satuan AS s
         `;
