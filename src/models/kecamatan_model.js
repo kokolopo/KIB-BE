@@ -4,6 +4,7 @@ const kecamatanModel = {
     fetchAll: () => {
         let query = `
             SELECT 
+                kec.id,
                 kec.kode as kecamatan_kd,
                 kec.nama as kecamatan_nm
             FROM 

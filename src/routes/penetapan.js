@@ -9,5 +9,6 @@ penetapan.get(
   "/:id_departemen/:kategori",
   penetapanController.getInventarisByDepartemen
 );
+// penetapan.put("/:id", penetapanController.update);
 
 export default penetapan;

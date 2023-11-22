@@ -699,6 +699,9 @@ const penetapanModel = {
     });
   },
 
+  // INSERT OR UPDATE INVENTARISASI
+
+  // COUNT TOTAL PAGE
   countTotalPage: (kategori, idDepartemen, perPage=10, tahun=2023) => {
     let query = `
       SELECT 
