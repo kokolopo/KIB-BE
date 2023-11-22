@@ -6,6 +6,7 @@ import satuan from "./satuan.js";
 import ruang from "./ruang.js";
 import kecamatan from "./kecamatan.js";
 import kelurahan from "./kelurahan.js";
+import inventaris from "./inventaris";
 
 const routes = express.Router();
 
@@ -16,5 +17,6 @@ routes.use("/satuan", satuan);
 routes.use("/ruang", ruang);
 routes.use("/kecamatan", kecamatan);
 routes.use("/kelurahan", kelurahan);
+routes.use("/inventaris", inventaris);
 
 export default routes;
