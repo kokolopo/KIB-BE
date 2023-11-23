@@ -6,7 +6,7 @@ import satuan from "./satuan.js";
 import ruang from "./ruang.js";
 import kecamatan from "./kecamatan.js";
 import kelurahan from "./kelurahan.js";
-import inventaris from "./inventaris";
+import inventaris from "./inventaris.js";
 
 const routes = express.Router();
 

@@ -1,116 +1,56 @@
 import DB from "../config/db.js";
 
 const inventarisModel = {
-  updateInventarisA: (id, kib_id, data) => {
+  updateInventarisA: (kib_id, data) => {
+    console.log({kib_id, data});
+
+    const partsInventaris = data.tgl_inventaris ? data.tgl_inventaris.split('-') : null;
+    const partsPerolehan = data.tgl_perolehan ? data.tgl_perolehan.split('-') : null;
+
+    const formattedDateInventaris = partsInventaris
+      ? `${partsInventaris[2]}-${partsInventaris[1]}-${partsInventaris[0]}`
+      : null;
+    const formattedDatePerolehan = partsPerolehan
+      ? `${partsPerolehan[2]}-${partsPerolehan[1]}-${partsPerolehan[0]}`
+      : null;
+
     let query = `
-    UPDATE kib_inventaris
+    UPDATE 
+      aset.kib_inventaris
     SET
-      tgl_inventaris = '${data.tgl_inventaris}',
-      skpd = '${data.skpd}',
-      skpd_uraian = '${data.skpd_uraian}',
-      no_register_awal = '${data.no_register_awal}',
-      no_register_akhir = '${data.no_register_akhir}',
-      barang = '${data.barang}',
-      kategori_id_awal = '${data.kategori_id_awal}',
-      kategori_id_akhir = '${data.kategori_id_akhir}',
-      kategori_id_status = '${data.kategori_id_status}',
-      nama_spesifikasi_awal = '${data.nama_spesifikasi_awal}',
-      nama_spesifikasi_akhir = '${data.nama_spesifikasi_akhir}',
-      nama_spesifikasi_status = '${data.nama_spesifikasi_status}',
-      jumlah_awal = '${data.jumlah_awal}',
-      jumlah_akhir = '${data.jumlah_akhir}',
-      jumlah_status = '${data.jumlah_status}',
-      a_luas_m2_awal = '${data.a_luas_m2_awal}',
-      a_luas_m2_akhir = '${data.a_luas_m2_akhir}',
-      a_luas_m2_status = '${data.a_luas_m2_status}',
-      satuan = '${data.satuan}',
+      tgl_inventaris = ${formattedDateInventaris ? `'${formattedDateInventaris}'` : null},
+      no_register_awal = ${data.no_register_awal ? `${data.no_register_awal}` : null},
+      no_register_akhir = ${data.no_register_akhir ? `${data.no_register_akhir}` : null},
+      no_register_status = ${data.no_register_status ? `${data.no_register_status}` : null},
+      kategori_id_awal = ${data.kategori_id_awal ? `${data.kategori_id_awal}` : null},
+      kategori_id_akhir = ${data.kategori_id_akhir},
+      kategori_id_status = ${data.kategori_id_status},
+      nama_spesifikasi_awal = ${data.nama_spesifikasi_awal !== null ? `'${data.nama_spesifikasi_awal}'` : null},
+      nama_spesifikasi_akhir = ${data.nama_spesifikasi_akhir !== null ? `'${data.nama_spesifikasi_akhir}'` : null},
+      nama_spesifikasi_status = ${data.nama_spesifikasi_status},
+      jumlah_awal = ${data.jumlah_awal},
+      jumlah_akhir = ${data.jumlah_akhir},
+      jumlah_status = ${data.jumlah_status},
+      a_luas_m2_awal = ${data.a_luas_m2_awal},
+      a_luas_m2_akhir = ${data.a_luas_m2_akhir},
+      a_luas_m2_status = ${data.a_luas_m2_status},
+      satuan = ${data.satuan !== null ? `'${data.satuan}'` : null},
       cara_perolehan_awal = '${data.cara_perolehan_awal}',
       cara_perolehan_akhir = '${data.cara_perolehan_akhir}',
-      cara_perolehan_status = '${data.cara_perolehan_status}',
-      tgl_perolehan = '${data.tgl_perolehan}',
-      tahun_perolehan = '${data.tahun_perolehan}',
+      cara_perolehan_status = ${data.cara_perolehan_status},
+      tgl_perolehan = ${formattedDatePerolehan ? `'${formattedDatePerolehan}'` : null},
+      tahun_perolehan = ${data.tahun_perolehan},
       perolehan_awal = '${data.perolehan_awal}',
       perolehan_akhir = '${data.perolehan_akhir}',
-      perolehan_status = '${data.perolehan_status}',
-      atribusi_status = '${data.atribusi_status}',
-      atribusi_nibar = '${data.atribusi_nibar}',
-      atribusi_kode_barang = '${data.atribusi_kode_barang}',
-      atribusi_kode_lokasi = '${data.atribusi_kode_lokasi}',
-      atribusi_no_register = '${data.atribusi_no_register}',
-      atribusi_nama_barang = '${data.atribusi_nama_barang}',
-      atribusi_spesifikasi_barang = '${data.atribusi_spesifikasi_barang}',
-      a_alamat_awal = '${data.a_alamat_awal}',
-      a_alamat_akhir = '${data.a_alamat_akhir}',
-      a_alamat_status = '${data.a_alamat_status}',
-      alamat_kota = '${data.alamat_kota}',
-      alamat_kecamatan = '${data.alamat_kecamatan}',
-      alamat_kelurahan = '${data.alamat_kelurahan}',
-      alamat_jalan = '${data.alamat_jalan}',
-      alamat_no = '${data.alamat_no}',
-      alamat_rt = '${data.alamat_rt}',
-      alamat_rw = '${data.alamat_rw}',
-      alamat_kodepos = '${data.alamat_kodepos}',
-      a_hak_tanah_awal = '${data.a_hak_tanah_awal}',
-      a_hak_tanah_akhir = '${data.a_hak_tanah_akhir}',
-      a_hak_tanah_status = '${data.a_hak_tanah_status}',
-      a_sertifikat_nomor_awal = '${data.a_sertifikat_nomor_awal}',
-      a_sertifikat_nomor_akhir = '${data.a_sertifikat_nomor_akhir}',
-      a_sertifikat_nomor_status = '${data.a_sertifikat_nomor_status}',
-      a_sertifikat_tanggal_awal = '${data.a_sertifikat_tanggal_awal}',
-      a_sertifikat_tanggal_akhir = '${data.a_sertifikat_tanggal_akhir}',
-      a_sertifikat_tanggal_status = '${data.a_sertifikat_tanggal_status}',
-      keberadaan_barang_status = '${data.keberadaan_barang_status}',
-      kondisi_awal = '${data.kondisi_awal}',
-      kondisi_akhir = '${data.kondisi_akhir}',
-      kondisi_status = '${data.kondisi_status}',
-      asal_usul_awal = '${data.asal_usul_awal}',
-      asal_usul_akhir = '${data.asal_usul_akhir}',
-      asal_usul_status = '${data.asal_usul_status}',
-      penggunaan_status = '${data.penggunaan_status}',
-      penggunaan_awal = '${data.penggunaan_awal}',
-      penggunaan_pemda_status = '${data.penggunaan_pemda_status}',
-      penggunaan_pemda_akhir = '${data.penggunaan_pemda_akhir}',
-      penggunaan_pempus_status = '${data.penggunaan_pempus_status}',
-      penggunaan_pempus_yt = '${data.penggunaan_pempus_yt}',
-      penggunaan_pempus_y_nm = '${data.penggunaan_pempus_y_nm}',
-      penggunaan_pempus_y_doc = '${data.penggunaan_pempus_y_doc}',
-      penggunaan_pempus_t_nm = '${data.penggunaan_pempus_t_nm}',
-      penggunaan_pdl_status = '${data.penggunaan_pdl_status}',
-      penggunaan_pdl_yt = '${data.penggunaan_pdl_yt}',
-      penggunaan_pdl_y_nm = '${data.penggunaan_pdl_y_nm}',
-      penggunaan_pdl_y_doc = '${data.penggunaan_pdl_y_doc}',
-      penggunaan_pdl_t_nm = '${data.penggunaan_pdl_t_nm}',
-      penggunaan_pl_status = '${data.penggunaan_pl_status}',
-      penggunaan_pl_yt = '${data.penggunaan_pl_yt}',
-      penggunaan_pl_y_nm = '${data.penggunaan_pl_y_nm}',
-      penggunaan_pl_y_doc = '${data.penggunaan_pl_y_doc}',
-      penggunaan_pl_t_nm = '${data.penggunaan_pl_t_nm}',
-      tercatat_ganda = '${data.tercatat_ganda}',
-      tercatat_ganda_nibar = '${data.tercatat_ganda_nibar}',
-      tercatat_ganda_no_register = '${data.tercatat_ganda_no_register}',
-      tercatat_ganda_kode_barang = '${data.tercatat_ganda_kode_barang}',
-      tercatat_ganda_nama_barang = '${data.tercatat_ganda_nama_barang}',
-      tercatat_ganda_spesifikasi_barang = '${data.tercatat_ganda_spesifikasi_barang}',
-      tercatat_ganda_luas = '${data.tercatat_ganda_luas}',
-      tercatat_ganda_satuan = '${data.tercatat_ganda_satuan}',
-      tercatat_ganda_perolehan = '${data.tercatat_ganda_perolehan}',
-      tercatat_ganda_tanggal_perolehan = '${data.tercatat_ganda_tanggal_perolehan}',
-      tercatat_ganda_kuasa_pengguna = '${data.tercatat_ganda_kuasa_pengguna}',
-      pemilik_id = '${data.pemilik_id}',
-      lat = '${data.lat}',
-      long = '${data.long}',
-      lainnya = '${data.lainnya}',
-      keterangan = '${data.keterangan}',
-      file_nm = '${data.file_nm}',
-      petugas = '${data.petugas}'
+      perolehan_status = ${data.perolehan_status}
     WHERE
-        id = ${id} AND kib_id = ${kib_id}
+        kib_id = ${kib_id}
     `;
 
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
         if (err) reject(err);
-        resolve(result.rows);
+        resolve(result);
       });
     });
   },

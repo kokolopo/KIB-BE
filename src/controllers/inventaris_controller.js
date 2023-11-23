@@ -5,13 +5,13 @@ const { updateInventarisA } = inventarisModel;
 
 const inventarisController = {
   updateInventarisA: async (req, res) => {
-    const { id, kib_id } = req.param;
+    const { kib_id } = req.params; 
     const { data } = req.body;
     try {
-      await updateInventarisA(id, kib_id, data);
-      res.status(200).json(responseAPI("list departemens", departemens));
+      await updateInventarisA(kib_id, data);
+      res.status(200).json(responseAPI("berhasil update data"));
     } catch (error) {
-      res.status(400).json({ msg: "gagal mengambil departemens!", error });
+      res.status(400).json({ msg: "gagal update data!", error });
     }
   },
 };
