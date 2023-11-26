@@ -9,14 +9,33 @@ const penetapanModel = {
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         d.kode AS departemen_kd,
         d.nama AS departemen_nm,
+        p.no_register,
+        p.kategori_id,
+        kat.kode AS kategori_kd,
+        kat.nama AS kategori_nm,
+        p.jumlah,
+        p.a_luas_m2,
+        p.satuan AS satuan_awal,
+        p.cara_perolehan,
+        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_penetapan,
+        p.th_beli,
+        REPLACE(TO_CHAR(p.perolehan, 'FM999,999,999,999'), ',', '.') AS perolehan_formatted,
+        p.a_alamat,
+        p.a_hak_tanah,
+        p.a_sertifikat_nomor,
+        TO_CHAR(p.a_sertifikat_tanggal, 'DD-MM-YYYY') AS a_sertifikat_tanggal_formatted,
+        p.kondisi,
+        p.asal_usul,
+        p.a_penggunaan,
+        p.long AS long_penetapan,
+        p.lat AS lat_penetapan,
+        p.keterangan AS keterangan_penetapan,
         inv.no_register_awal,
         inv.no_register_akhir,
         inv.no_register_status,
         inv.kategori_id_awal,
         inv.kategori_id_akhir,
         inv.kategori_id_status,
-        kat.kode AS kategori_kd,
-        kat.nama AS kategori_nm,
         inv.nama_spesifikasi_awal,
         inv.nama_spesifikasi_akhir,
         inv.nama_spesifikasi_status,
@@ -26,11 +45,11 @@ const penetapanModel = {
         inv.a_luas_m2_awal,
         inv.a_luas_m2_akhir,
         inv.a_luas_m2_status,
-        inv.satuan,
+        inv.satuan AS satuan_akhir,
         inv.cara_perolehan_awal,
         inv.cara_perolehan_akhir,
         inv.cara_perolehan_status,
-        TO_CHAR(inv.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formatted,
+        TO_CHAR(inv.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_inventaris,
         inv.tahun_perolehan,
         REPLACE(TO_CHAR(inv.perolehan_awal, 'FM999,999,999,999'), ',', '.') AS perolehan_awal_formatted,
         REPLACE(TO_CHAR(inv.perolehan_akhir, 'FM999,999,999,999'), ',', '.') AS perolehan_akhir_formatted,
@@ -100,21 +119,22 @@ const penetapanModel = {
         inv.tercatat_ganda_tanggal_perolehan,
         inv.tercatat_ganda_kuasa_pengguna,
         inv.pemilik_id,
-        inv.lat,
-        inv.long,
+        inv.lat AS lat_inventaris,
+        inv.long AS long_inventaris,
         inv.lainnya,
-        inv.keterangan,
-        inv.petugas
-        FROM 
+        inv.keterangan AS keterangan_inventaris,
+        inv.petugas,
+        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris
+      FROM 
         aset.penetapan AS p
-        JOIN 
+      JOIN 
         public.departemen AS d ON d.id = p.departemen_id
-        JOIN 
+      JOIN 
         aset.kategoris AS kat ON kat.id = p.kategori_id
-        LEFT JOIN 
+      LEFT JOIN 
         aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
         AND inv.kib_id = p.kib_id 
-        WHERE 
+      WHERE 
         p.id = ${id}
     `;
 
@@ -133,25 +153,46 @@ const penetapanModel = {
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         d.kode AS departemen_kd,
         d.nama AS departemen_nm,
+        p.no_register,
+        p.kategori_id,
+        kat.kode AS kategori_kd,
+        kat.nama AS kategori_nm,
+        p.jumlah,
+        p.satuan AS satuan_awal,
+        p.cara_perolehan,
+        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_penetapan,
+        p.th_beli,
+        REPLACE(TO_CHAR(p.perolehan, 'FM999,999,999,999'), ',', '.') AS perolehan_formatted,
+        p.a_alamat,
+        p.b_merk,
+        p.b_cc,
+        p.b_nomor_polisi,
+        p.b_nomor_rangka,
+        p.b_nomor_mesin,
+        p.b_nomor_bpkb,
+        p.b_bahan,
+        p.b_nomor_pabrik,
+        p.a_penggunaan,
+        p.kondisi,
+        p.asal_usul,
+        p.keterangan AS keterangan_penetapan,
         inv.no_register_awal,
         inv.no_register_akhir,
         inv.no_register_status,
         inv.kategori_id_awal,
         inv.kategori_id_akhir,
         inv.kategori_id_status,
-        kat.kode AS kategori_kd,
-        kat.nama AS kategori_nm,
         inv.nama_spesifikasi_awal,
         inv.nama_spesifikasi_akhir,
         inv.nama_spesifikasi_status,
         inv.jumlah_awal,
         inv.jumlah_akhir,
         inv.jumlah_status,
-        inv.satuan,
+        inv.satuan AS satuan_akhir,
         inv.cara_perolehan_awal,
         inv.cara_perolehan_akhir,
         inv.cara_perolehan_status,
-        TO_CHAR(inv.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formatted,
+        TO_CHAR(inv.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_inventaris,
         inv.tahun_perolehan,
         REPLACE(TO_CHAR(inv.perolehan_awal, 'FM999,999,999,999'), ',', '.') AS perolehan_awal_formatted,
         REPLACE(TO_CHAR(inv.perolehan_akhir, 'FM999,999,999,999'), ',', '.') AS perolehan_akhir_formatted,
@@ -205,6 +246,272 @@ const penetapanModel = {
         inv.barcode_barang_akhir,
         inv.barcode_ruangan,
         inv.barcode_ruangan_akhir,
+        inv.keberadaan_barang_status,
+        inv.kondisi_awal,
+        inv.kondisi_akhir,
+        inv.kondisi_status,
+        inv.asal_usul_awal,
+        inv.asal_usul_akhir,
+        inv.asal_usul_status,
+        inv.penggunaan_status,
+        inv.penggunaan_awal,
+        inv.penggunaan_pemda_status,
+        inv.penggunaan_pemda_akhir,
+        inv.penggunaan_pempus_status,
+        inv.penggunaan_pempus_yt,
+        inv.penggunaan_pempus_y_nm,
+        inv.penggunaan_pempus_y_doc,
+        inv.penggunaan_pempus_t_nm,
+        inv.penggunaan_pdl_status,
+        inv.penggunaan_pdl_yt,
+        inv.penggunaan_pdl_y_nm,
+        inv.penggunaan_pdl_y_doc,
+        inv.penggunaan_pdl_t_nm,
+        inv.penggunaan_pl_status,
+        inv.penggunaan_pl_yt,
+        inv.penggunaan_pl_y_nm,
+        inv.penggunaan_pl_y_doc,
+        inv.penggunaan_pl_t_nm,
+        inv.tercatat_ganda,
+        inv.tercatat_ganda_nibar,
+        inv.tercatat_ganda_no_register,
+        inv.tercatat_ganda_kode_barang,
+        inv.tercatat_ganda_nama_barang,
+        inv.tercatat_ganda_spesifikasi_barang,
+        inv.tercatat_ganda_luas,
+        inv.tercatat_ganda_satuan,
+        inv.tercatat_ganda_perolehan,
+        inv.tercatat_ganda_tanggal_perolehan,
+        inv.tercatat_ganda_kuasa_pengguna,
+        inv.pemilik_id,
+        inv.lainnya,
+        inv.keterangan AS keterangan_inventaris,
+        inv.petugas,
+        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris
+      FROM 
+        aset.penetapan AS p
+      JOIN 
+        public.departemen AS d ON d.id = p.departemen_id
+      JOIN 
+        aset.kategoris AS kat ON kat.id = p.kategori_id
+      LEFT JOIN 
+        aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
+        AND inv.kib_id = p.kib_id 
+      WHERE
+        p.id = ${id}
+    `;
+
+    return new Promise((resolve, reject) => {
+      DB.query(query, (err, result) => {
+        if (err) reject(err);
+        resolve(result.rows[0]);
+      });
+    });
+  },
+
+  fetchGedungBangunanById: (id) => {
+    let query = `
+      SELECT 
+        inv.kib_id,
+        TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
+        d.kode AS departemen_kd,
+        d.nama AS departemen_nm,
+        p.no_register,
+        p.kategori_id,
+        kat.kode AS kategori_kd,
+        kat.nama AS kategori_nm,
+        p.jumlah AS jumlah_awal,
+        p.c_luas_lantai,
+        p.satuan AS satuan_awal,
+        p.cara_perolehan,
+        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_penetapan,
+        p.th_beli,
+        REPLACE(TO_CHAR(p.perolehan, 'FM999,999,999,999'), ',', '.') AS perolehan_formatted,
+        p.c_bertingkat_tidak,
+        p.c_beton_tidak,
+        p.c_status_tanah,
+        p.kondisi,
+        p.asal_usul,
+        p.a_penggunaan,
+        p.long AS long_penetapan,
+        p.lat AS lat_penetapan,
+        p.keterangan AS keterangan_penetapan,
+        inv.no_register_awal,
+        inv.no_register_akhir,
+        inv.no_register_status,
+        inv.kategori_id_awal,
+        inv.kategori_id_akhir,
+        inv.kategori_id_status,
+        inv.nama_spesifikasi_awal,
+        inv.nama_spesifikasi_akhir,
+        inv.nama_spesifikasi_status,
+        inv.jumlah AS jumlah_akhir,  
+        inv.satuan AS satuan_akhir,
+        inv.cara_perolehan_awal,
+        inv.cara_perolehan_akhir,
+        inv.cara_perolehan_status,
+        TO_CHAR(inv.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_inventaris,
+        inv.tahun_perolehan,
+        REPLACE(TO_CHAR(inv.perolehan_awal, 'FM999,999,999,999'), ',', '.') AS perolehan_awal_formatted,
+        REPLACE(TO_CHAR(inv.perolehan_akhir, 'FM999,999,999,999'), ',', '.') AS perolehan_akhir_formatted,
+        inv.perolehan_status,
+        inv.atribusi_status,
+        inv.atribusi_nibar,
+        inv.atribusi_kode_barang,
+        inv.atribusi_kode_lokasi,
+        inv.atribusi_no_register,
+        inv.atribusi_nama_barang,
+        inv.atribusi_spesifikasi_barang,
+        inv.a_alamat_awal,
+        inv.a_alamat_akhir,
+        inv.a_alamat_status,
+        inv.alamat_kota,
+        inv.alamat_kecamatan,
+        inv.alamat_kelurahan,
+        inv.alamat_jalan,
+        inv.alamat_no,
+        inv.alamat_rt,
+        inv.alamat_rw,
+        inv.alamat_kodepos,
+        inv.c_bertingkat,
+        inv.c_beton,  
+        inv.c_luas_tanah_awal,
+        inv.c_luas_tanah_akhir,
+        inv.c_luas_tanah_status,
+        inv.c_luas_bangunan_awal,
+        inv.c_luas_bangunan_akhir,
+        inv.c_luas_bangunan_status,
+        inv.keberadaan_barang_status,
+        inv.kondisi_awal,
+        inv.kondisi_akhir,
+        inv.kondisi_status,
+        inv.asal_usul_awal,
+        inv.asal_usul_akhir,
+        inv.asal_usul_status,
+        inv.c_satuan_tanah,
+        inv.c_luas_bangunan_awal,
+        inv.c_luas_bangunan_akhir,
+        inv.c_luas_bangunan_status,
+        inv.penggunaan_status,
+        inv.penggunaan_awal,
+        inv.penggunaan_pemda_status,
+        inv.penggunaan_pemda_akhir,
+        inv.penggunaan_pempus_status,
+        inv.penggunaan_pempus_yt,
+        inv.penggunaan_pempus_y_nm,
+        inv.penggunaan_pempus_y_doc,
+        inv.penggunaan_pempus_t_nm,
+        inv.penggunaan_pdl_status,
+        inv.penggunaan_pdl_yt,
+        inv.penggunaan_pdl_y_nm,
+        inv.penggunaan_pdl_y_doc,
+        inv.penggunaan_pdl_t_nm,
+        inv.penggunaan_pl_status,
+        inv.penggunaan_pl_yt,
+        inv.penggunaan_pl_y_nm,
+        inv.penggunaan_pl_y_doc,
+        inv.penggunaan_pl_t_nm,
+        inv.tercatat_ganda,
+        inv.tercatat_ganda_nibar,
+        inv.tercatat_ganda_no_register,
+        inv.tercatat_ganda_kode_barang,
+        inv.tercatat_ganda_nama_barang,
+        inv.tercatat_ganda_spesifikasi_barang,
+        inv.tercatat_ganda_luas,
+        inv.tercatat_ganda_satuan,
+        inv.tercatat_ganda_perolehan,
+        inv.tercatat_ganda_tanggal_perolehan,
+        inv.tercatat_ganda_kuasa_pengguna,
+        inv.pemilik_id,
+        inv.lat AS lat_inventaris,
+        inv.long AS long_inventaris,
+        inv.lainnya,
+        inv.keterangan AS keterangan_inventaris,
+        inv.petugas,
+        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris
+      FROM 
+        aset.penetapan AS p
+      JOIN 
+        public.departemen AS d ON d.id = p.departemen_id
+      JOIN 
+        aset.kategoris AS kat ON kat.id = p.kategori_id
+      LEFT JOIN 
+        aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
+        AND inv.kib_id = p.kib_id 
+      WHERE
+        p.id = ${id}
+    `;
+
+    return new Promise((resolve, reject) => {
+      DB.query(query, (err, result) => {
+        if (err) reject(err);
+        resolve(result.rows[0]);
+      });
+    });
+  },
+
+  fetchJalanJaringanIrigasiById: (id) => {
+    let query = `
+      SELECT 
+        inv.kib_id,
+        TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
+        d.kode AS departemen_kd,
+        d.nama AS departemen_nm,
+        inv.no_register_awal,
+        inv.no_register_akhir,
+        inv.no_register_status,
+        inv.kategori_id_awal,
+        inv.kategori_id_akhir,
+        inv.kategori_id_status,
+        kat.kode AS kategori_kd,
+        kat.nama AS kategori_nm,
+        inv.nama_spesifikasi_awal,
+        inv.nama_spesifikasi_akhir,
+        inv.nama_spesifikasi_status,
+        inv.jumlah_awal,
+        inv.jumlah_akhir,
+        inv.jumlah_status,
+        inv.satuan,
+        inv.cara_perolehan_awal,
+        inv.cara_perolehan_akhir,
+        inv.cara_perolehan_status,
+        TO_CHAR(inv.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formatted,
+        inv.tahun_perolehan,
+        REPLACE(TO_CHAR(inv.perolehan_awal, 'FM999,999,999,999'), ',', '.') AS perolehan_awal_formatted,
+        REPLACE(TO_CHAR(inv.perolehan_akhir, 'FM999,999,999,999'), ',', '.') AS perolehan_akhir_formatted,
+        inv.perolehan_status,
+        inv.atribusi_status,
+        inv.atribusi_nibar,
+        inv.atribusi_kode_barang,
+        inv.atribusi_kode_lokasi,
+        inv.atribusi_no_register,
+        inv.atribusi_nama_barang,
+        inv.atribusi_spesifikasi_barang,
+        inv.a_alamat_awal,
+        inv.a_alamat_akhir,
+        inv.a_alamat_status,
+        inv.alamat_kota,
+        inv.alamat_kecamatan,
+        inv.alamat_kelurahan,
+        inv.alamat_jalan,
+        inv.alamat_no,
+        inv.alamat_rt,
+        inv.alamat_rw,
+        inv.alamat_kodepos,
+        inv.c_status_tanah_awal,
+        inv.c_status_tanah_akhir,
+        inv.c_status_tanah_status,
+        inv.c_lokasi_awal,
+        inv.c_lokasi_akhir,
+        inv.c_lokasi_status,
+        inv.c_luas_bangunan_awal,
+        inv.c_satuan_bangunan,
+        inv.c_bertingkat,
+        inv.c_beton,
+        inv.c_luas_tanah_awal,
+        inv.c_luas_tanah_akhir,
+        inv.c_luas_tanah_status,
+        inv.c_satuan_tanah,
         inv.keberadaan_barang_status,
         inv.kondisi_awal,
         inv.kondisi_akhir,
@@ -699,10 +1006,8 @@ const penetapanModel = {
     });
   },
 
-  // INSERT OR UPDATE INVENTARISASI
-
   // COUNT TOTAL PAGE
-  countTotalPage: (kategori, idDepartemen, perPage=10, tahun=2023) => {
+  countTotalPage: (kategori, idDepartemen, perPage = 10, tahun = 2023) => {
     let query = `
       SELECT 
         CEIL(COUNT(*)::float / ${perPage}) AS total_halaman 

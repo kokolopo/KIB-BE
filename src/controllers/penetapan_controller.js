@@ -5,6 +5,8 @@ import penetapanModel from "../models/penetapan_model.js";
 const {
   fetchTanahById,
   fetchPeralatanMesinById,
+  fetchGedungBangunanById,
+  fetchJalanJaringanIrigasiById,
   fetchTanahByDepartemen,
   fetchPeralatanMesinByDepartemen,
   fetchGedungBangunanByDepartemen,
@@ -26,6 +28,14 @@ const penetapanController = {
           break;
         case "B":
           data = await fetchPeralatanMesinById(parseInt(id)
+          );
+          break;
+        case "C":
+          data = await fetchGedungBangunanById(parseInt(id)
+          );
+          break;
+        case "D":
+          data = await fetchJalanJaringanIrigasiById(parseInt(id)
           );
           break;
 

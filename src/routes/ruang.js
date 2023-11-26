@@ -3,6 +3,6 @@ import ruangController from "../controllers/ruang_controller.js";
 
 const ruang = express.Router();
 
-ruang.get("/", ruangController.getAll);
+ruang.get("/:id_departemen", ruangController.getAll);
 
 export default ruang;
