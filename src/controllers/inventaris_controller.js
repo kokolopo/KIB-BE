@@ -5,7 +5,9 @@ const {
   updateInventarisA,
   updateInventarisB,
   updateInventarisC,
-  updateInventarisD } = inventarisModel;
+  updateInventarisD,
+  insertInventarisA,
+} = inventarisModel;
 
 const inventarisController = {
   updateInventarisA: async (req, res) => {
@@ -49,6 +51,17 @@ const inventarisController = {
       res.status(200).json(responseAPI("berhasil update data"));
     } catch (error) {
       res.status(400).json({ msg: "gagal update data!", error });
+    }
+  },
+
+  insertInventarisA: async () => {
+    const { data } = req.body;
+
+    try {
+      await insertInventarisA(data);
+      res.status(201).json(responseAPI("berhasil create data"));
+    } catch (error) {
+      res.status(400).json({ msg: "gagal create data!", error });
     }
   },
 };
