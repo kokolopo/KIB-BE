@@ -9,5 +9,6 @@ inventaris.put("/C/edit/:kib_id", inventarisController.updateInventarisC);
 inventaris.put("/D/edit/:kib_id", inventarisController.updateInventarisD);
 
 inventaris.post("/A", inventarisController.insertInventarisA);
+inventaris.post("/B", inventarisController.insertInventarisB);
 
 export default inventaris;
