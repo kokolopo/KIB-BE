@@ -4,6 +4,7 @@ const ruangModel = {
     fetchAll: (id_departemen) => {
         let query = `
             SELECT
+                r.id as ruang_id,
                 r.nama as ruang_nm
             FROM 
                 aset.ruangs AS r
