@@ -3,12 +3,12 @@ import inventarisController from "../controllers/inventaris_controller.js";
 
 const inventaris = express.Router();
 
-inventaris.put("/A/edit/:kib_id", inventarisController.updateInventarisA);
-inventaris.put("/B/edit/:kib_id", inventarisController.updateInventarisB);
-inventaris.put("/C/edit/:kib_id", inventarisController.updateInventarisC);
-inventaris.put("/D/edit/:kib_id", inventarisController.updateInventarisD);
+inventaris.put("/edit/A/:kib_id", inventarisController.updateInventarisA);
+inventaris.put("/edit/B/:kib_id", inventarisController.updateInventarisB);
+inventaris.put("/edit/C/:kib_id", inventarisController.updateInventarisC);
+inventaris.put("/edit/D/:kib_id", inventarisController.updateInventarisD);
 
-inventaris.post("/A", inventarisController.insertInventarisA);
-inventaris.post("/B", inventarisController.insertInventarisB);
+inventaris.post("/add/A", inventarisController.insertInventarisA);
+inventaris.post("/add/B", inventarisController.insertInventarisB);
 
 export default inventaris;
