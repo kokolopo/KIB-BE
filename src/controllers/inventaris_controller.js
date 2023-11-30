@@ -4,13 +4,12 @@ import inventarisModel from "../models/inventaris_model.js";
 const {
   updateInventarisA,
   updateInventarisB,
-  updateInventarisC,
-  updateInventarisD,
   insertInventarisA,
   insertInventarisB,
 } = inventarisModel;
 
 const inventarisController = {
+  // UPDATE METHOD
   updateInventarisA: async (req, res) => {
     const { kib_id } = req.params;
     const { data } = req.body;
@@ -33,31 +32,9 @@ const inventarisController = {
     }
   },
 
-  updateInventarisC: async (req, res) => {
-    const { kib_id } = req.params;
-    const { data } = req.body;
-    try {
-      await updateInventarisC(kib_id, data);
-      res.status(200).json(responseAPI("berhasil update data"));
-    } catch (error) {
-      res.status(400).json({ msg: "gagal update data!", error });
-    }
-  },
-
-  updateInventarisD: async (req, res) => {
-    const { kib_id } = req.params;
-    const { data } = req.body;
-    try {
-      await updateInventarisD(kib_id, data);
-      res.status(200).json(responseAPI("berhasil update data"));
-    } catch (error) {
-      res.status(400).json({ msg: "gagal update data!", error });
-    }
-  },
-
+  // INSERT METHOD
   insertInventarisA: async () => {
     const { data } = req.body;
-
     try {
       await insertInventarisA(data);
       res.status(201).json(responseAPI("berhasil create data"));
