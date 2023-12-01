@@ -347,10 +347,11 @@ const inventarisModel = {
           long,
           lainnya,
           keterangan,
-          file_nm,
-          petugas,
           tahun
         ) VALUES (
+          ${data.kib_id ? `${data.kib_id}` : null},
+          ${data.penetapan_id ? `${data.penetapan_id}` : null},
+          ${data.departemen_id ? `${data.departemen_id}` : null},
           ${formattedDateInventaris ? `'${formattedDateInventaris}'` : null},
           ${data.no_register_awal ? `${data.no_register_awal}` : null},
           ${data.no_register_akhir ? `${data.no_register_akhir}` : null},
