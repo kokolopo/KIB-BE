@@ -8,7 +8,6 @@ const penetapanModel = {
         p.kib_id AS kib_id,
         p.id AS penetapan_id,
         p.departemen_id AS departemen_id,
-
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         d.kode AS departemen_kd,
         d.nama AS departemen_nm,
@@ -33,6 +32,7 @@ const penetapanModel = {
         p.long AS long_penetapan,
         p.lat AS lat_penetapan,
         p.keterangan AS keterangan_penetapan,
+        p.file_nm AS file_penetapan,
         inv.no_register_awal,
         inv.no_register_akhir,
         inv.no_register_status,
@@ -126,7 +126,7 @@ const penetapanModel = {
         inv.long AS long_inventaris,
         inv.lainnya,
         inv.keterangan AS keterangan_inventaris,
-        inv.file_nm,
+        inv.file_nm AS file_inventaris,
         inv.petugas,
         inv.tahun,
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris

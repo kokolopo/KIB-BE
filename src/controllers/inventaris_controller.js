@@ -15,9 +15,9 @@ const inventarisController = {
     const { data } = req.body;
     try {
       await updateInventarisA(kib_id, data);
-      res.status(200).json(responseAPI("berhasil update data"));
+      res.status(200).json(responseAPI("Berhasil update data"));
     } catch (error) {
-      res.status(400).json({ msg: "gagal update data!", error });
+      res.status(400).json({ msg: "Gagal update data!", error });
     }
   },
 
@@ -26,31 +26,30 @@ const inventarisController = {
     const { data } = req.body;
     try {
       await updateInventarisB(kib_id, data);
-      res.status(200).json(responseAPI("berhasil update data"));
+      res.status(200).json(responseAPI("Berhasil update data"));
     } catch (error) {
-      res.status(400).json({ msg: "gagal update data!", error });
+      res.status(400).json({ msg: "Gagal update data!", error });
     }
   },
 
   // INSERT METHOD
-  insertInventarisA: async () => {
+  insertInventarisA: async (req, res) => {
     const { data } = req.body;
     try {
       await insertInventarisA(data);
-      res.status(201).json(responseAPI("berhasil create data"));
+      res.status(201).json(responseAPI("Berhasil inventarisasi data"));
     } catch (error) {
-      res.status(400).json({ msg: "gagal create data!", error });
+      res.status(400).json({ msg: "Gagal inventarisasi data!", error });
     }
   },
 
-  insertInventarisB: async () => {
+  insertInventarisB: async (req, res) => {
     const { data } = req.body;
-
     try {
       await insertInventarisB(data);
-      res.status(201).json(responseAPI("berhasil create data"));
+      res.status(201).json(responseAPI("Berhasil inventarisasi data"));
     } catch (error) {
-      res.status(400).json({ msg: "gagal create data!", error });
+      res.status(400).json({ msg: "Gagal inventarisasi data!", error });
     }
   },
 };
