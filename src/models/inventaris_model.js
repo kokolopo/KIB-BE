@@ -132,6 +132,7 @@ const inventarisModel = {
         long                              = ${data.long ? `'${data.long}'` : null},
         lainnya                           = ${data.lainnya ? `'${data.lainnya}'` : null},
         keterangan                        = ${data.keterangan ? `'${data.keterangan}'` : null},
+        petugas                           = ${data.petugas ? `'${data.petugas}'` : '[]'},
         tahun                             = ${data.tahun ? `${data.tahun}` : null}
       WHERE
           kib_id = ${kib_id}
@@ -221,35 +222,35 @@ const inventarisModel = {
       alamat_rt                            = ${data.alamat_rt ? `'${data.alamat_rt}'` : null},
       alamat_rw                            = ${data.alamat_rw ? `'${data.alamat_rw}'` : null},
       alamat_kodepos                       = ${data.alamat_kodepos ? `'${data.alamat_kodepos}'` : null},
-      b_merk_awal                          = ${data.b_merk_awal ? `'${data.b_merk_awal}'` : null},                  
-      b_merk_akhir                         = ${data.b_merk_akhir ? `'${data.b_merk_akhir}'` : null},                
-      b_merk_status                        = ${data.b_merk_status ? `${data.b_merk_status}` : null},                
-      b_cc_awal                            = ${data.b_cc_awal ? `'${data.b_cc_awal}'` : null},                      
-      b_cc_akhir                           = ${data.b_cc_akhir ? `'${data.b_cc_akhir}'` : null},                    
-      b_cc_status                          = ${data.b_cc_status ? `${data.b_cc_status}` : null},                    
-      b_nomor_polisi_awal                  = ${data.b_nomor_polisi_awal ? `'${data.b_nomor_polisi_awal}'` : null},  
+      b_merk_awal                          = ${data.b_merk_awal ? `'${data.b_merk_awal}'` : null},
+      b_merk_akhir                         = ${data.b_merk_akhir ? `'${data.b_merk_akhir}'` : null},
+      b_merk_status                        = ${data.b_merk_status ? `${data.b_merk_status}` : null},
+      b_cc_awal                            = ${data.b_cc_awal ? `'${data.b_cc_awal}'` : null},
+      b_cc_akhir                           = ${data.b_cc_akhir ? `'${data.b_cc_akhir}'` : null},
+      b_cc_status                          = ${data.b_cc_status ? `${data.b_cc_status}` : null},
+      b_nomor_polisi_awal                  = ${data.b_nomor_polisi_awal ? `'${data.b_nomor_polisi_awal}'` : null},
       b_nomor_polisi_akhir                 = ${data.b_nomor_polisi_akhir ? `'${data.b_nomor_polisi_akhir}'` : null},
       b_nomor_polisi_status                = ${data.b_nomor_polisi_status ? `${data.b_nomor_polisi_status}` : null},
-      b_nomor_rangka_awal                  = ${data.b_nomor_rangka_awal ? `'${data.b_nomor_rangka_awal}'` : null},  
+      b_nomor_rangka_awal                  = ${data.b_nomor_rangka_awal ? `'${data.b_nomor_rangka_awal}'` : null},
       b_nomor_rangka_akhir                 = ${data.b_nomor_rangka_akhir ? `'${data.b_nomor_rangka_akhir}'` : null},
       b_nomor_rangka_status                = ${data.b_nomor_rangka_status ? `${data.b_nomor_rangka_status}` : null},
-      b_nomor_mesin_awal                   = ${data.b_nomor_mesin_awal ? `'${data.b_nomor_mesin_awal}'` : null},    
-      b_nomor_mesin_akhir                  = ${data.b_nomor_mesin_akhir ? `'${data.b_nomor_mesin_akhir}'` : null},  
-      b_nomor_mesin_status                 = ${data.b_nomor_mesin_status ? `${data.b_nomor_mesin_status}` : null},  
-      b_nomor_bpkb_awal                    = ${data.b_nomor_bpkb_awal ? `'${data.b_nomor_bpkb_awal}'` : null},      
-      b_nomor_bpkb_akhir                   = ${data.b_nomor_bpkb_akhir ? `'${data.b_nomor_bpkb_akhir}'` : null},    
-      b_nomor_bpkb_status                  = ${data.b_nomor_bpkb_status ? `${data.b_nomor_bpkb_status}` : null},    
-      b_bahan_awal                         = ${data.b_bahan_awal ? `'${data.b_bahan_awal}'` : null},                
-      b_bahan_akhir                        = ${data.b_bahan_akhir ? `'${data.b_bahan_akhir}'` : null},              
-      b_bahan_status                       = ${data.b_bahan_status ? `${data.b_bahan_status}` : null},              
-      b_nomor_pabrik_awal                  = ${data.b_nomor_pabrik_awal ? `'${data.b_nomor_pabrik_awal}'` : null},  
+      b_nomor_mesin_awal                   = ${data.b_nomor_mesin_awal ? `'${data.b_nomor_mesin_awal}'` : null},
+      b_nomor_mesin_akhir                  = ${data.b_nomor_mesin_akhir ? `'${data.b_nomor_mesin_akhir}'` : null},
+      b_nomor_mesin_status                 = ${data.b_nomor_mesin_status ? `${data.b_nomor_mesin_status}` : null},
+      b_nomor_bpkb_awal                    = ${data.b_nomor_bpkb_awal ? `'${data.b_nomor_bpkb_awal}'` : null},
+      b_nomor_bpkb_akhir                   = ${data.b_nomor_bpkb_akhir ? `'${data.b_nomor_bpkb_akhir}'` : null},
+      b_nomor_bpkb_status                  = ${data.b_nomor_bpkb_status ? `${data.b_nomor_bpkb_status}` : null},
+      b_bahan_awal                         = ${data.b_bahan_awal ? `'${data.b_bahan_awal}'` : null},
+      b_bahan_akhir                        = ${data.b_bahan_akhir ? `'${data.b_bahan_akhir}'` : null},
+      b_bahan_status                       = ${data.b_bahan_status ? `${data.b_bahan_status}` : null},
+      b_nomor_pabrik_awal                  = ${data.b_nomor_pabrik_awal ? `'${data.b_nomor_pabrik_awal}'` : null},
       b_nomor_pabrik_akhir                 = ${data.b_nomor_pabrik_akhir ? `'${data.b_nomor_pabrik_akhir}'` : null},
       b_nomor_pabrik_status                = ${data.b_nomor_pabrik_status ? `${data.b_nomor_pabrik_status}` : null},
-      kartu_inv_awal                       = ${data.kartu_inv_awal ? `'${data.kartu_inv_awal}'` : null},            
-      kartu_inv_akhir                      = ${data.kartu_inv_akhir ? `'${data.kartu_inv_akhir}'` : null},          
-      kartu_inv_status                     = ${data.kartu_inv_status ? `${data.kartu_inv_status}` : null},          
-      barcode_barang                       = ${data.barcode_barang ? `${data.barcode_barang}` : null},              
-      barcode_ruangan                      = ${data.barcode_ruangan ? `${data.barcode_ruangan}` : null},            
+      kartu_inv_awal                       = ${data.kartu_inv_awal ? `'${data.kartu_inv_awal}'` : null},
+      kartu_inv_akhir                      = ${data.kartu_inv_akhir ? `'${data.kartu_inv_akhir}'` : null},
+      kartu_inv_status                     = ${data.kartu_inv_status ? `${data.kartu_inv_status}` : null},
+      barcode_barang                       = ${data.barcode_barang ? `${data.barcode_barang}` : null},
+      barcode_ruangan                      = ${data.barcode_ruangan ? `${data.barcode_ruangan}` : null},
       keberadaan_barang_status             = ${data.keberadaan_barang_status ? `${data.keberadaan_barang_status}` : null},
       kondisi_awal                         = ${data.kondisi_awal ? `'${data.kondisi_awal}'` : null},
       kondisi_akhir                        = ${data.kondisi_akhir ? `'${data.kondisi_akhir}'` : null},
@@ -295,6 +296,7 @@ const inventarisModel = {
       pemilik_id                           = ${data.pemilik_id ? `${data.pemilik_id}` : null},
       lainnya                              = ${data.lainnya ? `'${data.lainnya}'` : null},
       keterangan                           = ${data.keterangan ? `'${data.keterangan}'` : null},
+      petugas                              = ${data.petugas ? `'${data.petugas}'` : '[]'},
       tahun                                = ${data.tahun ? `${data.tahun}` : null}
     WHERE
         kib_id = ${kib_id}
@@ -307,7 +309,6 @@ const inventarisModel = {
       });
     });
   },
-
 
   // INSERT METHOD
   insertInventarisA: (data) => {
@@ -441,6 +442,7 @@ const inventarisModel = {
           long,
           lainnya,
           keterangan,
+          petugas,
           tahun,
           status
         ) VALUES (
@@ -540,6 +542,7 @@ const inventarisModel = {
           ${data.long ? `'${data.long}'` : null},
           ${data.lainnya ? `'${data.lainnya}'` : null},
           ${data.keterangan ? `'${data.keterangan}'` : null},
+          ${data.petugas ? `'${data.petugas}'` : '[]'},
           ${data.tahun ? `${data.tahun}` : null},
           ${data.status}
         )  
@@ -701,7 +704,8 @@ const inventarisModel = {
         tercatat_ganda_kuasa_pengguna, 
         pemilik_id,      
         lainnya,     
-        keterangan,        
+        keterangan,
+        petugas,        
         tahun,
         status                
       ) VALUES (
@@ -819,6 +823,7 @@ const inventarisModel = {
         ${data.pemilik_id ? `${data.pemilik_id}` : null},
         ${data.lainnya ? `'${data.lainnya}'` : null},
         ${data.keterangan ? `'${data.keterangan}'` : null},
+        ${data.petugas ? `'${data.petugas}'` : '[]'},
         ${data.tahun ? `${data.tahun}` : null},
         ${data.status}
       )
