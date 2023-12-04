@@ -1,316 +1,7 @@
 import DB from "../config/db.js";
 
 const inventarisModel = {
-  // UPDATE METHOD
-  updateInventarisA: (kib_id, data) => {
-    const partsInventaris = data.tgl_inventaris
-      ? data.tgl_inventaris.split("-")
-      : null;
-    const partsPerolehan = data.tgl_perolehan
-      ? data.tgl_perolehan.split("-")
-      : null;
-    const partsSertifikatTglAwal = data.a_sertifikat_tanggal_awal
-      ? data.a_sertifikat_tanggal_awal.split("-")
-      : null;
-    const partsSertifikatTglAkhir = data.a_sertifikat_tanggal_akhir
-      ? data.a_sertifikat_tanggal_akhir.split("-")
-      : null;
-    const partsTercatatGandaTglPerolehan = data.tercatat_ganda_tanggal_perolehan
-      ? data.tercatat_ganda_tanggal_perolehan.split("-")
-      : null;
-
-    const formattedDateInventaris = partsInventaris
-      ? `${partsInventaris[2]}-${partsInventaris[1]}-${partsInventaris[0]}`
-      : null;
-    const formattedDatePerolehan = partsPerolehan
-      ? `${partsPerolehan[2]}-${partsPerolehan[1]}-${partsPerolehan[0]}`
-      : null;
-    const formattedSertifikatTglAwal = partsSertifikatTglAwal
-      ? `${partsSertifikatTglAwal[2]}-${partsSertifikatTglAwal[1]}-${partsSertifikatTglAwal[0]}`
-      : null;
-    const formattedSertifikatTglAkhir = partsSertifikatTglAkhir
-      ? `${partsSertifikatTglAkhir[2]}-${partsSertifikatTglAkhir[1]}-${partsSertifikatTglAkhir[0]}`
-      : null;
-    const formattedTercatatGandaTglPerolehan = partsTercatatGandaTglPerolehan
-      ? `${partsTercatatGandaTglPerolehan[2]}-${partsTercatatGandaTglPerolehan[1]}-${partsTercatatGandaTglPerolehan[0]}`
-      : null;
-
-    let query = `
-      UPDATE 
-        aset.kib_inventaris
-      SET
-        tgl_inventaris                    = ${formattedDateInventaris ? `'${formattedDateInventaris}'` : null},
-        no_register_awal                  = ${data.no_register_awal ? `${data.no_register_awal}` : null},
-        no_register_akhir                 = ${data.no_register_akhir ? `${data.no_register_akhir}` : null},
-        no_register_status                = ${data.no_register_status ? `${data.no_register_status}` : null},
-        kategori_id_awal                  = ${data.kategori_id_awal ? `${data.kategori_id_awal}` : null},
-        kategori_id_akhir                 = ${data.kategori_id_akhir ? `${data.kategori_id_akhir}` : null},
-        kategori_id_status                = ${data.kategori_id_status ? `${data.kategori_id_status}` : null},
-        nama_spesifikasi_awal             = ${data.nama_spesifikasi_awal ? `'${data.nama_spesifikasi_awal}'` : null},
-        nama_spesifikasi_akhir            = ${data.nama_spesifikasi_akhir ? `'${data.nama_spesifikasi_akhir}'` : null},
-        nama_spesifikasi_status           = ${data.nama_spesifikasi_status ? `${data.nama_spesifikasi_status}` : null},
-        jumlah_awal                       = ${data.jumlah_awal ? `${data.jumlah_awal}` : null},
-        jumlah_akhir                      = ${data.jumlah_akhir ? `${data.jumlah_akhir}` : null},
-        jumlah_status                     = ${data.jumlah_status ? `${data.jumlah_status}` : null},
-        a_luas_m2_awal                    = ${data.a_luas_m2_awal ? `${data.a_luas_m2_awal}` : null},
-        a_luas_m2_akhir                   = ${data.a_luas_m2_akhir ? `${data.a_luas_m2_akhir}` : null},
-        a_luas_m2_status                  = ${data.a_luas_m2_status ? `${data.a_luas_m2_status}` : null},
-        satuan                            = ${data.satuan ? `'${data.satuan}'` : null},
-        cara_perolehan_awal               = ${data.cara_perolehan_awal ? `'${data.cara_perolehan_awal}'` : null},
-        cara_perolehan_akhir              = ${data.cara_perolehan_akhir ? `'${data.cara_perolehan_akhir}'` : null},
-        cara_perolehan_status             = ${data.cara_perolehan_status ? `${data.cara_perolehan_status}` : null},
-        tgl_perolehan                     = ${formattedDatePerolehan ? `'${formattedDatePerolehan}'` : null},
-        tahun_perolehan                   = ${data.tahun_perolehan ? `${data.tahun_perolehan}` : null},
-        perolehan_awal                    = ${data.perolehan_awal ? `${data.perolehan_awal}` : null},
-        perolehan_akhir                   = ${data.perolehan_akhir ? `${data.perolehan_akhir}` : null},
-        perolehan_status                  = ${data.perolehan_status ? `${data.perolehan_status}` : null},
-        atribusi_status                   = ${data.atribusi_status ? `${data.atribusi_status}` : 0},
-        atribusi_nibar                    = ${data.atribusi_nibar ? `'${data.atribusi_nibar}'` : null},
-        atribusi_kode_barang              = ${data.atribusi_kode_barang ? `'${data.atribusi_kode_barang}'` : null},
-        atribusi_kode_lokasi              = ${data.atribusi_kode_lokasi ? `'${data.atribusi_kode_lokasi}'` : null},
-        atribusi_no_register              = ${data.atribusi_no_register ? `'${data.atribusi_no_register}'` : null},
-        atribusi_nama_barang              = ${data.atribusi_nama_barang ? `'${data.atribusi_nama_barang}'` : null},
-        atribusi_spesifikasi_barang       = ${data.atribusi_spesifikasi_barang ? `'${data.atribusi_spesifikasi_barang}'` : null},
-        a_alamat_awal                     = ${data.a_alamat_awal ? `'${data.a_alamat_awal}'` : null},
-        a_alamat_status                   = ${data.a_alamat_status ? `${data.a_alamat_status}` : null},
-        alamat_kota                       = ${data.alamat_kota ? `'${data.alamat_kota}'` : null},
-        alamat_kecamatan                  = ${data.alamat_kecamatan ? `'${data.alamat_kecamatan}'` : null},
-        alamat_kelurahan                  = ${data.alamat_kelurahan ? `'${data.alamat_kelurahan}'` : null},
-        alamat_jalan                      = ${data.alamat_jalan ? `'${data.alamat_jalan}'` : null},
-        alamat_no                         = ${data.alamat_no ? `'${data.alamat_no}'` : null},
-        alamat_rt                         = ${data.alamat_rt ? `'${data.alamat_rt}'` : null},
-        alamat_rw                         = ${data.alamat_rw ? `'${data.alamat_rw}'` : null},
-        alamat_kodepos                    = ${data.alamat_kodepos ? `'${data.alamat_kodepos}'` : null},
-        a_hak_tanah_awal                  = ${data.a_hak_tanah_awal ? `'${data.a_hak_tanah_awal}'` : null},
-        a_hak_tanah_akhir                 = ${data.a_hak_tanah_akhir ? `'${data.a_hak_tanah_akhir}'` : null},
-        a_hak_tanah_status                = ${data.a_hak_tanah_status ? `${data.a_hak_tanah_status}` : null},
-        a_sertifikat_nomor_awal           = ${data.a_sertifikat_nomor_awal ? `'${data.a_sertifikat_nomor_awal}'` : null},
-        a_sertifikat_nomor_akhir          = ${data.a_sertifikat_nomor_akhir ? `'${data.a_sertifikat_nomor_akhir}'` : null},
-        a_sertifikat_nomor_status         = ${data.a_sertifikat_nomor_status ? `${data.a_sertifikat_nomor_status}` : null},
-        a_sertifikat_tanggal_awal         = ${formattedSertifikatTglAwal ? `'${formattedSertifikatTglAwal}'` : null},
-        a_sertifikat_tanggal_akhir        = ${formattedSertifikatTglAkhir ? `'${formattedSertifikatTglAkhir}'` : null},
-        a_sertifikat_tanggal_status       = ${data.a_sertifikat_tanggal_status ? `${data.a_sertifikat_tanggal_status}` : null},
-        keberadaan_barang_status          = ${data.keberadaan_barang_status ? `${data.keberadaan_barang_status}` : null},
-        kondisi_awal                      = ${data.kondisi_awal ? `'${data.kondisi_awal}'` : null},
-        kondisi_akhir                     = ${data.kondisi_akhir ? `'${data.kondisi_akhir}'` : null},
-        kondisi_status                    = ${data.kondisi_status ? `${data.kondisi_status}` : null},
-        asal_usul_awal                    = ${data.asal_usul_awal ? `'${data.asal_usul_awal}'` : null},
-        asal_usul_akhir                   = ${data.asal_usul_akhir ? `'${data.asal_usul_akhir}'` : null},
-        asal_usul_status                  = ${data.asal_usul_status ? `${data.asal_usul_status}` : null},
-        penggunaan_status                 = ${data.penggunaan_status ? `${data.penggunaan_status}` : null},
-        penggunaan_awal                   = ${data.penggunaan_awal ? `'${data.penggunaan_awal}'` : null},
-        penggunaan_pemda_status           = ${data.penggunaan_pemda_status ? `${data.penggunaan_pemda_status}` : null},
-        penggunaan_pemda_akhir            = ${data.penggunaan_pemda_akhir ? `'${data.penggunaan_pemda_akhir}'` : null},
-        penggunaan_pempus_status          = ${data.penggunaan_pempus_status ? `${data.penggunaan_pempus_status}` : null},
-        penggunaan_pempus_yt              = ${data.penggunaan_pempus_yt ? `${data.penggunaan_pempus_yt}` : null},
-        penggunaan_pempus_y_nm            = ${data.penggunaan_pempus_y_nm ? `'${data.penggunaan_pempus_y_nm}'` : null},
-        penggunaan_pempus_y_doc           = ${data.penggunaan_pempus_y_doc ? `'${data.penggunaan_pempus_y_doc}'` : null},
-        penggunaan_pempus_t_nm            = ${data.penggunaan_pempus_t_nm ? `'${data.penggunaan_pempus_t_nm}'` : null},
-        penggunaan_pdl_status             = ${data.penggunaan_pdl_status ? `${data.penggunaan_pdl_status}` : null},
-        penggunaan_pdl_yt                 = ${data.penggunaan_pdl_yt ? `${data.penggunaan_pdl_yt}` : null},
-        penggunaan_pdl_y_nm               = ${data.penggunaan_pdl_y_nm ? `'${data.penggunaan_pdl_y_nm}'` : null},
-        penggunaan_pdl_y_doc              = ${data.penggunaan_pdl_y_doc ? `'${data.penggunaan_pdl_y_doc}'` : null},
-        penggunaan_pdl_t_nm               = ${data.penggunaan_pdl_t_nm ? `'${data.penggunaan_pdl_t_nm}'` : null},
-        penggunaan_pl_status              = ${data.penggunaan_pl_status ? `${data.penggunaan_pl_status}` : null},
-        penggunaan_pl_yt                  = ${data.penggunaan_pl_yt ? `${data.penggunaan_pl_yt}` : null},
-        penggunaan_pl_y_nm                = ${data.penggunaan_pl_y_nm ? `'${data.penggunaan_pl_y_nm}'` : null},
-        penggunaan_pl_y_doc               = ${data.penggunaan_pl_y_doc ? `'${data.penggunaan_pl_y_doc}'` : null},
-        penggunaan_pl_t_nm                = ${data.penggunaan_pl_t_nm ? `'${data.penggunaan_pl_t_nm}'` : null},
-        tercatat_ganda                    = ${data.tercatat_ganda ? `${data.tercatat_ganda}` : null},
-        tercatat_ganda_nibar              = ${data.tercatat_ganda_nibar ? `'${data.tercatat_ganda_nibar}'` : null},
-        tercatat_ganda_no_register        = ${data.tercatat_ganda_no_register ? `'${data.tercatat_ganda_no_register}'` : null},
-        tercatat_ganda_kode_barang        = ${data.tercatat_ganda_kode_barang ? `'${data.tercatat_ganda_kode_barang}'` : null},
-        tercatat_ganda_nama_barang        = ${data.tercatat_ganda_nama_barang ? `'${data.tercatat_ganda_nama_barang}'` : null},
-        tercatat_ganda_spesifikasi_barang = ${data.tercatat_ganda_spesifikasi_barang ? `'${data.tercatat_ganda_spesifikasi_barang}'` : null},
-        tercatat_ganda_luas               = ${data.tercatat_ganda_luas ? `'${data.tercatat_ganda_luas}'` : null},
-        tercatat_ganda_satuan             = ${data.tercatat_ganda_satuan ? `'${data.tercatat_ganda_satuan}'` : null},
-        tercatat_ganda_perolehan          = ${data.tercatat_ganda_perolehan ? `'${data.tercatat_ganda_perolehan}'` : null},
-        tercatat_ganda_tanggal_perolehan  = ${formattedTercatatGandaTglPerolehan ? `'${formattedTercatatGandaTglPerolehan}'` : null},
-        tercatat_ganda_kuasa_pengguna     = ${data.tercatat_ganda_kuasa_pengguna ? `'${data.tercatat_ganda_kuasa_pengguna}'` : null},
-        pemilik_id                        = ${data.pemilik_id ? `${data.pemilik_id}` : null},
-        lat                               = ${data.lat ? `'${data.lat}'` : null},
-        long                              = ${data.long ? `'${data.long}'` : null},
-        lainnya                           = ${data.lainnya ? `'${data.lainnya}'` : null},
-        keterangan                        = ${data.keterangan ? `'${data.keterangan}'` : null},
-        petugas                           = ${data.petugas ? `'${data.petugas}'` : '[]'},
-        tahun                             = ${data.tahun ? `${data.tahun}` : null}
-      WHERE
-          kib_id = ${kib_id}
-    `;
-
-    return new Promise((resolve, reject) => {
-      DB.query(query, (err, result) => {
-        if (err) reject(err);
-        resolve(result);
-      });
-    });
-  },
-
-  updateInventarisB: (kib_id, data) => {
-    // console.log({kib_id, data});
-
-    const partsInventaris = data.tgl_inventaris
-      ? data.tgl_inventaris.split("-")
-      : null;
-    const partsPerolehan = data.tgl_perolehan
-      ? data.tgl_perolehan.split("-")
-      : null;
-    const partsSertifikatTglAwal = data.a_sertifikat_tanggal_awal
-      ? data.a_sertifikat_tanggal_awal.split("-")
-      : null;
-    const partsSertifikatTglAkhir = data.a_sertifikat_tanggal_akhir
-      ? data.a_sertifikat_tanggal_akhir.split("-")
-      : null;
-    const partsTercatatGandaTglPerolehan = data.tercatat_ganda_tanggal_perolehan
-      ? data.tercatat_ganda_tanggal_perolehan.split("-")
-      : null;
-
-    const formattedDateInventaris = partsInventaris
-      ? `${partsInventaris[2]}-${partsInventaris[1]}-${partsInventaris[0]}`
-      : null;
-    const formattedDatePerolehan = partsPerolehan
-      ? `${partsPerolehan[2]}-${partsPerolehan[1]}-${partsPerolehan[0]}`
-      : null;
-    const formattedSertifikatTglAwal = partsSertifikatTglAwal
-      ? `${partsSertifikatTglAwal[2]}-${partsSertifikatTglAwal[1]}-${partsSertifikatTglAwal[0]}`
-      : null;
-    const formattedSertifikatTglAkhir = partsSertifikatTglAkhir
-      ? `${partsSertifikatTglAkhir[2]}-${partsSertifikatTglAkhir[1]}-${partsSertifikatTglAkhir[0]}`
-      : null;
-    const formattedTercatatGandaTglPerolehan = partsTercatatGandaTglPerolehan
-      ? `${partsTercatatGandaTglPerolehan[2]}-${partsTercatatGandaTglPerolehan[1]}-${partsTercatatGandaTglPerolehan[0]}`
-      : null;
-
-    let query = `
-    UPDATE 
-      aset.kib_inventaris
-    SET
-      tgl_inventaris                       = ${formattedDateInventaris ? `'${formattedDateInventaris}'` : null},
-      no_register_awal                     = ${data.no_register_awal ? `${data.no_register_awal}` : null},
-      no_register_akhir                    = ${data.no_register_akhir ? `${data.no_register_akhir}` : null},
-      no_register_status                   = ${data.no_register_status ? `${data.no_register_status}` : null},
-      kategori_id_awal                     = ${data.kategori_id_awal ? `${data.kategori_id_awal}` : null},
-      kategori_id_akhir                    = ${data.kategori_id_akhir ? `${data.kategori_id_akhir}` : null},
-      kategori_id_status                   = ${data.kategori_id_status ? `${data.kategori_id_status}` : null},
-      nama_spesifikasi_awal                = ${data.nama_spesifikasi_awal ? `'${data.nama_spesifikasi_awal}'` : null},
-      nama_spesifikasi_akhir               = ${data.nama_spesifikasi_akhir ? `'${data.nama_spesifikasi_akhir}'` : null},
-      nama_spesifikasi_status              = ${data.nama_spesifikasi_status ? `${data.nama_spesifikasi_status}` : null},
-      jumlah_awal                          = ${data.jumlah_awal ? `${data.jumlah_awal}` : null},
-      satuan                               = ${data.satuan ? `'${data.satuan}'` : null},
-      cara_perolehan_awal                  = ${data.cara_perolehan_awal ? `'${data.cara_perolehan_awal}'` : null},
-      cara_perolehan_akhir                 = ${data.cara_perolehan_akhir ? `'${data.cara_perolehan_akhir}'` : null},
-      cara_perolehan_status                = ${data.cara_perolehan_status ? `${data.cara_perolehan_status}` : null},
-      tgl_perolehan                        = ${formattedDatePerolehan ? `'${formattedDatePerolehan}'` : null},
-      tahun_perolehan                      = ${data.tahun_perolehan ? `${data.tahun_perolehan}` : null},
-      perolehan_awal                       = ${data.perolehan_awal ? `${data.perolehan_awal}` : null},
-      perolehan_akhir                      = ${data.perolehan_akhir ? `${data.perolehan_akhir}` : null},
-      perolehan_status                     = ${data.perolehan_status ? `${data.perolehan_status}` : null},
-      atribusi_status                      = ${data.atribusi_status ? `${data.atribusi_status}` : 0},
-      atribusi_nibar                       = ${data.atribusi_nibar ? `'${data.atribusi_nibar}'` : null},
-      atribusi_kode_barang                 = ${data.atribusi_kode_barang ? `'${data.atribusi_kode_barang}'` : null},
-      atribusi_kode_lokasi                 = ${data.atribusi_kode_lokasi ? `'${data.atribusi_kode_lokasi}'` : null},
-      atribusi_no_register                 = ${data.atribusi_no_register ? `'${data.atribusi_no_register}'` : null},
-      atribusi_nama_barang                 = ${data.atribusi_nama_barang ? `'${data.atribusi_nama_barang}'` : null},
-      atribusi_spesifikasi_barang          = ${data.atribusi_spesifikasi_barang ? `'${data.atribusi_spesifikasi_barang}'` : null},
-      a_alamat_awal                        = ${data.a_alamat_awal ? `'${data.a_alamat_awal}'` : null},
-      a_alamat_status                      = ${data.a_alamat_status ? `${data.a_alamat_status}` : null},
-      alamat_kota                          = ${data.alamat_kota ? `'${data.alamat_kota}'` : null},
-      alamat_kecamatan                     = ${data.alamat_kecamatan ? `'${data.alamat_kecamatan}'` : null},
-      alamat_kelurahan                     = ${data.alamat_kelurahan ? `'${data.alamat_kelurahan}'` : null},
-      alamat_jalan                         = ${data.alamat_jalan ? `'${data.alamat_jalan}'` : null},
-      alamat_no                            = ${data.alamat_no ? `'${data.alamat_no}'` : null},
-      alamat_rt                            = ${data.alamat_rt ? `'${data.alamat_rt}'` : null},
-      alamat_rw                            = ${data.alamat_rw ? `'${data.alamat_rw}'` : null},
-      alamat_kodepos                       = ${data.alamat_kodepos ? `'${data.alamat_kodepos}'` : null},
-      b_merk_awal                          = ${data.b_merk_awal ? `'${data.b_merk_awal}'` : null},
-      b_merk_akhir                         = ${data.b_merk_akhir ? `'${data.b_merk_akhir}'` : null},
-      b_merk_status                        = ${data.b_merk_status ? `${data.b_merk_status}` : null},
-      b_cc_awal                            = ${data.b_cc_awal ? `'${data.b_cc_awal}'` : null},
-      b_cc_akhir                           = ${data.b_cc_akhir ? `'${data.b_cc_akhir}'` : null},
-      b_cc_status                          = ${data.b_cc_status ? `${data.b_cc_status}` : null},
-      b_nomor_polisi_awal                  = ${data.b_nomor_polisi_awal ? `'${data.b_nomor_polisi_awal}'` : null},
-      b_nomor_polisi_akhir                 = ${data.b_nomor_polisi_akhir ? `'${data.b_nomor_polisi_akhir}'` : null},
-      b_nomor_polisi_status                = ${data.b_nomor_polisi_status ? `${data.b_nomor_polisi_status}` : null},
-      b_nomor_rangka_awal                  = ${data.b_nomor_rangka_awal ? `'${data.b_nomor_rangka_awal}'` : null},
-      b_nomor_rangka_akhir                 = ${data.b_nomor_rangka_akhir ? `'${data.b_nomor_rangka_akhir}'` : null},
-      b_nomor_rangka_status                = ${data.b_nomor_rangka_status ? `${data.b_nomor_rangka_status}` : null},
-      b_nomor_mesin_awal                   = ${data.b_nomor_mesin_awal ? `'${data.b_nomor_mesin_awal}'` : null},
-      b_nomor_mesin_akhir                  = ${data.b_nomor_mesin_akhir ? `'${data.b_nomor_mesin_akhir}'` : null},
-      b_nomor_mesin_status                 = ${data.b_nomor_mesin_status ? `${data.b_nomor_mesin_status}` : null},
-      b_nomor_bpkb_awal                    = ${data.b_nomor_bpkb_awal ? `'${data.b_nomor_bpkb_awal}'` : null},
-      b_nomor_bpkb_akhir                   = ${data.b_nomor_bpkb_akhir ? `'${data.b_nomor_bpkb_akhir}'` : null},
-      b_nomor_bpkb_status                  = ${data.b_nomor_bpkb_status ? `${data.b_nomor_bpkb_status}` : null},
-      b_bahan_awal                         = ${data.b_bahan_awal ? `'${data.b_bahan_awal}'` : null},
-      b_bahan_akhir                        = ${data.b_bahan_akhir ? `'${data.b_bahan_akhir}'` : null},
-      b_bahan_status                       = ${data.b_bahan_status ? `${data.b_bahan_status}` : null},
-      b_nomor_pabrik_awal                  = ${data.b_nomor_pabrik_awal ? `'${data.b_nomor_pabrik_awal}'` : null},
-      b_nomor_pabrik_akhir                 = ${data.b_nomor_pabrik_akhir ? `'${data.b_nomor_pabrik_akhir}'` : null},
-      b_nomor_pabrik_status                = ${data.b_nomor_pabrik_status ? `${data.b_nomor_pabrik_status}` : null},
-      kartu_inv_awal                       = ${data.kartu_inv_awal ? `'${data.kartu_inv_awal}'` : null},
-      kartu_inv_akhir                      = ${data.kartu_inv_akhir ? `'${data.kartu_inv_akhir}'` : null},
-      kartu_inv_status                     = ${data.kartu_inv_status ? `${data.kartu_inv_status}` : null},
-      barcode_barang                       = ${data.barcode_barang ? `${data.barcode_barang}` : null},
-      barcode_ruangan                      = ${data.barcode_ruangan ? `${data.barcode_ruangan}` : null},
-      keberadaan_barang_status             = ${data.keberadaan_barang_status ? `${data.keberadaan_barang_status}` : null},
-      kondisi_awal                         = ${data.kondisi_awal ? `'${data.kondisi_awal}'` : null},
-      kondisi_akhir                        = ${data.kondisi_akhir ? `'${data.kondisi_akhir}'` : null},
-      kondisi_status                       = ${data.kondisi_status ? `${data.kondisi_status}` : null},
-      asal_usul_awal                       = ${data.asal_usul_awal ? `'${data.asal_usul_awal}'` : null},
-      asal_usul_akhir                      = ${data.asal_usul_akhir ? `'${data.asal_usul_akhir}'` : null},
-      asal_usul_status                     = ${data.asal_usul_status ? `${data.asal_usul_status}` : null},
-      penggunaan_status                    = ${data.penggunaan_status ? `${data.penggunaan_status}` : null},
-      penggunaan_awal                      = ${data.penggunaan_awal ? `'${data.penggunaan_awal}'` : null},
-      penggunaan_pemda_status              = ${data.penggunaan_pemda_status ? `${data.penggunaan_pemda_status}` : null},
-      penggunaan_pemda_akhir               = ${data.penggunaan_pemda_akhir ? `'${data.penggunaan_pemda_akhir}'` : null},
-      penggunaan_pemda_nama_pemakai        = ${data.penggunaan_pemda_nama_pemakai ? `'${data.penggunaan_pemda_nama_pemakai}'` : null},
-      penggunaan_pemda_nama_pemakai_akhir  = ${data.penggunaan_pemda_nama_pemakai_akhir ? `'${data.penggunaan_pemda_nama_pemakai_akhir}'` : null},
-      penggunaan_pemda_nama_pemakai_status = ${data.penggunaan_pemda_nama_pemakai_status ? `${data.penggunaan_pemda_nama_pemakai_status}` : null},
-      penggunaan_pemda_status_pemakai      = ${data.penggunaan_pemda_status_pemakai ? `'${data.penggunaan_pemda_status_pemakai}'` : null},
-      penggunaan_pemda_bast_pemakaian      = ${data.penggunaan_pemda_bast_pemakaian ? `${data.penggunaan_pemda_bast_pemakaian}` : null},
-      penggunaan_pempus_status             = ${data.penggunaan_pempus_status ? `${data.penggunaan_pempus_status}` : null},
-      penggunaan_pempus_yt                 = ${data.penggunaan_pempus_yt ? `${data.penggunaan_pempus_yt}` : null},
-      penggunaan_pempus_y_nm               = ${data.penggunaan_pempus_y_nm ? `'${data.penggunaan_pempus_y_nm}'` : null},
-      penggunaan_pempus_y_doc              = ${data.penggunaan_pempus_y_doc ? `'${data.penggunaan_pempus_y_doc}'` : null},
-      penggunaan_pempus_t_nm               = ${data.penggunaan_pempus_t_nm ? `'${data.penggunaan_pempus_t_nm}'` : null},
-      penggunaan_pdl_status                = ${data.penggunaan_pdl_status ? `${data.penggunaan_pdl_status}` : null},
-      penggunaan_pdl_yt                    = ${data.penggunaan_pdl_yt ? `${data.penggunaan_pdl_yt}` : null},
-      penggunaan_pdl_y_nm                  = ${data.penggunaan_pdl_y_nm ? `'${data.penggunaan_pdl_y_nm}'` : null},
-      penggunaan_pdl_y_doc                 = ${data.penggunaan_pdl_y_doc ? `'${data.penggunaan_pdl_y_doc}'` : null},
-      penggunaan_pdl_t_nm                  = ${data.penggunaan_pdl_t_nm ? `'${data.penggunaan_pdl_t_nm}'` : null},
-      penggunaan_pl_status                 = ${data.penggunaan_pl_status ? `${data.penggunaan_pl_status}` : null},
-      penggunaan_pl_yt                     = ${data.penggunaan_pl_yt ? `${data.penggunaan_pl_yt}` : null},
-      penggunaan_pl_y_nm                   = ${data.penggunaan_pl_y_nm ? `'${data.penggunaan_pl_y_nm}'` : null},
-      penggunaan_pl_y_doc                  = ${data.penggunaan_pl_y_doc ? `'${data.penggunaan_pl_y_doc}'` : null},
-      penggunaan_pl_t_nm                   = ${data.penggunaan_pl_t_nm ? `'${data.penggunaan_pl_t_nm}'` : null},
-      tercatat_ganda                       = ${data.tercatat_ganda ? `${data.tercatat_ganda}` : null},
-      tercatat_ganda_nibar                 = ${data.tercatat_ganda_nibar ? `'${data.tercatat_ganda_nibar}'` : null},
-      tercatat_ganda_no_register           = ${data.tercatat_ganda_no_register ? `'${data.tercatat_ganda_no_register}'` : null},
-      tercatat_ganda_kode_barang           = ${data.tercatat_ganda_kode_barang ? `'${data.tercatat_ganda_kode_barang}'` : null},
-      tercatat_ganda_nama_barang           = ${data.tercatat_ganda_nama_barang ? `'${data.tercatat_ganda_nama_barang}'` : null},
-      tercatat_ganda_spesifikasi_barang    = ${data.tercatat_ganda_spesifikasi_barang ? `'${data.tercatat_ganda_spesifikasi_barang}'` : null},
-      tercatat_ganda_luas                  = ${data.tercatat_ganda_luas ? `'${data.tercatat_ganda_luas}'` : null},
-      tercatat_ganda_satuan                = ${data.tercatat_ganda_satuan ? `'${data.tercatat_ganda_satuan}'` : null},
-      tercatat_ganda_perolehan             = ${data.tercatat_ganda_perolehan ? `'${data.tercatat_ganda_perolehan}'` : null},
-      tercatat_ganda_tanggal_perolehan     = ${formattedTercatatGandaTglPerolehan ? `'${formattedTercatatGandaTglPerolehan}'` : null},
-      tercatat_ganda_kuasa_pengguna        = ${data.tercatat_ganda_kuasa_pengguna ? `'${data.tercatat_ganda_kuasa_pengguna}'` : null},
-      pemilik_id                           = ${data.pemilik_id ? `${data.pemilik_id}` : null},
-      lainnya                              = ${data.lainnya ? `'${data.lainnya}'` : null},
-      keterangan                           = ${data.keterangan ? `'${data.keterangan}'` : null},
-      petugas                              = ${data.petugas ? `'${data.petugas}'` : '[]'},
-      tahun                                = ${data.tahun ? `${data.tahun}` : null}
-    WHERE
-        kib_id = ${kib_id}
-    `;
-
-    return new Promise((resolve, reject) => {
-      DB.query(query, (err, result) => {
-        if (err) reject(err);
-        resolve(result);
-      });
-    });
-  },
-
-  // INSERT METHOD
+  // INSERT MODEL
   insertInventarisA: (data) => {
     const partsInventaris = data.tgl_inventaris
       ? data.tgl_inventaris.split("-")
@@ -660,6 +351,7 @@ const inventarisModel = {
         kartu_inv_status,                      
         barcode_barang,                        
         barcode_ruangan,                       
+        keberadaan_barang_akhir,             
         keberadaan_barang_status,             
         kondisi_awal,         
         kondisi_akhir,           
@@ -778,6 +470,7 @@ const inventarisModel = {
         ${data.kartu_inv_status ? `${data.kartu_inv_status}` : null},          
         ${data.barcode_barang ? `${data.barcode_barang}` : null},              
         ${data.barcode_ruangan ? `${data.barcode_ruangan}` : null},            
+        ${data.keberadaan_barang_akhir ? `${data.keberadaan_barang_akhir}` : null},
         ${data.keberadaan_barang_status ? `${data.keberadaan_barang_status}` : null},
         ${data.kondisi_awal ? `'${data.kondisi_awal}'` : null},
         ${data.kondisi_akhir ? `'${data.kondisi_akhir}'` : null},
@@ -836,6 +529,318 @@ const inventarisModel = {
       });
     });
   },
+
+  insertInventarisC: (data) => { console.log(data); },
+
+  // UPDATE MODEL
+  updateInventarisA: (kib_id, data) => {
+    const partsInventaris = data.tgl_inventaris
+      ? data.tgl_inventaris.split("-")
+      : null;
+    const partsPerolehan = data.tgl_perolehan
+      ? data.tgl_perolehan.split("-")
+      : null;
+    const partsSertifikatTglAwal = data.a_sertifikat_tanggal_awal
+      ? data.a_sertifikat_tanggal_awal.split("-")
+      : null;
+    const partsSertifikatTglAkhir = data.a_sertifikat_tanggal_akhir
+      ? data.a_sertifikat_tanggal_akhir.split("-")
+      : null;
+    const partsTercatatGandaTglPerolehan = data.tercatat_ganda_tanggal_perolehan
+      ? data.tercatat_ganda_tanggal_perolehan.split("-")
+      : null;
+
+    const formattedDateInventaris = partsInventaris
+      ? `${partsInventaris[2]}-${partsInventaris[1]}-${partsInventaris[0]}`
+      : null;
+    const formattedDatePerolehan = partsPerolehan
+      ? `${partsPerolehan[2]}-${partsPerolehan[1]}-${partsPerolehan[0]}`
+      : null;
+    const formattedSertifikatTglAwal = partsSertifikatTglAwal
+      ? `${partsSertifikatTglAwal[2]}-${partsSertifikatTglAwal[1]}-${partsSertifikatTglAwal[0]}`
+      : null;
+    const formattedSertifikatTglAkhir = partsSertifikatTglAkhir
+      ? `${partsSertifikatTglAkhir[2]}-${partsSertifikatTglAkhir[1]}-${partsSertifikatTglAkhir[0]}`
+      : null;
+    const formattedTercatatGandaTglPerolehan = partsTercatatGandaTglPerolehan
+      ? `${partsTercatatGandaTglPerolehan[2]}-${partsTercatatGandaTglPerolehan[1]}-${partsTercatatGandaTglPerolehan[0]}`
+      : null;
+
+    let query = `
+      UPDATE 
+        aset.kib_inventaris
+      SET
+        tgl_inventaris                    = ${formattedDateInventaris ? `'${formattedDateInventaris}'` : null},
+        no_register_awal                  = ${data.no_register_awal ? `${data.no_register_awal}` : null},
+        no_register_akhir                 = ${data.no_register_akhir ? `${data.no_register_akhir}` : null},
+        no_register_status                = ${data.no_register_status ? `${data.no_register_status}` : null},
+        kategori_id_awal                  = ${data.kategori_id_awal ? `${data.kategori_id_awal}` : null},
+        kategori_id_akhir                 = ${data.kategori_id_akhir ? `${data.kategori_id_akhir}` : null},
+        kategori_id_status                = ${data.kategori_id_status ? `${data.kategori_id_status}` : null},
+        nama_spesifikasi_awal             = ${data.nama_spesifikasi_awal ? `'${data.nama_spesifikasi_awal}'` : null},
+        nama_spesifikasi_akhir            = ${data.nama_spesifikasi_akhir ? `'${data.nama_spesifikasi_akhir}'` : null},
+        nama_spesifikasi_status           = ${data.nama_spesifikasi_status ? `${data.nama_spesifikasi_status}` : null},
+        jumlah_awal                       = ${data.jumlah_awal ? `${data.jumlah_awal}` : null},
+        jumlah_akhir                      = ${data.jumlah_akhir ? `${data.jumlah_akhir}` : null},
+        jumlah_status                     = ${data.jumlah_status ? `${data.jumlah_status}` : null},
+        a_luas_m2_awal                    = ${data.a_luas_m2_awal ? `${data.a_luas_m2_awal}` : null},
+        a_luas_m2_akhir                   = ${data.a_luas_m2_akhir ? `${data.a_luas_m2_akhir}` : null},
+        a_luas_m2_status                  = ${data.a_luas_m2_status ? `${data.a_luas_m2_status}` : null},
+        satuan                            = ${data.satuan ? `'${data.satuan}'` : null},
+        cara_perolehan_awal               = ${data.cara_perolehan_awal ? `'${data.cara_perolehan_awal}'` : null},
+        cara_perolehan_akhir              = ${data.cara_perolehan_akhir ? `'${data.cara_perolehan_akhir}'` : null},
+        cara_perolehan_status             = ${data.cara_perolehan_status ? `${data.cara_perolehan_status}` : null},
+        tgl_perolehan                     = ${formattedDatePerolehan ? `'${formattedDatePerolehan}'` : null},
+        tahun_perolehan                   = ${data.tahun_perolehan ? `${data.tahun_perolehan}` : null},
+        perolehan_awal                    = ${data.perolehan_awal ? `${data.perolehan_awal}` : null},
+        perolehan_akhir                   = ${data.perolehan_akhir ? `${data.perolehan_akhir}` : null},
+        perolehan_status                  = ${data.perolehan_status ? `${data.perolehan_status}` : null},
+        atribusi_status                   = ${data.atribusi_status ? `${data.atribusi_status}` : 0},
+        atribusi_nibar                    = ${data.atribusi_nibar ? `'${data.atribusi_nibar}'` : null},
+        atribusi_kode_barang              = ${data.atribusi_kode_barang ? `'${data.atribusi_kode_barang}'` : null},
+        atribusi_kode_lokasi              = ${data.atribusi_kode_lokasi ? `'${data.atribusi_kode_lokasi}'` : null},
+        atribusi_no_register              = ${data.atribusi_no_register ? `'${data.atribusi_no_register}'` : null},
+        atribusi_nama_barang              = ${data.atribusi_nama_barang ? `'${data.atribusi_nama_barang}'` : null},
+        atribusi_spesifikasi_barang       = ${data.atribusi_spesifikasi_barang ? `'${data.atribusi_spesifikasi_barang}'` : null},
+        a_alamat_awal                     = ${data.a_alamat_awal ? `'${data.a_alamat_awal}'` : null},
+        a_alamat_status                   = ${data.a_alamat_status ? `${data.a_alamat_status}` : null},
+        alamat_kota                       = ${data.alamat_kota ? `'${data.alamat_kota}'` : null},
+        alamat_kecamatan                  = ${data.alamat_kecamatan ? `'${data.alamat_kecamatan}'` : null},
+        alamat_kelurahan                  = ${data.alamat_kelurahan ? `'${data.alamat_kelurahan}'` : null},
+        alamat_jalan                      = ${data.alamat_jalan ? `'${data.alamat_jalan}'` : null},
+        alamat_no                         = ${data.alamat_no ? `'${data.alamat_no}'` : null},
+        alamat_rt                         = ${data.alamat_rt ? `'${data.alamat_rt}'` : null},
+        alamat_rw                         = ${data.alamat_rw ? `'${data.alamat_rw}'` : null},
+        alamat_kodepos                    = ${data.alamat_kodepos ? `'${data.alamat_kodepos}'` : null},
+        a_hak_tanah_awal                  = ${data.a_hak_tanah_awal ? `'${data.a_hak_tanah_awal}'` : null},
+        a_hak_tanah_akhir                 = ${data.a_hak_tanah_akhir ? `'${data.a_hak_tanah_akhir}'` : null},
+        a_hak_tanah_status                = ${data.a_hak_tanah_status ? `${data.a_hak_tanah_status}` : null},
+        a_sertifikat_nomor_awal           = ${data.a_sertifikat_nomor_awal ? `'${data.a_sertifikat_nomor_awal}'` : null},
+        a_sertifikat_nomor_akhir          = ${data.a_sertifikat_nomor_akhir ? `'${data.a_sertifikat_nomor_akhir}'` : null},
+        a_sertifikat_nomor_status         = ${data.a_sertifikat_nomor_status ? `${data.a_sertifikat_nomor_status}` : null},
+        a_sertifikat_tanggal_awal         = ${formattedSertifikatTglAwal ? `'${formattedSertifikatTglAwal}'` : null},
+        a_sertifikat_tanggal_akhir        = ${formattedSertifikatTglAkhir ? `'${formattedSertifikatTglAkhir}'` : null},
+        a_sertifikat_tanggal_status       = ${data.a_sertifikat_tanggal_status ? `${data.a_sertifikat_tanggal_status}` : null},
+        keberadaan_barang_status          = ${data.keberadaan_barang_status ? `${data.keberadaan_barang_status}` : null},
+        kondisi_awal                      = ${data.kondisi_awal ? `'${data.kondisi_awal}'` : null},
+        kondisi_akhir                     = ${data.kondisi_akhir ? `'${data.kondisi_akhir}'` : null},
+        kondisi_status                    = ${data.kondisi_status ? `${data.kondisi_status}` : null},
+        asal_usul_awal                    = ${data.asal_usul_awal ? `'${data.asal_usul_awal}'` : null},
+        asal_usul_akhir                   = ${data.asal_usul_akhir ? `'${data.asal_usul_akhir}'` : null},
+        asal_usul_status                  = ${data.asal_usul_status ? `${data.asal_usul_status}` : null},
+        penggunaan_status                 = ${data.penggunaan_status ? `${data.penggunaan_status}` : null},
+        penggunaan_awal                   = ${data.penggunaan_awal ? `'${data.penggunaan_awal}'` : null},
+        penggunaan_pemda_status           = ${data.penggunaan_pemda_status ? `${data.penggunaan_pemda_status}` : null},
+        penggunaan_pemda_akhir            = ${data.penggunaan_pemda_akhir ? `'${data.penggunaan_pemda_akhir}'` : null},
+        penggunaan_pempus_status          = ${data.penggunaan_pempus_status ? `${data.penggunaan_pempus_status}` : null},
+        penggunaan_pempus_yt              = ${data.penggunaan_pempus_yt ? `${data.penggunaan_pempus_yt}` : null},
+        penggunaan_pempus_y_nm            = ${data.penggunaan_pempus_y_nm ? `'${data.penggunaan_pempus_y_nm}'` : null},
+        penggunaan_pempus_y_doc           = ${data.penggunaan_pempus_y_doc ? `'${data.penggunaan_pempus_y_doc}'` : null},
+        penggunaan_pempus_t_nm            = ${data.penggunaan_pempus_t_nm ? `'${data.penggunaan_pempus_t_nm}'` : null},
+        penggunaan_pdl_status             = ${data.penggunaan_pdl_status ? `${data.penggunaan_pdl_status}` : null},
+        penggunaan_pdl_yt                 = ${data.penggunaan_pdl_yt ? `${data.penggunaan_pdl_yt}` : null},
+        penggunaan_pdl_y_nm               = ${data.penggunaan_pdl_y_nm ? `'${data.penggunaan_pdl_y_nm}'` : null},
+        penggunaan_pdl_y_doc              = ${data.penggunaan_pdl_y_doc ? `'${data.penggunaan_pdl_y_doc}'` : null},
+        penggunaan_pdl_t_nm               = ${data.penggunaan_pdl_t_nm ? `'${data.penggunaan_pdl_t_nm}'` : null},
+        penggunaan_pl_status              = ${data.penggunaan_pl_status ? `${data.penggunaan_pl_status}` : null},
+        penggunaan_pl_yt                  = ${data.penggunaan_pl_yt ? `${data.penggunaan_pl_yt}` : null},
+        penggunaan_pl_y_nm                = ${data.penggunaan_pl_y_nm ? `'${data.penggunaan_pl_y_nm}'` : null},
+        penggunaan_pl_y_doc               = ${data.penggunaan_pl_y_doc ? `'${data.penggunaan_pl_y_doc}'` : null},
+        penggunaan_pl_t_nm                = ${data.penggunaan_pl_t_nm ? `'${data.penggunaan_pl_t_nm}'` : null},
+        tercatat_ganda                    = ${data.tercatat_ganda ? `${data.tercatat_ganda}` : null},
+        tercatat_ganda_nibar              = ${data.tercatat_ganda_nibar ? `'${data.tercatat_ganda_nibar}'` : null},
+        tercatat_ganda_no_register        = ${data.tercatat_ganda_no_register ? `'${data.tercatat_ganda_no_register}'` : null},
+        tercatat_ganda_kode_barang        = ${data.tercatat_ganda_kode_barang ? `'${data.tercatat_ganda_kode_barang}'` : null},
+        tercatat_ganda_nama_barang        = ${data.tercatat_ganda_nama_barang ? `'${data.tercatat_ganda_nama_barang}'` : null},
+        tercatat_ganda_spesifikasi_barang = ${data.tercatat_ganda_spesifikasi_barang ? `'${data.tercatat_ganda_spesifikasi_barang}'` : null},
+        tercatat_ganda_luas               = ${data.tercatat_ganda_luas ? `'${data.tercatat_ganda_luas}'` : null},
+        tercatat_ganda_satuan             = ${data.tercatat_ganda_satuan ? `'${data.tercatat_ganda_satuan}'` : null},
+        tercatat_ganda_perolehan          = ${data.tercatat_ganda_perolehan ? `'${data.tercatat_ganda_perolehan}'` : null},
+        tercatat_ganda_tanggal_perolehan  = ${formattedTercatatGandaTglPerolehan ? `'${formattedTercatatGandaTglPerolehan}'` : null},
+        tercatat_ganda_kuasa_pengguna     = ${data.tercatat_ganda_kuasa_pengguna ? `'${data.tercatat_ganda_kuasa_pengguna}'` : null},
+        pemilik_id                        = ${data.pemilik_id ? `${data.pemilik_id}` : null},
+        lat                               = ${data.lat ? `'${data.lat}'` : null},
+        long                              = ${data.long ? `'${data.long}'` : null},
+        lainnya                           = ${data.lainnya ? `'${data.lainnya}'` : null},
+        keterangan                        = ${data.keterangan ? `'${data.keterangan}'` : null},
+        petugas                           = ${data.petugas ? `'${data.petugas}'` : '[]'},
+        tahun                             = ${data.tahun ? `${data.tahun}` : null}
+      WHERE
+          kib_id = ${kib_id}
+    `;
+
+    return new Promise((resolve, reject) => {
+      DB.query(query, (err, result) => {
+        if (err) reject(err);
+        resolve(result);
+      });
+    });
+  },
+
+  updateInventarisB: (kib_id, data) => {
+    const partsInventaris = data.tgl_inventaris
+      ? data.tgl_inventaris.split("-")
+      : null;
+    const partsPerolehan = data.tgl_perolehan
+      ? data.tgl_perolehan.split("-")
+      : null;
+    const partsSertifikatTglAwal = data.a_sertifikat_tanggal_awal
+      ? data.a_sertifikat_tanggal_awal.split("-")
+      : null;
+    const partsSertifikatTglAkhir = data.a_sertifikat_tanggal_akhir
+      ? data.a_sertifikat_tanggal_akhir.split("-")
+      : null;
+    const partsTercatatGandaTglPerolehan = data.tercatat_ganda_tanggal_perolehan
+      ? data.tercatat_ganda_tanggal_perolehan.split("-")
+      : null;
+
+    const formattedDateInventaris = partsInventaris
+      ? `${partsInventaris[2]}-${partsInventaris[1]}-${partsInventaris[0]}`
+      : null;
+    const formattedDatePerolehan = partsPerolehan
+      ? `${partsPerolehan[2]}-${partsPerolehan[1]}-${partsPerolehan[0]}`
+      : null;
+    const formattedSertifikatTglAwal = partsSertifikatTglAwal
+      ? `${partsSertifikatTglAwal[2]}-${partsSertifikatTglAwal[1]}-${partsSertifikatTglAwal[0]}`
+      : null;
+    const formattedSertifikatTglAkhir = partsSertifikatTglAkhir
+      ? `${partsSertifikatTglAkhir[2]}-${partsSertifikatTglAkhir[1]}-${partsSertifikatTglAkhir[0]}`
+      : null;
+    const formattedTercatatGandaTglPerolehan = partsTercatatGandaTglPerolehan
+      ? `${partsTercatatGandaTglPerolehan[2]}-${partsTercatatGandaTglPerolehan[1]}-${partsTercatatGandaTglPerolehan[0]}`
+      : null;
+
+    let query = `
+    UPDATE 
+      aset.kib_inventaris
+    SET
+      tgl_inventaris                       = ${formattedDateInventaris ? `'${formattedDateInventaris}'` : null},
+      no_register_awal                     = ${data.no_register_awal ? `${data.no_register_awal}` : null},
+      no_register_akhir                    = ${data.no_register_akhir ? `${data.no_register_akhir}` : null},
+      no_register_status                   = ${data.no_register_status ? `${data.no_register_status}` : null},
+      kategori_id_awal                     = ${data.kategori_id_awal ? `${data.kategori_id_awal}` : null},
+      kategori_id_akhir                    = ${data.kategori_id_akhir ? `${data.kategori_id_akhir}` : null},
+      kategori_id_status                   = ${data.kategori_id_status ? `${data.kategori_id_status}` : null},
+      nama_spesifikasi_awal                = ${data.nama_spesifikasi_awal ? `'${data.nama_spesifikasi_awal}'` : null},
+      nama_spesifikasi_akhir               = ${data.nama_spesifikasi_akhir ? `'${data.nama_spesifikasi_akhir}'` : null},
+      nama_spesifikasi_status              = ${data.nama_spesifikasi_status ? `${data.nama_spesifikasi_status}` : null},
+      jumlah_awal                          = ${data.jumlah_awal ? `${data.jumlah_awal}` : null},
+      satuan                               = ${data.satuan ? `'${data.satuan}'` : null},
+      cara_perolehan_awal                  = ${data.cara_perolehan_awal ? `'${data.cara_perolehan_awal}'` : null},
+      cara_perolehan_akhir                 = ${data.cara_perolehan_akhir ? `'${data.cara_perolehan_akhir}'` : null},
+      cara_perolehan_status                = ${data.cara_perolehan_status ? `${data.cara_perolehan_status}` : null},
+      tgl_perolehan                        = ${formattedDatePerolehan ? `'${formattedDatePerolehan}'` : null},
+      tahun_perolehan                      = ${data.tahun_perolehan ? `${data.tahun_perolehan}` : null},
+      perolehan_awal                       = ${data.perolehan_awal ? `${data.perolehan_awal}` : null},
+      perolehan_akhir                      = ${data.perolehan_akhir ? `${data.perolehan_akhir}` : null},
+      perolehan_status                     = ${data.perolehan_status ? `${data.perolehan_status}` : null},
+      atribusi_status                      = ${data.atribusi_status ? `${data.atribusi_status}` : 0},
+      atribusi_nibar                       = ${data.atribusi_nibar ? `'${data.atribusi_nibar}'` : null},
+      atribusi_kode_barang                 = ${data.atribusi_kode_barang ? `'${data.atribusi_kode_barang}'` : null},
+      atribusi_kode_lokasi                 = ${data.atribusi_kode_lokasi ? `'${data.atribusi_kode_lokasi}'` : null},
+      atribusi_no_register                 = ${data.atribusi_no_register ? `'${data.atribusi_no_register}'` : null},
+      atribusi_nama_barang                 = ${data.atribusi_nama_barang ? `'${data.atribusi_nama_barang}'` : null},
+      atribusi_spesifikasi_barang          = ${data.atribusi_spesifikasi_barang ? `'${data.atribusi_spesifikasi_barang}'` : null},
+      a_alamat_awal                        = ${data.a_alamat_awal ? `'${data.a_alamat_awal}'` : null},
+      a_alamat_status                      = ${data.a_alamat_status ? `${data.a_alamat_status}` : null},
+      alamat_kota                          = ${data.alamat_kota ? `'${data.alamat_kota}'` : null},
+      alamat_kecamatan                     = ${data.alamat_kecamatan ? `'${data.alamat_kecamatan}'` : null},
+      alamat_kelurahan                     = ${data.alamat_kelurahan ? `'${data.alamat_kelurahan}'` : null},
+      alamat_jalan                         = ${data.alamat_jalan ? `'${data.alamat_jalan}'` : null},
+      alamat_no                            = ${data.alamat_no ? `'${data.alamat_no}'` : null},
+      alamat_rt                            = ${data.alamat_rt ? `'${data.alamat_rt}'` : null},
+      alamat_rw                            = ${data.alamat_rw ? `'${data.alamat_rw}'` : null},
+      alamat_kodepos                       = ${data.alamat_kodepos ? `'${data.alamat_kodepos}'` : null},
+      b_merk_awal                          = ${data.b_merk_awal ? `'${data.b_merk_awal}'` : null},
+      b_merk_akhir                         = ${data.b_merk_akhir ? `'${data.b_merk_akhir}'` : null},
+      b_merk_status                        = ${data.b_merk_status ? `${data.b_merk_status}` : null},
+      b_cc_awal                            = ${data.b_cc_awal ? `'${data.b_cc_awal}'` : null},
+      b_cc_akhir                           = ${data.b_cc_akhir ? `'${data.b_cc_akhir}'` : null},
+      b_cc_status                          = ${data.b_cc_status ? `${data.b_cc_status}` : null},
+      b_nomor_polisi_awal                  = ${data.b_nomor_polisi_awal ? `'${data.b_nomor_polisi_awal}'` : null},
+      b_nomor_polisi_akhir                 = ${data.b_nomor_polisi_akhir ? `'${data.b_nomor_polisi_akhir}'` : null},
+      b_nomor_polisi_status                = ${data.b_nomor_polisi_status ? `${data.b_nomor_polisi_status}` : null},
+      b_nomor_rangka_awal                  = ${data.b_nomor_rangka_awal ? `'${data.b_nomor_rangka_awal}'` : null},
+      b_nomor_rangka_akhir                 = ${data.b_nomor_rangka_akhir ? `'${data.b_nomor_rangka_akhir}'` : null},
+      b_nomor_rangka_status                = ${data.b_nomor_rangka_status ? `${data.b_nomor_rangka_status}` : null},
+      b_nomor_mesin_awal                   = ${data.b_nomor_mesin_awal ? `'${data.b_nomor_mesin_awal}'` : null},
+      b_nomor_mesin_akhir                  = ${data.b_nomor_mesin_akhir ? `'${data.b_nomor_mesin_akhir}'` : null},
+      b_nomor_mesin_status                 = ${data.b_nomor_mesin_status ? `${data.b_nomor_mesin_status}` : null},
+      b_nomor_bpkb_awal                    = ${data.b_nomor_bpkb_awal ? `'${data.b_nomor_bpkb_awal}'` : null},
+      b_nomor_bpkb_akhir                   = ${data.b_nomor_bpkb_akhir ? `'${data.b_nomor_bpkb_akhir}'` : null},
+      b_nomor_bpkb_status                  = ${data.b_nomor_bpkb_status ? `${data.b_nomor_bpkb_status}` : null},
+      b_bahan_awal                         = ${data.b_bahan_awal ? `'${data.b_bahan_awal}'` : null},
+      b_bahan_akhir                        = ${data.b_bahan_akhir ? `'${data.b_bahan_akhir}'` : null},
+      b_bahan_status                       = ${data.b_bahan_status ? `${data.b_bahan_status}` : null},
+      b_nomor_pabrik_awal                  = ${data.b_nomor_pabrik_awal ? `'${data.b_nomor_pabrik_awal}'` : null},
+      b_nomor_pabrik_akhir                 = ${data.b_nomor_pabrik_akhir ? `'${data.b_nomor_pabrik_akhir}'` : null},
+      b_nomor_pabrik_status                = ${data.b_nomor_pabrik_status ? `${data.b_nomor_pabrik_status}` : null},
+      kartu_inv_awal                       = ${data.kartu_inv_awal ? `'${data.kartu_inv_awal}'` : null},
+      kartu_inv_akhir                      = ${data.kartu_inv_akhir ? `'${data.kartu_inv_akhir}'` : null},
+      kartu_inv_status                     = ${data.kartu_inv_status ? `${data.kartu_inv_status}` : null},
+      barcode_barang                       = ${data.barcode_barang ? `${data.barcode_barang}` : null},
+      barcode_ruangan                      = ${data.barcode_ruangan ? `${data.barcode_ruangan}` : null},
+      keberadaan_barang_akhir              = ${data.keberadaan_barang_akhir ? `${data.keberadaan_barang_akhir}` : null},
+      keberadaan_barang_status             = ${data.keberadaan_barang_status ? `${data.keberadaan_barang_status}` : null},
+      kondisi_awal                         = ${data.kondisi_awal ? `'${data.kondisi_awal}'` : null},
+      kondisi_akhir                        = ${data.kondisi_akhir ? `'${data.kondisi_akhir}'` : null},
+      kondisi_status                       = ${data.kondisi_status ? `${data.kondisi_status}` : null},
+      asal_usul_awal                       = ${data.asal_usul_awal ? `'${data.asal_usul_awal}'` : null},
+      asal_usul_akhir                      = ${data.asal_usul_akhir ? `'${data.asal_usul_akhir}'` : null},
+      asal_usul_status                     = ${data.asal_usul_status ? `${data.asal_usul_status}` : null},
+      penggunaan_status                    = ${data.penggunaan_status ? `${data.penggunaan_status}` : null},
+      penggunaan_awal                      = ${data.penggunaan_awal ? `'${data.penggunaan_awal}'` : null},
+      penggunaan_pemda_status              = ${data.penggunaan_pemda_status ? `${data.penggunaan_pemda_status}` : null},
+      penggunaan_pemda_akhir               = ${data.penggunaan_pemda_akhir ? `'${data.penggunaan_pemda_akhir}'` : null},
+      penggunaan_pemda_nama_pemakai        = ${data.penggunaan_pemda_nama_pemakai ? `'${data.penggunaan_pemda_nama_pemakai}'` : null},
+      penggunaan_pemda_nama_pemakai_akhir  = ${data.penggunaan_pemda_nama_pemakai_akhir ? `'${data.penggunaan_pemda_nama_pemakai_akhir}'` : null},
+      penggunaan_pemda_nama_pemakai_status = ${data.penggunaan_pemda_nama_pemakai_status ? `${data.penggunaan_pemda_nama_pemakai_status}` : null},
+      penggunaan_pemda_status_pemakai      = ${data.penggunaan_pemda_status_pemakai ? `'${data.penggunaan_pemda_status_pemakai}'` : null},
+      penggunaan_pemda_bast_pemakaian      = ${data.penggunaan_pemda_bast_pemakaian ? `${data.penggunaan_pemda_bast_pemakaian}` : null},
+      penggunaan_pempus_status             = ${data.penggunaan_pempus_status ? `${data.penggunaan_pempus_status}` : null},
+      penggunaan_pempus_yt                 = ${data.penggunaan_pempus_yt ? `${data.penggunaan_pempus_yt}` : null},
+      penggunaan_pempus_y_nm               = ${data.penggunaan_pempus_y_nm ? `'${data.penggunaan_pempus_y_nm}'` : null},
+      penggunaan_pempus_y_doc              = ${data.penggunaan_pempus_y_doc ? `'${data.penggunaan_pempus_y_doc}'` : null},
+      penggunaan_pempus_t_nm               = ${data.penggunaan_pempus_t_nm ? `'${data.penggunaan_pempus_t_nm}'` : null},
+      penggunaan_pdl_status                = ${data.penggunaan_pdl_status ? `${data.penggunaan_pdl_status}` : null},
+      penggunaan_pdl_yt                    = ${data.penggunaan_pdl_yt ? `${data.penggunaan_pdl_yt}` : null},
+      penggunaan_pdl_y_nm                  = ${data.penggunaan_pdl_y_nm ? `'${data.penggunaan_pdl_y_nm}'` : null},
+      penggunaan_pdl_y_doc                 = ${data.penggunaan_pdl_y_doc ? `'${data.penggunaan_pdl_y_doc}'` : null},
+      penggunaan_pdl_t_nm                  = ${data.penggunaan_pdl_t_nm ? `'${data.penggunaan_pdl_t_nm}'` : null},
+      penggunaan_pl_status                 = ${data.penggunaan_pl_status ? `${data.penggunaan_pl_status}` : null},
+      penggunaan_pl_yt                     = ${data.penggunaan_pl_yt ? `${data.penggunaan_pl_yt}` : null},
+      penggunaan_pl_y_nm                   = ${data.penggunaan_pl_y_nm ? `'${data.penggunaan_pl_y_nm}'` : null},
+      penggunaan_pl_y_doc                  = ${data.penggunaan_pl_y_doc ? `'${data.penggunaan_pl_y_doc}'` : null},
+      penggunaan_pl_t_nm                   = ${data.penggunaan_pl_t_nm ? `'${data.penggunaan_pl_t_nm}'` : null},
+      tercatat_ganda                       = ${data.tercatat_ganda ? `${data.tercatat_ganda}` : null},
+      tercatat_ganda_nibar                 = ${data.tercatat_ganda_nibar ? `'${data.tercatat_ganda_nibar}'` : null},
+      tercatat_ganda_no_register           = ${data.tercatat_ganda_no_register ? `'${data.tercatat_ganda_no_register}'` : null},
+      tercatat_ganda_kode_barang           = ${data.tercatat_ganda_kode_barang ? `'${data.tercatat_ganda_kode_barang}'` : null},
+      tercatat_ganda_nama_barang           = ${data.tercatat_ganda_nama_barang ? `'${data.tercatat_ganda_nama_barang}'` : null},
+      tercatat_ganda_spesifikasi_barang    = ${data.tercatat_ganda_spesifikasi_barang ? `'${data.tercatat_ganda_spesifikasi_barang}'` : null},
+      tercatat_ganda_luas                  = ${data.tercatat_ganda_luas ? `'${data.tercatat_ganda_luas}'` : null},
+      tercatat_ganda_satuan                = ${data.tercatat_ganda_satuan ? `'${data.tercatat_ganda_satuan}'` : null},
+      tercatat_ganda_perolehan             = ${data.tercatat_ganda_perolehan ? `'${data.tercatat_ganda_perolehan}'` : null},
+      tercatat_ganda_tanggal_perolehan     = ${formattedTercatatGandaTglPerolehan ? `'${formattedTercatatGandaTglPerolehan}'` : null},
+      tercatat_ganda_kuasa_pengguna        = ${data.tercatat_ganda_kuasa_pengguna ? `'${data.tercatat_ganda_kuasa_pengguna}'` : null},
+      pemilik_id                           = ${data.pemilik_id ? `${data.pemilik_id}` : null},
+      lainnya                              = ${data.lainnya ? `'${data.lainnya}'` : null},
+      keterangan                           = ${data.keterangan ? `'${data.keterangan}'` : null},
+      petugas                              = ${data.petugas ? `'${data.petugas}'` : '[]'},
+      tahun                                = ${data.tahun ? `${data.tahun}` : null}
+    WHERE
+        kib_id = ${kib_id}
+    `;
+
+    return new Promise((resolve, reject) => {
+      DB.query(query, (err, result) => {
+        if (err) reject(err);
+        resolve(result);
+      });
+    });
+  },
+
+  updateInventarisC: (kib_id, data) => { console.log(kib_id, data); },
 };
 
 export default inventarisModel;

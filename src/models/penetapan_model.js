@@ -157,7 +157,6 @@ const penetapanModel = {
         p.kib_id AS kib_id,
         p.id AS penetapan_id,
         p.departemen_id AS departemen_id,
-
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         d.kode AS departemen_kd,
         d.nama AS departemen_nm,
@@ -255,6 +254,7 @@ const penetapanModel = {
         inv.barcode_barang_akhir,
         inv.barcode_ruangan,
         inv.barcode_ruangan_akhir,
+        inv.keberadaan_barang_akhir,
         inv.keberadaan_barang_status,
         inv.kondisi_awal,
         inv.kondisi_akhir,
@@ -327,7 +327,9 @@ const penetapanModel = {
   fetchGedungBangunanById: (id) => {
     let query = `
       SELECT 
-        inv.kib_id,
+        p.kib_id AS kib_id,
+        p.id AS penetapan_id,
+        p.departemen_id AS departemen_id,
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         d.kode AS departemen_kd,
         d.nama AS departemen_nm,
@@ -379,7 +381,6 @@ const penetapanModel = {
         inv.atribusi_nama_barang,
         inv.atribusi_spesifikasi_barang,
         inv.a_alamat_awal,
-        inv.a_alamat_akhir,
         inv.a_alamat_status,
         inv.alamat_kota,
         inv.alamat_kecamatan,
@@ -389,20 +390,17 @@ const penetapanModel = {
         inv.alamat_rt,
         inv.alamat_rw,
         inv.alamat_kodepos,
-        inv.c_bertingkat,
-        inv.c_beton,  
-        inv.c_status_tanah_awal,
-        inv.c_status_tanah_akhir,
-        inv.c_status_tanah_status,
-        inv.c_lokasi_awal,
-        inv.c_lokasi_akhir,
-        inv.c_lokasi_status,
-        inv.c_luas_tanah_awal,
-        inv.c_luas_tanah_akhir,
-        inv.c_luas_tanah_status,
         inv.c_luas_bangunan_awal,
         inv.c_luas_bangunan_akhir,
         inv.c_luas_bangunan_status,
+        inv.c_satuan_bangunan,
+        inv.c_bertingkat,
+        inv.c_beton,  
+        inv.c_luas_tanah_awal,
+        inv.c_luas_tanah_akhir,
+        inv.c_luas_tanah_status,
+        inv.c_satuan_tanah,
+        inv.c_status_tanah_awal,
         inv.keberadaan_barang_status,
         inv.kondisi_awal,
         inv.kondisi_akhir,
@@ -410,17 +408,13 @@ const penetapanModel = {
         inv.asal_usul_awal,
         inv.asal_usul_akhir,
         inv.asal_usul_status,
-        inv.c_satuan_tanah,
-        inv.c_luas_bangunan_awal,
-        inv.c_luas_bangunan_akhir,
-        inv.c_luas_bangunan_status,
         inv.penggunaan_status,
         inv.penggunaan_awal,
         inv.penggunaan_pemda_status,
         inv.penggunaan_pemda_akhir,
         inv.penggunaan_pemda_nama_pemakai,
-        inv.penggunaan_pemda_nama_pemakai_status,
         inv.penggunaan_pemda_nama_pemakai_akhir,
+        inv.penggunaan_pemda_nama_pemakai_status,
         inv.penggunaan_pemda_status_pemakai,
         inv.penggunaan_pemda_bast_pemakaian,
         inv.penggunaan_pemda_sip,
@@ -996,78 +990,6 @@ const penetapanModel = {
         AND p.departemen_id = ${idDepartemen}
         AND p.kondisi IN ('B', 'KB')
         AND p.kib = 'E'
-        AND p.status < 9
-    `;
-
-    if (perPage !== "" && page !== "")
-      query += `limit ${perPage} offset ${offset}`;
-
-    return new Promise((resolve, reject) => {
-      DB.query(query, (err, result) => {
-        if (err) reject(err);
-        resolve(result.rows);
-      });
-    });
-  },
-
-  fetchKDPByDepartemen: (
-    idDepartemen,
-    perPage = 10,
-    page = 1,
-    tahun = 2023
-  ) => {
-    const offset = (page - 1) * perPage;
-
-    let query = `
-      SELECT
-        p.id AS penetapan_id,
-        p.kib_id,
-        p.th_beli,
-        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formatted,
-        p.no_register,
-        kat.id AS kategori_id,
-        kat.kode AS kategori_kd,
-        kat.nama AS kategori_nm,
-        p.f_bertingkat_tidak,
-        p.f_beton_tidak, 
-        p.f_luas_bangunan,
-        p.f_lokasi,
-        TO_CHAR(p.f_dokumen_tanggal, 'DD-MM-YYYY') AS f_dokumen_tanggal_formatted,
-        p.f_dokumen_nomor, 
-        p.f_status_tanah, 
-        p.f_kode_tanah,
-        p.asal_usul,
-        p.keterangan,
-        'Rp.' || REPLACE(TO_CHAR(p.perolehan, 'FM999,999,999,999'), ',', '.') AS perolehan_formatted,
-        p.kondisi,
-        inv.id AS inventaris_id,
-        inv.tahun AS inventaris_tahun,
-        TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
-        inv.keberadaan_barang_status,
-        ROW_NUMBER() OVER (ORDER BY p.id) AS nomor,
-        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris,
-        CASE 
-          WHEN inv.penggunaan_pemda_status = 1 THEN 'Pemerintah Daerah'
-          WHEN inv.penggunaan_pempus_status = 1 THEN 'Pemerintah Pusat'
-          WHEN inv.penggunaan_pdl_status = 1 THEN 'Pemerintah Daerah Lainnya'
-          WHEN inv.penggunaan_pl_status = 1 THEN 'Pihak Lain'
-          ELSE ''
-        END AS penguasaan
-      FROM 
-        aset.penetapan AS p
-      JOIN 
-        public.departemen AS d ON d.id = p.departemen_id
-      JOIN 
-        aset.kategoris AS kat ON kat.id = p.kategori_id
-      LEFT JOIN 
-        aset.kib_inventaris inv ON inv.penetapan_id = p.id
-        AND inv.kib_id = p.kib_id 
-        AND inv.tahun = ${tahun}
-      WHERE 
-        p.thn_nilai = ${tahun}-1
-        AND p.departemen_id = ${idDepartemen}
-        AND p.kondisi IN ('B', 'KB')
-        AND p.kib = 'F'
         AND p.status < 9
     `;
 
