@@ -451,6 +451,7 @@ const penetapanModel = {
         inv.lainnya,
         inv.keterangan AS keterangan_inventaris,
         inv.petugas,
+        inv.tahun,
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris
       FROM 
         aset.penetapan AS p

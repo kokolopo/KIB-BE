@@ -5,9 +5,11 @@ const {
   insertInventarisA,
   insertInventarisB,
   insertInventarisC,
+  insertInventarisD,
   updateInventarisA,
   updateInventarisB,
   updateInventarisC,
+  updateInventarisD,
 } = inventarisModel;
 
 const inventarisController = {
@@ -42,6 +44,16 @@ const inventarisController = {
     }
   },
 
+  insertInventarisD: async (req, res) => {
+    const { data } = req.body;
+    try {
+      await insertInventarisD(data);
+      res.status(201).json(responseAPI("Berhasil inventarisasi data"));
+    } catch (error) {
+      res.status(400).json({ msg: "Gagal inventarisasi data!", error });
+    }
+  },
+
   // UPDATE CONTROLLER
   updateInventarisA: async (req, res) => {
     const { kib_id } = req.params;
@@ -70,6 +82,17 @@ const inventarisController = {
     const { data } = req.body;
     try {
       await updateInventarisC(kib_id, data);
+      res.status(200).json(responseAPI("Berhasil update data"));
+    } catch (error) {
+      res.status(400).json({ msg: "Gagal update data!", error });
+    }
+  },
+
+  updateInventarisD: async (req, res) => {
+    const { kib_id } = req.params;
+    const { data } = req.body;
+    try {
+      await updateInventarisD(kib_id, data);
       res.status(200).json(responseAPI("Berhasil update data"));
     } catch (error) {
       res.status(400).json({ msg: "Gagal update data!", error });
