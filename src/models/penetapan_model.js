@@ -477,7 +477,9 @@ const penetapanModel = {
   fetchJalanJaringanIrigasiById: (id) => {
     let query = `
       SELECT 
-        inv.kib_id,
+        p.kib_id AS kib_id,
+        p.id AS penetapan_id,
+        p.departemen_id AS departemen_id,
         TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
         d.kode AS departemen_kd,
         d.nama AS departemen_nm,
@@ -498,11 +500,10 @@ const penetapanModel = {
         p.d_lebar,
         p.d_luas,
         p.d_lokasi,
-        p.d_status_tanah,
+        p.d_status_tanah AS d_status_tanah_penetapan,
         p.lat AS lat_penetapan,
         p.long AS long_penetapan,
         p.keterangan AS keterangan_penetapan,
-        
         inv.no_register_awal,
         inv.no_register_akhir,
         inv.no_register_status,
@@ -519,7 +520,7 @@ const penetapanModel = {
         inv.cara_perolehan_awal,
         inv.cara_perolehan_akhir,
         inv.cara_perolehan_status,
-        TO_CHAR(inv.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formatted,
+        TO_CHAR(inv.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_inventaris,
         inv.tahun_perolehan,
         REPLACE(TO_CHAR(inv.perolehan_awal, 'FM999,999,999,999'), ',', '.') AS perolehan_awal_formatted,
         REPLACE(TO_CHAR(inv.perolehan_akhir, 'FM999,999,999,999'), ',', '.') AS perolehan_akhir_formatted,
@@ -531,7 +532,6 @@ const penetapanModel = {
         inv.atribusi_no_register,
         inv.atribusi_nama_barang,
         inv.atribusi_spesifikasi_barang,
-        
         inv.a_alamat_awal,
         inv.a_alamat_akhir,
         inv.a_alamat_status,
@@ -569,10 +569,6 @@ const penetapanModel = {
         inv.penggunaan_pl_y_nm,
         inv.penggunaan_pl_y_doc,
         inv.penggunaan_pl_t_nm,
-        
-        inv.d_status_tanah_awal,
-        inv.d_status_tanah_akhir,
-        inv.d_status_tanah_status,
         inv.d_lokasi_awal,
         inv.d_lokasi_akhir,
         inv.d_lokasi_status,
@@ -604,8 +600,7 @@ const penetapanModel = {
         inv.d_luas_status,
         inv.d_luas_satuan,
         inv.d_luas_tanah,
-        inv.d_status_tanah,
-        
+        inv.d_status_tanah AS d_status_tanah_inventaris,
         inv.tercatat_ganda,
         inv.tercatat_ganda_nibar,
         inv.tercatat_ganda_no_register,
@@ -623,6 +618,7 @@ const penetapanModel = {
         inv.lainnya,
         inv.keterangan AS keterangan_inventaris,
         inv.petugas,
+        inv.tahun,
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris
       FROM 
         aset.penetapan AS p
