@@ -1,4 +1,3 @@
-import prisma from "../config/prisma.js";
 import { responseAPI } from "../helper/response_api.js";
 import penetapanModel from "../models/penetapan_model.js";
 
@@ -7,12 +6,12 @@ const {
   fetchPeralatanMesinById,
   fetchGedungBangunanById,
   fetchJalanJaringanIrigasiById,
+  fetchAsetTetapLainnyaById,
   fetchTanahByDepartemen,
   fetchPeralatanMesinByDepartemen,
   fetchGedungBangunanByDepartemen,
   fetchJalanJaringanIrigasiByDepartemen,
   fetchAsetTetapLainnyaByDepartemen,
-  fetchKDPByDepartemen,
   countTotalPage,
 } = penetapanModel;
 
@@ -38,7 +37,10 @@ const penetapanController = {
           data = await fetchJalanJaringanIrigasiById(parseInt(id)
           );
           break;
-
+        case "E":
+          data = await fetchAsetTetapLainnyaById(parseInt(id)
+          );
+          break;
         default:
           break;
       }
