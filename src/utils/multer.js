@@ -1,13 +1,12 @@
 import multer from "multer";
 import path from "path";
+import { v4 } from "uuid";
+
 // Set storage engine
 const storage = multer.diskStorage({
-  destination: "../uploads/",
+  destination: "./uploads/",
   filename: function (req, file, cb) {
-    cb(
-      null,
-      file.fieldname + "-" + Date.now() + path.extname(file.originalname)
-    );
+    cb(null, v4() + "-" + Date.now() + path.extname(file.originalname));
   },
 });
 
