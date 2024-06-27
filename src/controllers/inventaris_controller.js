@@ -1,5 +1,6 @@
 import { responseAPI } from "../helper/response_api.js";
 import inventarisModel from "../models/inventaris_model.js";
+import { upload } from "../utils/multer.js";
 
 const {
   insertInventarisA,
@@ -120,6 +121,23 @@ const inventarisController = {
     } catch (error) {
       res.status(400).json({ msg: "Gagal update data!", error });
     }
+  },
+
+  uploadImage: async (req, res) => {
+    upload(req, res, (err) => {
+      if (err) {
+        res.status(400).send({ message: err });
+      } else {
+        if (req.file == undefined) {
+          res.status(400).send({ message: "No file selected!" });
+        } else {
+          res.status(200).send({
+            message: "File uploaded successfully!",
+            file: `uploads/${req.file.filename}`,
+          });
+        }
+      }
+    });
   },
 };
 

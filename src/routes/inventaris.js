@@ -17,4 +17,7 @@ inventaris.put("/edit/C/:kib_id", inventarisController.updateInventarisC);
 inventaris.put("/edit/D/:kib_id", inventarisController.updateInventarisD);
 inventaris.put("/edit/E/:kib_id", inventarisController.updateInventarisE);
 
+// UPLOAD IMAGE
+inventaris.post("/image", inventarisController.uploadImage);
+
 export default inventaris;
