@@ -1,28 +1,32 @@
 import DB from "../config/db.js";
 
 const kuasaModel = {
-    fetchKuasa: (departemen_id) => {
-        let query = `
-            select
-                p.kode,
-                p.nama,
-                j.nama jabatan
-            from
-                partner as p
-                join partner_departemen pd on pd.partner_id = p.id
-                join jabatan j on j.id = pd.jabatan_id
-            where
-                pd.departemen_id = ${departemen_id}
-                and j.kode in ('3000');
+  fetchKuasa: (departemen_id) => {
+    let query = `
+        SELECT
+            p.nama,
+        p.kode,
+        j.nama,
+        d.nama as departemen
+        FROM
+            partner as p
+        JOIN 
+            partner_departemen as pd ON p.id = pd.partner_id
+        JOIN
+            jabatan as j ON pd.jabatan_id = j.id
+        JOIN
+            departemen as d ON pd.departemen_id = d.id
+        WHERE
+            d.kode = '${departemen_id}'
         `;
 
-        return new Promise((resolve, reject) => {
-            DB.query(query, (err, result) => {
-                if (err) reject(err);
-                resolve(result.rows);
-            });
-        });
-    },
+    return new Promise((resolve, reject) => {
+      DB.query(query, (err, result) => {
+        if (err) reject(err);
+        resolve(result.rows);
+      });
+    });
+  },
 };
 
 export default kuasaModel;
