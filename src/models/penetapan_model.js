@@ -874,6 +874,65 @@ const penetapanModel = {
     });
   },
 
+  fetchTanahByDepartemenNew: (
+    idDepartemen,
+    perPage = 10,
+    page = 1,
+    tahun = 2023
+  ) => {
+    const offset = (page - 1) * perPage;
+
+    let query = `
+    SELECT 
+      p.id,
+      p.kib_id,
+      p.kategori_id,
+      p.no_register,
+      p.tgl_perolehan,
+      p.th_beli,
+      p.a_luas_m2,
+      p.a_alamat,
+      p.a_penggunaan,
+      p.a_hak_tanah,
+      p.a_sertifikat_tanggal,
+      p.a_sertifikat_nomor,
+      p.harga,
+      p.asal_usul,
+      p.keterangan,
+      p.kondisi,
+      k.kode,
+      k.status,
+      k.nama,
+      d.id AS departement_id,
+      d.kode AS departement_kode,
+      inv.tgl_inventaris,
+      inv.keberadaan_fisik,
+      inv.penggunaan_pempus_status,
+      inv.penggunaan_pempus_y_doc,
+      inv.status
+    FROM
+      aset.penetapan AS p
+    JOIN 
+      aset.kategoris AS k ON p.kategori_id = k.id
+    JOIN
+      departemen AS d ON p.departemen_id = d.id
+    LEFT JOIN
+      aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
+    WHERE 
+      d.kode = '01.02.007' AND p.thn_nilai = 2023 AND k.kode LIKE '%1.3.1%'
+    `;
+
+    if (perPage !== "" && page !== "")
+      query += `limit ${perPage} offset ${offset}`;
+
+    return new Promise((resolve, reject) => {
+      DB.query(query, (err, result) => {
+        if (err) reject(err);
+        resolve(result.rows);
+      });
+    });
+  },
+
   fetchPeralatanMesinByDepartemen: (
     idDepartemen,
     perPage = 10,
@@ -1166,16 +1225,16 @@ const penetapanModel = {
   // COUNT TOTAL PAGE
   countTotalPage: (kategori, idDepartemen, perPage = 10, tahun = 2023) => {
     let query = `
-      SELECT 
-        CEIL(COUNT(*)::float / ${perPage}) AS total_halaman 
-      FROM 
-        aset.penetapan AS p
-      WHERE 
-        p.kib = '${kategori}' 
-        AND p.departemen_id=${idDepartemen} 
-        AND p.thn_nilai = ${tahun}-1 
-        AND p.kondisi IN ('B', 'KB')
-        AND p.status < 9
+    SELECT 
+      CEIL(COUNT(*)::float / ${perPage}) AS total_halaman
+    FROM 
+      aset.penetapan AS p
+    JOIN 
+      aset.kategoris AS k ON p.kategori_id = k.id
+    JOIN
+      departemen AS d ON p.departemen_id = d.id
+    WHERE 
+      d.kode = '${idDepartemen}' AND p.thn_nilai = ${tahun} AND k.kode LIKE '%${kategori}%'
     `;
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
