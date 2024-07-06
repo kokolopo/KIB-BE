@@ -901,6 +901,7 @@ const penetapanModel = {
       p.asal_usul,
       p.keterangan,
       p.kondisi,
+      p.file_nm,
       k.kode AS kategori_kd,
       k.status,
       k.nama AS kategori_nm,
