@@ -878,7 +878,7 @@ const penetapanModel = {
     idDepartemen,
     perPage = 10,
     page = 1,
-    tahun = 2023
+    tahun = 2024
   ) => {
     const offset = (page - 1) * perPage;
 
@@ -919,7 +919,9 @@ const penetapanModel = {
     LEFT JOIN
       aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
     WHERE 
-      d.kode = '01.02.007' AND p.thn_nilai = 2023 AND k.kode LIKE '%1.3.1%'
+      d.kode = '01.02.007' AND p.thn_nilai = ${
+        tahun - 1
+      } AND k.kode LIKE '%1.3.1%'
     `;
 
     if (perPage !== "" && page !== "")
@@ -1234,7 +1236,9 @@ const penetapanModel = {
     JOIN
       departemen AS d ON p.departemen_id = d.id
     WHERE 
-      d.kode = '${idDepartemen}' AND p.thn_nilai = ${tahun} AND k.kode LIKE '%${kategori}%'
+      d.kode = '${idDepartemen}' AND p.thn_nilai = ${
+      tahun - 1
+    } AND k.kode LIKE '%${kategori}%'
     `;
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
