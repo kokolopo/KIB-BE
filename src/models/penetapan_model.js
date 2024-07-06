@@ -937,7 +937,9 @@ const penetapanModel = {
     LEFT JOIN
       aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
     WHERE 
-      d.kode = '01.02.007' AND p.thn_nilai = 2023 AND k.kode LIKE '%1.3.1%'
+      d.kode = '${idDepartemen}' AND p.thn_nilai = ${
+      tahun - 1
+    } AND k.kode LIKE '%1.3.1%'
     `;
 
     if (perPage !== "" && page !== "")
