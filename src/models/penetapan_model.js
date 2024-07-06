@@ -885,6 +885,7 @@ const penetapanModel = {
     let query = `
     SELECT 
       p.id,
+      p.id as penetapan_id,
       p.kib_id,
       p.kategori_id,
       p.no_register,
@@ -900,15 +901,31 @@ const penetapanModel = {
       p.asal_usul,
       p.keterangan,
       p.kondisi,
-      k.kode,
+      k.kode AS kategori_kd,
       k.status,
-      k.nama,
+      k.nama AS kategori_nm,
       d.id AS departement_id,
-      d.kode AS departement_kode,
+      d.kode AS departement_kd,
+      d.nama AS departement_nm,
+      inv.id AS inv_id,
       inv.tgl_inventaris,
       inv.keberadaan_fisik,
-      inv.penggunaan_pempus_status,
-      inv.penggunaan_pempus_y_doc,
+      inv.penggunaan_status,
+      inv.kondisi_akhir,
+      CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris,
+      CASE 
+        WHEN inv.penggunaan_pemda_status = 1 THEN 'Pemerintah Daerah'
+        WHEN inv.penggunaan_pempus_status = 1 THEN 'Pemerintah Pusat'
+        WHEN inv.penggunaan_pdl_status = 1 THEN 'Pemerintah Daerah Lainnya'
+        WHEN inv.penggunaan_pl_status = 1 THEN 'Pihak Lain'
+        ELSE ''
+      END AS penguasaan,
+      CASE 
+        WHEN inv.penggunaan_pempus_y_doc IS NOT NULL THEN inv.penggunaan_pempus_y_doc
+        WHEN inv.penggunaan_pdl_y_doc IS NOT NULL THEN inv.penggunaan_pdl_y_doc
+        WHEN inv.penggunaan_pl_y_doc IS NOT NULL THEN inv.penggunaan_pl_y_doc
+        ELSE ''
+      END AS doc,
       inv.status
     FROM
       aset.penetapan AS p
@@ -919,9 +936,9 @@ const penetapanModel = {
     LEFT JOIN
       aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
     WHERE 
-      d.kode = '01.02.007' AND p.thn_nilai = ${
-        tahun - 1
-      } AND k.kode LIKE '%1.3.1%'
+      d.kode = '${idDepartemen}' AND p.thn_nilai = ${
+      tahun - 1
+    } AND k.kode LIKE '%1.3.1%'
     `;
 
     if (perPage !== "" && page !== "")

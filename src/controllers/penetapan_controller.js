@@ -55,7 +55,7 @@ const penetapanController = {
       switch (kategori) {
         case "A":
           data = await fetchTanahByDepartemenNew(
-            parseInt(id_departemen),
+            id_departemen,
             perPage,
             page,
             tahun
