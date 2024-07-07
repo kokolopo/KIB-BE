@@ -26,7 +26,7 @@ const penetapanModel = {
         p.departemen_id as penetapan_departemen_id,
         
         k.kode AS kategori_kd,
-        k.nama AS katefori_nm,
+        k.nama AS kategori_nm,
         
         d.kode AS departemen_kd,
         d.nama AS departemen_nm,
