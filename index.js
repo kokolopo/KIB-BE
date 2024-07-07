@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import morgan from "morgan";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -24,6 +25,7 @@ app.use(cors());
 // app.use(cors({ credentials: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(morgan("combined"));
 
 // Static folder to serve images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
