@@ -949,7 +949,7 @@ const penetapanModel = {
     WHERE 
       d.kode = '${idDepartemen}' AND p.thn_nilai = ${
       tahun - 1
-    } AND k.kode LIKE '%1.3.1%'
+    } AND k.kode LIKE '%1.3.1%' AND p.kondisi = 'B'
     `;
 
     if (perPage !== "" && page !== "")
