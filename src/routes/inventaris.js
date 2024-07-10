@@ -20,4 +20,10 @@ inventaris.put("/edit/E/:kib_id", inventarisController.updateInventarisE);
 // UPLOAD IMAGE
 inventaris.post("/image", inventarisController.uploadImage);
 
+// Select KIBS
+inventaris.get(
+  "/kibs/:kodeDepartemen/:kodeKategori",
+  inventarisController.selectKIBS
+);
+
 export default inventaris;

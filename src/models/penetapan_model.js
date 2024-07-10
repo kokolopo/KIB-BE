@@ -1253,7 +1253,7 @@ const penetapanModel = {
   },
 
   // COUNT TOTAL PAGE
-  countTotalPage: (kategori, idDepartemen, perPage = 10, tahun = 2023) => {
+  countTotalPage: (kategori, idDepartemen, perPage = 10, tahun = 2024) => {
     let query = `
     SELECT 
       CEIL(COUNT(*)::float / ${perPage}) AS total_halaman
@@ -1266,7 +1266,7 @@ const penetapanModel = {
     WHERE 
       d.kode = '${idDepartemen}' AND p.thn_nilai = ${
       tahun - 1
-    } AND k.kode LIKE '%${kategori}%'
+    } AND k.kode LIKE '%${kategori}%' AND p.kondisi = 'B'
     `;
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {

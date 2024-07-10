@@ -1,5 +1,6 @@
 import { responseAPI } from "../helper/response_api.js";
 import inventarisModel from "../models/inventaris_model.js";
+import penetapanModel from "../models/penetapan_model.js";
 import { upload } from "../utils/multer.js";
 
 const {
@@ -13,7 +14,10 @@ const {
   updateInventarisC,
   updateInventarisD,
   updateInventarisE,
+  SelectKIBS,
 } = inventarisModel;
+
+const { countTotalPage } = penetapanModel;
 
 const inventarisController = {
   // INSERT CONTROLLER
@@ -138,6 +142,33 @@ const inventarisController = {
         }
       }
     });
+  },
+
+  // Select KIBS
+  selectKIBS: async (req, res) => {
+    const { kodeDepartemen, kodeKategori } = req.params;
+    const { perPage, page, tahun } = req.query;
+
+    try {
+      let data, total_page;
+      data = await SelectKIBS(
+        kodeDepartemen,
+        kodeKategori,
+        perPage,
+        page,
+        tahun
+      );
+      total_page = await countTotalPage(
+        kodeKategori,
+        kodeDepartemen,
+        perPage,
+        tahun
+      );
+
+      res.status(200).json(responseAPI("list kibs", data, total_page));
+    } catch (error) {
+      res.status(400).json({ msg: "gagal mengambil penetapan!", error });
+    }
   },
 };
 
