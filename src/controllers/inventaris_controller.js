@@ -1,3 +1,4 @@
+import { requestBodyInventarisA } from "../dto/index.js";
 import { responseAPI } from "../helper/response_api.js";
 import inventarisModel from "../models/inventaris_model.js";
 import penetapanModel from "../models/penetapan_model.js";
@@ -18,17 +19,26 @@ const {
 } = inventarisModel;
 
 const { countTotalPage } = penetapanModel;
+const jakartaOffset = 7 * 60 * 60 * 1000; // Jakarta UTC+7
+const jakartaTime = new Date(Date.now() + jakartaOffset);
 
 const inventarisController = {
   // INSERT CONTROLLER
   insertInventarisA: async (req, res) => {
-    const { data } = req.body;
-    try {
-      await insertInventarisA(data);
-      res.status(201).json(responseAPI("Berhasil inventarisasi data"));
-    } catch (error) {
-      res.status(400).json({ msg: "Gagal inventarisasi data!", error });
-    }
+    // const { data } = req.body;
+    const { penetapan_id } = req.params;
+
+    const data = requestBodyInventarisA;
+
+    data.created = jakartaTime;
+
+    res.status(201).json(responseAPI("ok", data));
+    // try {
+    //   await insertInventarisA(data);
+    //   res.status(201).json(responseAPI("Berhasil inventarisasi data"));
+    // } catch (error) {
+    //   res.status(400).json({ msg: "Gagal inventarisasi data!", error });
+    // }
   },
 
   insertInventarisB: async (req, res) => {

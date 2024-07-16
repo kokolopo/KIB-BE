@@ -1,8 +1,9 @@
 import DB from "../config/db.js";
 
 const inventarisModel = {
+  insertInventarisA: (data) => {},
   // INSERT MODEL
-  insertInventarisA: (data) => {
+  insertInventarisAOld: (data) => {
     const partsInventaris = data.tgl_inventaris
       ? data.tgl_inventaris.split("-")
       : null;
