@@ -1,3 +1,5 @@
+import initModels from "../../models/init-models.js";
+import sequelize from "../config/sequelize.js";
 import { requestBodyInventarisA } from "../dto/index.js";
 import { responseAPI } from "../helper/response_api.js";
 import inventarisModel from "../models/inventaris_model.js";
@@ -25,20 +27,30 @@ const jakartaTime = new Date(Date.now() + jakartaOffset);
 const inventarisController = {
   // INSERT CONTROLLER
   insertInventarisA: async (req, res) => {
-    // const { data } = req.body;
     const { penetapan_id } = req.params;
 
-    const data = requestBodyInventarisA;
+    const body = requestBodyInventarisA;
+    body.created = jakartaTime;
+    body.penetapan_id = penetapan_id;
 
-    data.created = jakartaTime;
+    for (let key in req.body) {
+      body[key] = req.body[key];
+    }
 
-    res.status(201).json(responseAPI("ok", data));
-    // try {
-    //   await insertInventarisA(data);
-    //   res.status(201).json(responseAPI("Berhasil inventarisasi data"));
-    // } catch (error) {
-    //   res.status(400).json({ msg: "Gagal inventarisasi data!", error });
-    // }
+    try {
+      const prev = await initModels(sequelize).inventaris_kib.findOne({
+        attributes: ["id"],
+        order: [["id", "DESC"]],
+      });
+
+      body.id = prev.id + 1;
+
+      // const data = await initModels(sequelize).inventaris_kib.create(body);
+
+      res.status(201).json(responseAPI("Berhasil inventarisasi data", body));
+    } catch (error) {
+      res.status(400).json({ msg: "Gagal inventarisasi data!", error });
+    }
   },
 
   insertInventarisB: async (req, res) => {
