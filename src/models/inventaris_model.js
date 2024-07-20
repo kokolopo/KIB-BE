@@ -3763,6 +3763,8 @@ const inventarisModel = {
       p.kondisi,
       p.masa_manfaat,
       k.id as id_barang,
+      p.jumlah,
+      p.a_luas_m2 as luas,
       p.kib,
       p.keterangan,
       '12.32.71.'|| p.th_beli || '.' || k.kode || '.' || LPAD(p.no_id::text, 6, '0') as nibar
