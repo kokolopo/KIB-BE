@@ -27,11 +27,9 @@ const jakartaTime = new Date(Date.now() + jakartaOffset);
 const inventarisController = {
   // INSERT CONTROLLER
   insertInventarisA: async (req, res) => {
-    const { penetapan_id } = req.params;
+    const penetapan_id = req.params.penetapan_id;
 
     const body = requestBodyInventarisA;
-    body.created = jakartaTime;
-    body.penetapan_id = penetapan_id;
 
     for (let key in req.body) {
       body[key] = req.body[key];
@@ -43,11 +41,11 @@ const inventarisController = {
         order: [["id", "DESC"]],
       });
 
-      console.log(prev);
-
       body.id = prev === null ? 1 : prev.id + 1;
+      body.created = jakartaTime;
+      body.penetapan_id = parseInt(penetapan_id);
 
-      // const data = await initModels(sequelize).inventaris_kib.create(body);
+      const data = await initModels(sequelize).inventaris_kib.create(body);
 
       res.status(201).json(responseAPI("Berhasil inventarisasi data", body));
     } catch (error) {
