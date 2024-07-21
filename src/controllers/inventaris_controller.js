@@ -48,6 +48,7 @@ const inventarisController = {
       });
 
       if (inv == null) {
+        // create new
         const prev = await initModels(sequelize).inventaris_kib.findOne({
           attributes: ["id"],
           order: [["id", "DESC"]],
@@ -59,6 +60,9 @@ const inventarisController = {
 
         await initModels(sequelize).inventaris_kib.create(body);
       } else {
+        // update
+        body.updated = body.created;
+        delete body.created;
         await initModels(sequelize).inventaris_kib.update(body, {
           where: { id: inv.id },
         });
