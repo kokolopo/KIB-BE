@@ -25,8 +25,12 @@ app.use(cors());
 // app.use(cors({ credentials: true }));
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(morgan("combined"));
 
+// Define a custom token to log request body
+morgan.token("body", (req) => JSON.stringify(req.body));
+
+// Use morgan middleware with custom format that includes the body
+app.use(morgan(":method :url :status :response-time ms - :body"));
 // Static folder to serve images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
