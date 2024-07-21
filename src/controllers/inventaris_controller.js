@@ -40,16 +40,29 @@ const inventarisController = {
     }
 
     try {
-      const prev = await initModels(sequelize).inventaris_kib.findOne({
-        attributes: ["id"],
-        order: [["id", "DESC"]],
+      // cek apakah sudah diinventarisasi
+      const inv = await initModels(sequelize).inventaris_kib.findOne({
+        where: {
+          penetapan_id,
+        },
       });
 
-      body.id = prev === null ? 1 : prev.id + 1;
-      body.created = jakartaTime;
-      body.penetapan_id = parseInt(penetapan_id);
+      if (inv == null) {
+        const prev = await initModels(sequelize).inventaris_kib.findOne({
+          attributes: ["id"],
+          order: [["id", "DESC"]],
+        });
 
-      const data = await initModels(sequelize).inventaris_kib.create(body);
+        body.id = prev === null ? 1 : prev.id + 1;
+        body.created = jakartaTime;
+        body.penetapan_id = parseInt(penetapan_id);
+
+        await initModels(sequelize).inventaris_kib.create(body);
+      } else {
+        await initModels(sequelize).inventaris_kib.update(body, {
+          where: { id: inv.id },
+        });
+      }
 
       res.status(201).json(responseAPI("Berhasil inventarisasi data", body));
     } catch (error) {
