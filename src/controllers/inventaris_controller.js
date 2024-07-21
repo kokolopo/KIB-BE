@@ -43,7 +43,9 @@ const inventarisController = {
         order: [["id", "DESC"]],
       });
 
-      body.id = prev.id + 1;
+      console.log(prev);
+
+      body.id = prev === null ? 1 : prev.id + 1;
 
       // const data = await initModels(sequelize).inventaris_kib.create(body);
 

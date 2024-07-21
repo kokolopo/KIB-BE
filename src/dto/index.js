@@ -15,7 +15,7 @@ export const requestBodyInventarisA = {
   kib_id: 0,
   departemen_id: 0,
   kategori_id: 0,
-  tahun: 2024,
+  tahun: year,
   tgl_inventaris,
   nibar: null,
   no_register_status: 0,
