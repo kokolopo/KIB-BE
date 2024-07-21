@@ -32,7 +32,11 @@ const inventarisController = {
     const body = requestBodyInventarisA;
 
     for (let key in req.body) {
-      body[key] = req.body[key];
+      if (req.body[key] == null || req.body[key] == 0) {
+        continue;
+      } else {
+        body[key] = req.body[key];
+      }
     }
 
     try {
