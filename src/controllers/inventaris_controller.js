@@ -32,6 +32,10 @@ const inventarisController = {
 
     const body = requestBodyInventarisA;
 
+    if (id_inventaris != undefined) {
+      body.updated = body.created;
+    }
+
     for (let key in req.body) {
       if (req.body[key] == null || req.body[key] == 0) {
         continue;
@@ -41,7 +45,7 @@ const inventarisController = {
     }
 
     try {
-      if (id_inventaris == null) {
+      if (id_inventaris == undefined) {
         // create new
         const prev = await initModels(sequelize).inventaris_kib.findOne({
           attributes: ["id"],
