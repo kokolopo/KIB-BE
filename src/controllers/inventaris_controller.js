@@ -28,6 +28,7 @@ const inventarisController = {
   // INSERT CONTROLLER
   insertInventarisA: async (req, res) => {
     const penetapan_id = req.params.penetapan_id;
+    const { id_inventaris } = req.query;
 
     const body = requestBodyInventarisA;
 
@@ -40,14 +41,7 @@ const inventarisController = {
     }
 
     try {
-      // cek apakah sudah diinventarisasi
-      const inv = await initModels(sequelize).inventaris_kib.findOne({
-        where: {
-          penetapan_id,
-        },
-      });
-
-      if (inv == null) {
+      if (id_inventaris == null) {
         // create new
         const prev = await initModels(sequelize).inventaris_kib.findOne({
           attributes: ["id"],
@@ -64,7 +58,7 @@ const inventarisController = {
         body.updated = body.created;
         delete body.created;
         await initModels(sequelize).inventaris_kib.update(body, {
-          where: { id: inv.id },
+          where: { id: parseInt(id_inventaris) },
         });
       }
 
