@@ -1006,22 +1006,22 @@ const penetapanModel = {
         p.keterangan,
         p.harga,
         p.kondisi,
-        p.kategori_id,
-
-        inv.no_register_akhir,
-        
-        p.b_kd_ruang as ruangan_id,
-        r.nama as ruangan,
-        
-        p.file_nm,
-        k.status,
-        d.id AS departement_id,
-        
+        r.nama as ruang,
         inv.tgl_inventaris,
-        inv.keberadaan_barang_awal,
+        inv.keberadaan_barang_awal as keberadaan_fisik,
         inv.penggunaan_status,
         inv.kondisi_akhir,
+        p.file_nm,
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris,
+
+
+        k.status,
+        p.kategori_id,
+        inv.no_register_akhir,
+        p.b_kd_ruang as ruangan_id,
+        
+        d.id AS departement_id,
+        
         CASE 
           WHEN inv.penggunaan_barang_pemda_status = 1 THEN 'Pemerintah Daerah'
           WHEN inv.penggunaan_barang_pempus_status = 1 THEN 'Pemerintah Pusat'
@@ -1068,63 +1068,73 @@ const penetapanModel = {
     idDepartemen,
     perPage = 10,
     page = 1,
-    tahun = 2023
+    tahun = 2024
   ) => {
     const offset = (page - 1) * perPage;
 
     let query = `
-      SELECT
-        p.id AS penetapan_id,
+      SELECT 
+        p.id,
+        p.id as penetapan_id,
         p.kib_id,
-        p.th_beli,
-        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_formatted,
+        inv.id AS id_inv,
+        d.kode AS departement_kd,
+        d.nama AS departement_nm,
+        k.kode AS kategori_kd,
         p.no_register,
-        kat.id AS kategori_id,
-        kat.kode AS kategori_kd,
-        kat.nama AS kategori_nm,
+        p.kategori_id,
+        k.nama AS kategori_nm,
+        p.tgl_perolehan,
+        p.th_beli,
         p.c_bertingkat_tidak,
         p.c_beton_tidak,
         p.c_luas_lantai,
         p.c_lokasi,
-        TO_CHAR(p.c_dokumen_tanggal, 'DD-MM-YYYY') AS c_dokumen_tanggal_formatted,
+        p.c_dokumen_tanggal,
         p.c_dokumen_nomor,
         p.c_luas_bangunan,
         p.c_status_tanah,
         p.c_kode_tanah,
         p.asal_usul,
-        p.keterangan,
-        'Rp.' || REPLACE(TO_CHAR(p.perolehan, 'FM999,999,999,999'), ',', '.') AS perolehan_formatted,
+        p.keterangan, 
+        p.harga,
         p.kondisi,
+        inv.tgl_inventaris,
+        inv.keberadaan_barang_awal as keberadaan_fisik,
+        inv.penggunaan_status,
         inv.kondisi_akhir,
-        inv.id AS inventaris_id,
-        inv.tahun AS inventaris_tahun,
-        TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
-        inv.keberadaan_barang_status,
-        ROW_NUMBER() OVER (ORDER BY p.id) AS nomor,
-        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris,
+        p.file_nm,
+        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris,
+        inv.no_register_akhir,
+        k.status,
+        d.id AS departement_id,
         CASE 
-          WHEN inv.penggunaan_pemda_status = 1 THEN 'Pemerintah Daerah'
-          WHEN inv.penggunaan_pempus_status = 1 THEN 'Pemerintah Pusat'
-          WHEN inv.penggunaan_pdl_status = 1 THEN 'Pemerintah Daerah Lainnya'
-          WHEN inv.penggunaan_pl_status = 1 THEN 'Pihak Lain'
+          WHEN inv.penggunaan_barang_pemda_status = 1 THEN 'Pemerintah Daerah'
+          WHEN inv.penggunaan_barang_pempus_status = 1 THEN 'Pemerintah Pusat'
+          WHEN inv.penggunaan_barang_pdl_status = 1 THEN 'Pemerintah Daerah Lainnya'
+          WHEN inv.penggunaan_barang_pl_status = 1 THEN 'Pihak Lain'
           ELSE ''
-        END AS penguasaan
-      FROM 
+        END AS penguasaan,
+        CASE 
+          WHEN inv.penggunaan_barang_pempus_y_doc IS NOT NULL THEN inv.penggunaan_barang_pempus_y_doc
+          WHEN inv.penggunaan_barang_pdl_y_doc IS NOT NULL THEN inv.penggunaan_barang_pdl_y_doc
+          WHEN inv.penggunaan_barang_pl_y_doc IS NOT NULL THEN inv.penggunaan_barang_pl_y_doc
+          ELSE ''
+        END AS doc,
+        inv.status
+      FROM
         aset.penetapan AS p
       JOIN 
-        public.departemen AS d ON d.id = p.departemen_id
-      JOIN 
-        aset.kategoris AS kat ON kat.id = p.kategori_id
-      LEFT JOIN 
-        aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
-        AND inv.kib_id = p.kib_id 
-        AND inv.tahun = ${tahun}
+        aset.kategoris AS k ON p.kategori_id = k.id
+      JOIN
+        departemen AS d ON p.departemen_id = d.id
+      LEFT JOIN
+        aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
       WHERE 
-        p.thn_nilai = ${tahun}-1
-        AND p.departemen_id = ${idDepartemen}
-        AND p.kondisi IN ('B', 'KB')
-        AND p.kib = 'C'
-        AND p.status < 9
+        d.kode = '${idDepartemen}' AND p.thn_nilai = ${
+      tahun - 1
+    } AND k.kode LIKE '%1.3.3%' AND p.kondisi = 'B' 
+    ORDER BY p.id ASC
     `;
 
     if (perPage !== "" && page !== "")

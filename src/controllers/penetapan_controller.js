@@ -83,13 +83,13 @@ const penetapanController = {
           break;
         case "C":
           data = await fetchGedungBangunanByDepartemen(
-            parseInt(id_departemen),
+            id_departemen,
             perPage,
             page,
             tahun
           );
           total_page = await countTotalPage(
-            kategori,
+            "1.3.3",
             id_departemen,
             perPage,
             tahun
