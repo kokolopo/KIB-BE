@@ -5,6 +5,7 @@ import { responseAPI } from "../helper/response_api.js";
 import inventarisModel from "../models/inventaris_model.js";
 import penetapanModel from "../models/penetapan_model.js";
 import { upload } from "../utils/multer.js";
+import { promisify } from "util";
 
 const {
   insertInventarisA,
@@ -169,20 +170,50 @@ const inventarisController = {
   },
 
   uploadImage: async (req, res) => {
-    upload(req, res, (err) => {
-      if (err) {
-        res.status(400).send({ message: err });
+    const { id_inventaris } = req.params;
+    let inv;
+    let files;
+    let fileNames;
+    const uploadAsync = promisify(upload);
+
+    try {
+      inv = await initModels(sequelize).inventaris_kib.findByPk(id_inventaris);
+      if (inv === null) {
+        return res.status(400).send({ message: "Tidak ada data inventaris" });
       } else {
-        if (req.file == undefined) {
-          res.status(400).send({ message: "No file selected!" });
-        } else {
-          res.status(200).send({
-            message: "File uploaded successfully!",
-            file: `uploads/${req.file.filename}`,
-          });
-        }
+        files = inv.file_nm;
       }
-    });
+
+      await uploadAsync(req, res);
+      if (!req.files || req.files.length === 0) {
+        return res.status(400).send({ message: "No file selected!" });
+      } else {
+        fileNames = req.files.map((file) => file.filename);
+      }
+
+      fileNames.forEach((v) => {
+        files.push(v);
+      });
+
+      await initModels(sequelize).inventaris_kib.update(
+        { file_nm: files }, // Mengubah array menjadi string untuk penyimpanan di DB
+        {
+          where: { id: parseInt(id_inventaris) },
+        }
+      );
+
+      res
+        .status(200)
+        .send({
+          message: "File uploaded and database updated successfully!",
+          files: files,
+        });
+    } catch (err) {
+      console.log(err);
+      res
+        .status(500)
+        .send({ message: "An error occurred", error: err.message });
+    }
   },
 
   // Select KIBS

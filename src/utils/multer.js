@@ -1,23 +1,25 @@
 import multer from "multer";
 import path from "path";
-import { v4 } from "uuid";
+import { saveFileUpload } from "../utils/upload_file.js";
 
 // Set storage engine
 const storage = multer.diskStorage({
   destination: "./uploads/",
   filename: function (req, file, cb) {
-    cb(null, v4() + "-" + Date.now() + path.extname(file.originalname));
+    cb(null, saveFileUpload() + path.extname(file.originalname));
   },
 });
 
 // Init upload
-const upload = multer({
-  storage: storage,
-  limits: { fileSize: 1000000 }, // limit file size to 1MB
-  fileFilter: function (req, file, cb) {
-    checkFileType(file, cb);
-  },
-}).single("image"); // 'image' is the field name
+const upload = multer({ storage: storage }).array("files", 10); // 'image' is the field name
+
+// const upload = multer({
+//   storage: storage,
+//   limits: { fileSize: 100000000 }, // limit file size to 1MB
+//   fileFilter: function (req, file, cb) {
+//     checkFileType(file, cb);
+//   },
+// }).array("files", 12); // 'image' is the field name
 
 // Check File Type
 function checkFileType(file, cb) {
