@@ -202,12 +202,10 @@ const inventarisController = {
         }
       );
 
-      res
-        .status(200)
-        .send({
-          message: "File uploaded and database updated successfully!",
-          files: files,
-        });
+      res.status(200).send({
+        message: "File uploaded and database updated successfully!",
+        files: fileNames,
+      });
     } catch (err) {
       console.log(err);
       res
