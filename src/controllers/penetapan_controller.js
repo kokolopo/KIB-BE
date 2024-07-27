@@ -12,6 +12,7 @@ const {
   fetchGedungBangunanByDepartemen,
   fetchJalanJaringanIrigasiByDepartemen,
   fetchAsetTetapLainnyaByDepartemen,
+  fetchAsetLainLainByDepartemen,
   countTotalPage,
 } = penetapanModel;
 
@@ -97,13 +98,13 @@ const penetapanController = {
           break;
         case "D":
           data = await fetchJalanJaringanIrigasiByDepartemen(
-            parseInt(id_departemen),
+            id_departemen,
             perPage,
             page,
             tahun
           );
           total_page = await countTotalPage(
-            kategori,
+            "1.3.4",
             id_departemen,
             perPage,
             tahun
@@ -111,13 +112,27 @@ const penetapanController = {
           break;
         case "E":
           data = await fetchAsetTetapLainnyaByDepartemen(
-            parseInt(id_departemen),
+            id_departemen,
             perPage,
             page,
             tahun
           );
           total_page = await countTotalPage(
-            kategori,
+            "1.3.5",
+            id_departemen,
+            perPage,
+            tahun
+          );
+          break;
+        case "ATB":
+          data = await fetchAsetLainLainByDepartemen(
+            id_departemen,
+            perPage,
+            page,
+            tahun
+          );
+          total_page = await countTotalPage(
+            "1.3.5",
             id_departemen,
             perPage,
             tahun
