@@ -132,7 +132,7 @@ const penetapanController = {
             tahun
           );
           total_page = await countTotalPage(
-            "1.3.5",
+            "1.5.3",
             id_departemen,
             perPage,
             tahun

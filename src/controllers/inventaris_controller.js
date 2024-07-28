@@ -58,6 +58,13 @@ const inventarisController = {
         body.penetapan_id = parseInt(penetapan_id);
 
         await initModels(sequelize).inventaris_kib.create(body);
+
+        await initModels(sequelize).inventaris_kib.update(
+          { file_nm: [] },
+          {
+            where: { id: body.id },
+          }
+        );
       } else {
         // update
         body.updated = body.created;
