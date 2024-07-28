@@ -52,6 +52,7 @@ const penetapanController = {
     const { perPage, page, tahun } = req.query;
     try {
       let data;
+      let result;
       let total_page;
       switch (kategori) {
         case "A":
@@ -140,6 +141,26 @@ const penetapanController = {
           break;
         default:
           break;
+      }
+
+      // file doc merged
+      for (const v of data) {
+        if (v.inv_file_nm === null) {
+          delete v.inv_file_nm;
+          continue;
+        }
+        if (v.inv_file_nm != null || v.inv_file_nm != []) {
+          // Menggabungkan kedua daftar dan memberikan uid ke item dari inv_file_nm
+          let uidCounter = v.file_nm.length + 1;
+          let mergedList = v.file_nm.concat(
+            v.inv_file_nm.map((filename) => ({
+              uid: uidCounter++,
+              filename: filename,
+            }))
+          );
+          v.file_nm = mergedList;
+          delete v.inv_file_nm;
+        }
       }
 
       res.status(200).json(responseAPI("list penetapan", data, total_page));
