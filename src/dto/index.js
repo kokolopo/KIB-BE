@@ -8,7 +8,7 @@ const day = ("0" + jakartaTime.getUTCDate()).slice(-2); // Menambahkan leading z
 const tgl_inventaris = `${year}-${month}-${day}`;
 
 export const requestBodyInventarisA = {
-  id: 0,
+  // id: 0,
   status: 0,
   created: jakartaTime,
   penetapan_id: 0,

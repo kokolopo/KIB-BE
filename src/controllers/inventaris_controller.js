@@ -1,3 +1,4 @@
+import { Sequelize } from "sequelize";
 import initModels from "../../models/init-models.js";
 import sequelize from "../config/sequelize.js";
 import { requestBodyInventarisA } from "../dto/index.js";
@@ -66,8 +67,15 @@ const inventarisController = {
           }
         );
       } else {
+        // file_name
+        const file_name = await initModels(sequelize).inventaris_kib.findOne({
+          attributes: ["file_nm"],
+          where: { id: parseInt(id_inventaris) },
+        });
+
         // update
         body.updated = body.created;
+        body.file_nm = file_name.dataValues.file_nm;
         delete body.created;
         await initModels(sequelize).inventaris_kib.update(body, {
           where: { id: parseInt(id_inventaris) },
