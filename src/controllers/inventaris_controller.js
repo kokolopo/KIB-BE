@@ -9,7 +9,6 @@ import { upload } from "../utils/multer.js";
 import { promisify } from "util";
 
 const {
-  insertInventarisA,
   insertInventarisB,
   insertInventarisC,
   insertInventarisD,
@@ -66,6 +65,7 @@ const inventarisController = {
             where: { id: body.id },
           }
         );
+        body.petugas = [];
       } else {
         // file_name
         const file_name = await initModels(sequelize).inventaris_kib.findOne({
@@ -80,110 +80,20 @@ const inventarisController = {
         await initModels(sequelize).inventaris_kib.update(body, {
           where: { id: parseInt(id_inventaris) },
         });
+        body.petugas = [];
       }
 
-      res.status(201).json(responseAPI("Berhasil inventarisasi data", body));
+      res.status(201).json(
+        responseAPI("Berhasil inventarisasi data", {
+          penetapan_id,
+        })
+      );
     } catch (error) {
       res.status(400).json({ msg: "Gagal inventarisasi data!", error });
     }
   },
 
-  insertInventarisB: async (req, res) => {
-    const { data } = req.body;
-    try {
-      await insertInventarisB(data);
-      res.status(201).json(responseAPI("Berhasil inventarisasi data"));
-    } catch (error) {
-      res.status(400).json({ msg: "Gagal inventarisasi data!", error });
-    }
-  },
-
-  insertInventarisC: async (req, res) => {
-    const { data } = req.body;
-    try {
-      await insertInventarisC(data);
-      res.status(201).json(responseAPI("Berhasil inventarisasi data"));
-    } catch (error) {
-      res.status(400).json({ msg: "Gagal inventarisasi data!", error });
-    }
-  },
-
-  insertInventarisD: async (req, res) => {
-    const { data } = req.body;
-    try {
-      await insertInventarisD(data);
-      res.status(201).json(responseAPI("Berhasil inventarisasi data"));
-    } catch (error) {
-      res.status(400).json({ msg: "Gagal inventarisasi data!", error });
-    }
-  },
-
-  insertInventarisE: async (req, res) => {
-    const { data } = req.body;
-    try {
-      await insertInventarisE(data);
-      res.status(201).json(responseAPI("Berhasil inventarisasi data"));
-    } catch (error) {
-      res.status(400).json({ msg: "Gagal inventarisasi data!", error });
-    }
-  },
-
-  // UPDATE CONTROLLER
-  updateInventarisA: async (req, res) => {
-    const { kib_id } = req.params;
-    const { data } = req.body;
-    try {
-      await updateInventarisA(kib_id, data);
-      res.status(200).json(responseAPI("Berhasil update data"));
-    } catch (error) {
-      res.status(400).json({ msg: "Gagal update data!", error });
-    }
-  },
-
-  updateInventarisB: async (req, res) => {
-    const { kib_id } = req.params;
-    const { data } = req.body;
-    try {
-      await updateInventarisB(kib_id, data);
-      res.status(200).json(responseAPI("Berhasil update data"));
-    } catch (error) {
-      res.status(400).json({ msg: "Gagal update data!", error });
-    }
-  },
-
-  updateInventarisC: async (req, res) => {
-    const { kib_id } = req.params;
-    const { data } = req.body;
-    try {
-      await updateInventarisC(kib_id, data);
-      res.status(200).json(responseAPI("Berhasil update data"));
-    } catch (error) {
-      res.status(400).json({ msg: "Gagal update data!", error });
-    }
-  },
-
-  updateInventarisD: async (req, res) => {
-    const { kib_id } = req.params;
-    const { data } = req.body;
-    try {
-      await updateInventarisD(kib_id, data);
-      res.status(200).json(responseAPI("Berhasil update data"));
-    } catch (error) {
-      res.status(400).json({ msg: "Gagal update data!", error });
-    }
-  },
-
-  updateInventarisE: async (req, res) => {
-    const { kib_id } = req.params;
-    const { data } = req.body;
-    try {
-      await updateInventarisE(kib_id, data);
-      res.status(200).json(responseAPI("Berhasil update data"));
-    } catch (error) {
-      res.status(400).json({ msg: "Gagal update data!", error });
-    }
-  },
-
+  // upload image
   uploadImage: async (req, res) => {
     const { id_inventaris } = req.params;
     let inv;

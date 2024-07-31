@@ -171,170 +171,186 @@ const penetapanModel = {
 
   fetchPeralatanMesinById: (id) => {
     let query = `
-      SELECT 
-        p.kib_id AS kib_id,
-        p.id AS penetapan_id,
-        p.departemen_id AS departemen_id,
-        d.kode AS departemen_kd,
-        d.nama AS departemen_nm,
-        p.no_register,
-        p.kategori_id,
-        kat.kode AS kategori_kd,
-        kat.nama AS kategori_nm,
-        p.jumlah,
-        p.satuan AS satuan_awal,
-        p.cara_perolehan,
-        TO_CHAR(p.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_penetapan,
-        p.th_beli,
-        REPLACE(TO_CHAR(p.perolehan, 'FM999,999,999,999'), ',', '.') AS perolehan_formatted,
-        p.a_alamat,
-        p.b_merk,
-        p.b_cc,
-        p.b_nomor_polisi,
-        p.b_nomor_rangka,
-        p.b_nomor_mesin,
-        p.b_nomor_bpkb,
-        p.b_bahan,
-        p.b_nomor_pabrik,
-        p.b_kd_ruang,
-        p.a_penggunaan,
-        p.kondisi,
-        p.asal_usul,
-        p.keterangan AS keterangan_penetapan,
-        p.file_nm AS file_penetapan,
-        TO_CHAR(inv.tgl_inventaris, 'DD-MM-YYYY') AS tgl_inventaris_formatted,
-        inv.no_register_awal,
-        inv.no_register_akhir,
-        inv.no_register_status,
-        inv.kategori_id_awal,
-        inv.kategori_id_akhir,
-        inv.kategori_id_status,
-        inv.nama_spesifikasi_awal,
-        inv.nama_spesifikasi_akhir,
-        inv.nama_spesifikasi_status,
-        inv.jumlah_awal,
-        inv.jumlah_akhir,
-        inv.jumlah_status,
-        inv.satuan AS satuan_akhir,
-        inv.cara_perolehan_awal,
-        inv.cara_perolehan_akhir,
-        inv.cara_perolehan_status,
-        TO_CHAR(inv.tgl_perolehan, 'DD-MM-YYYY') AS tgl_perolehan_inventaris,
-        inv.tahun_perolehan,
-        REPLACE(TO_CHAR(inv.perolehan_awal, 'FM999,999,999,999'), ',', '.') AS perolehan_awal_formatted,
-        REPLACE(TO_CHAR(inv.perolehan_akhir, 'FM999,999,999,999'), ',', '.') AS perolehan_akhir_formatted,
-        inv.perolehan_status,
-        inv.atribusi_biaya,
-        inv.atribusi_status,
-        inv.atribusi_nibar,
-        inv.atribusi_kode_barang,
-        inv.atribusi_kode_lokasi,
-        inv.atribusi_no_register,
-        inv.atribusi_nama_barang,
-        inv.atribusi_spesifikasi_barang,
-        inv.a_alamat_awal,
-        inv.a_alamat_akhir,
-        inv.a_alamat_status,
-        inv.alamat_kota,
-        inv.alamat_kecamatan,
-        inv.alamat_kelurahan,
-        inv.alamat_jalan,
-        inv.alamat_no,
-        inv.alamat_rt,
-        inv.alamat_rw,
-        inv.alamat_kodepos,
-        inv.b_merk_awal,
-        inv.b_merk_akhir,
-        inv.b_merk_status,
-        inv.b_cc_awal,
-        inv.b_cc_akhir,
-        inv.b_cc_status,
-        inv.b_nomor_polisi_awal,
-        inv.b_nomor_polisi_akhir,
-        inv.b_nomor_polisi_status,
-        inv.b_nomor_rangka_awal,
-        inv.b_nomor_rangka_akhir,
-        inv.b_nomor_rangka_status,
-        inv.b_nomor_mesin_awal,
-        inv.b_nomor_mesin_akhir,
-        inv.b_nomor_mesin_status,
-        inv.b_nomor_bpkb_awal,
-        inv.b_nomor_bpkb_akhir,
-        inv.b_nomor_bpkb_status,
-        inv.b_bahan_awal,
-        inv.b_bahan_akhir,
-        inv.b_bahan_status,
-        inv.b_nomor_pabrik_awal,
-        inv.b_nomor_pabrik_akhir,
-        inv.b_nomor_pabrik_status,
-        inv.kartu_inv_awal,
-        inv.kartu_inv_akhir,
-        inv.kartu_inv_status,
-        inv.barcode_barang,
-        inv.barcode_barang_akhir,
-        inv.barcode_ruangan,
-        inv.barcode_ruangan_akhir,
-        inv.keberadaan_barang_akhir,
-        inv.keberadaan_barang_status,
-        inv.kondisi_awal,
-        inv.kondisi_akhir,
-        inv.kondisi_status,
-        inv.asal_usul_awal,
-        inv.asal_usul_akhir,
-        inv.asal_usul_status,
+      SELECT
+        p.id as penetapan_id,
+        p.kib_id as penetapan_kib_id,
+        p.kategori_id as penetapan_kategori_id,
+        p.thn_nilai as penetapan_thn_nilai,
+        p.no_register as penetapan_no_register, -- done
+        p.cara_perolehan as perolehan, -- done
+        p.tgl_perolehan as penetapan_tgl_perolehan, -- done
+        p.th_beli as penetapan_th_beli, -- done
+        p.perolehan as nilai_perolehan, -- done
+        p.b_merk, -- done,ok
+        p.b_type, -- done,ok
+        p.b_cc, -- done,ok
+        p.b_nomor_polisi, -- done,ok
+        p.b_nomor_rangka, -- done,ok
+        p.b_nomor_pabrik, -- done,
+        p.b_nomor_mesin, -- done,ok
+        p.b_nomor_bpkb, -- done,ok
+        p.b_bahan, -- done,ok
+        p.harga as penetapan_harga, -- done
+        p.asal_usul as penetapan_asal_usul, -- done
+        p.keterangan AS penetapan_keterangan,
+        p.kondisi as penetapan_kondisi, -- done
+        p.jumlah as penetapan_jumlah, -- done
+        p.departemen_id as penetapan_departemen_id, -- done
+        p.b_kd_ruang as id_ruang,
+        r.nama as ruang,
+
+        k.kode AS kategori_kd,
+        k.nama AS kategori_nm, -- done
+
+        d.kode AS departemen_kd, -- done
+        d.nama AS departemen_nm, -- done
+
+        inv.id AS inv_id,
+        inv.tgl_inventaris, -- done
+        inv.no_register_status, -- done
+        inv.no_register_awal, -- done
+        inv.no_register_akhir, -- done
+        inv.kategori_status, -- done
+        inv.kategori_id_awal, -- done
+        inv.kategori_id_akhir, -- done
+        inv.nama_spesifikasi_status, -- done
+        inv.nama_spesifikasi_awal, -- done
+        inv.nama_spesifikasi_akhir, -- done
+        inv.jumlah_status, -- done
+        inv.jumlah_awal, -- done
+        inv.jumlah_akhir, -- done
+        inv.satuan, -- done
+        inv.cara_perolehan_status, -- done
+        inv.cara_perolehan_awal, -- done
+        inv.cara_perolehan_akhir, -- done
+        inv.perolehan_status, -- done
+        inv.perolehan_awal, -- done
+        inv.perolehan_akhir, -- done
+        
+        inv.b_merk_status, -- done
+        inv.b_merk_awal, -- done
+        inv.b_merk_akhir, -- done
+        inv.b_type_status, -- done
+        inv.b_type_awal, -- done
+        inv.b_type_akhir, -- done
+        inv.b_cc_status, -- done
+        inv.b_cc_awal, -- done
+        inv.b_cc_akhir, -- done
+        inv.b_bahan_status,-- done
+        inv.b_bahan_awal,-- done
+        inv.b_bahan_akhir,-- done
+        inv.b_nomor_rangka_status,-- done
+        inv.b_nomor_rangka_awal,-- done
+        inv.b_nomor_rangka_akhir,-- done
+        inv.b_nomor_mesin_status,-- done
+        inv.b_nomor_mesin_awal,-- done
+        inv.b_nomor_mesin_akhir,-- done
+        inv.b_nomor_polisi_status,-- done
+        inv.b_nomor_polisi_awal,-- done
+        inv.b_nomor_polisi_akhir,-- done
+        inv.b_nomor_bpkb_status,-- done
+        inv.b_nomor_bpkb_awal,-- done
+        inv.b_nomor_bpkb_akhir, -- done
+        
+        inv.file_nm, -- done
+        inv.petugas, -- done
+        
+        inv.atribusi_biaya, -- done
+        inv.atribusi_status, -- done
+        inv.atribusi_kib_id, -- done
+        inv.atribusi_nibar, -- done
+        inv.atribusi_kode_lokasi, -- done
+        inv.atribusi_kategori_id, -- done
+        inv.atribusi_kategori_kd, -- done
+        inv.atribusi_kategori_nm, -- done
+        inv.atribusi_no_register, -- done
+        inv.atribusi_nama, -- done
+        
+        inv.alamat_status, -- done
+        inv.alamat_awal, -- done
+        inv.alamat_akhir, -- done
+        inv.alamat_kota, -- done
+        inv.alamat_kecamatan, -- done
+        inv.alamat_kelurahan,	-- done
+        inv.alamat_jalan, -- done
+        inv.alamat_no, -- done
+        inv.alamat_rt, -- done
+        inv.alamat_rw, -- done
+        inv.alamat_kode_pos, -- done
+        
+        inv.kartu_inventaris_ruangan_status, -- done
+        inv.kartu_inventaris_ruangan_awal, -- done
+        inv.kartu_inventaris_ruangan_akhir, -- done
+        inv.barcode_barang_status, -- done
+        inv.barcode_ruangan_status, -- done
+        inv.keberadaan_barang_status, -- done
+        inv.keberadaan_barang_awal, -- done
+        inv.keberadaan_barang_akhir, -- done
+        inv.kondisi_status, -- done
+        inv.kondisi_awal, -- done
+        inv.kondisi_akhir, -- done
+        inv.asal_usul_status, -- done
+        inv.asal_usul_awal, -- done
+        inv.asal_usul_akhir, -- done
         inv.penggunaan_status,
-        inv.penggunaan_awal,
-        inv.penggunaan_pemda_status,
-        inv.penggunaan_pemda_akhir,
-        inv.penggunaan_pemda_nama_pemakai,
-        inv.penggunaan_pemda_nama_pemakai_status,
-        inv.penggunaan_pemda_nama_pemakai_akhir,
-        inv.penggunaan_pemda_status_pemakai,
-        inv.penggunaan_pemda_bast_pemakaian,
-        inv.penggunaan_pempus_status,
-        inv.penggunaan_pempus_yt,
-        inv.penggunaan_pempus_y_nm,
-        inv.penggunaan_pempus_y_doc,
-        inv.penggunaan_pempus_t_nm,
-        inv.penggunaan_pdl_status,
-        inv.penggunaan_pdl_yt,
-        inv.penggunaan_pdl_y_nm,
-        inv.penggunaan_pdl_y_doc,
-        inv.penggunaan_pdl_t_nm,
-        inv.penggunaan_pl_status,
-        inv.penggunaan_pl_yt,
-        inv.penggunaan_pl_y_nm,
-        inv.penggunaan_pl_y_doc,
-        inv.penggunaan_pl_t_nm,
-        inv.tercatat_ganda,
+        inv.penggunaan_barang_pemda_status,
+        inv.penggunaan_barang_pemda_nama,
+        inv.penggunaan_barang_pemda_doc,
+        inv.penggunaan_barang_pemda_status_pemakai,
+        inv.penggunaan_barang_pemda_bast,
+        inv.penggunaan_barang_pemda_sip,
+        inv.penggunaan_barang_pemda_imb,
+        inv.penggunaan_barang_pempus_status,
+        inv.penggunaan_barang_pempus_yt,
+        inv.penggunaan_barang_pempus_y_nama,
+        inv.penggunaan_barang_pempus_y_doc,
+        inv.penggunaan_barang_pempus_t_nama,
+        inv.penggunaan_barang_pdl_status,
+        inv.penggunaan_barang_pdl_yt,
+        inv.penggunaan_barang_pdl_y_nama,
+        inv.penggunaan_barang_pdl_y_doc,
+        inv.penggunaan_barang_pdl_t_nama,
+        inv.penggunaan_barang_pl_status,
+        inv.penggunaan_barang_pl_yt,
+        inv.penggunaan_barang_pl_y_nama,
+        inv.penggunaan_barang_pl_y_doc,
+        inv.penggunaan_barang_pl_t_nama,
+        inv.tercatat_ganda_status,
+        inv.tercatat_ganda_kib_id,
         inv.tercatat_ganda_nibar,
         inv.tercatat_ganda_no_register,
-        inv.tercatat_ganda_kode_barang,
-        inv.tercatat_ganda_nama_barang,
-        inv.tercatat_ganda_spesifikasi_barang,
+        inv.tercatat_ganda_kategori_id,
+        inv.tercatat_ganda_kategori_kd,
+        inv.tercatat_ganda_kategori_nm,
+        inv.tercatat_ganda_nama_spesifikasi,
         inv.tercatat_ganda_luas,
         inv.tercatat_ganda_jumlah,
         inv.tercatat_ganda_satuan,
         inv.tercatat_ganda_perolehan,
-        inv.tercatat_ganda_tanggal_perolehan,
+        inv.tercatat_ganda_tgl_perolehan,
         inv.tercatat_ganda_kuasa_pengguna,
-        inv.pemilik_id,
-        inv.lainnya,
-        inv.keterangan AS keterangan_inventaris,
-        inv.file_nm AS file_inventaris,
-        inv.petugas,
-        inv.tahun,
-        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS status_inventaris
-      FROM 
+        inv.diatas_tanah_milik,
+        inv.diatas_tanah_milik_pemda,	
+        inv.diatas_tanah_milik_pempus,
+        inv.diatas_tanah_milik_pdl,
+        inv.diatas_tanah_milik_pl,	
+        inv.long,	
+        inv.lat,	
+        inv.lainnya,	
+        inv.keterangan,
+
+        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
+      FROM
         aset.penetapan AS p
       JOIN 
-        public.departemen AS d ON d.id = p.departemen_id
+        aset.kategoris AS k ON p.kategori_id = k.id
+      JOIN
+        departemen AS d ON p.departemen_id = d.id
       JOIN 
-        aset.kategoris AS kat ON kat.id = p.kategori_id
-      LEFT JOIN 
-        aset.kib_inventaris AS inv ON inv.penetapan_id = p.id
-        AND inv.kib_id = p.kib_id 
-      WHERE
+        aset.ruangs AS r ON p.b_kd_ruang = r.id
+      LEFT JOIN
+        aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
+      WHERE 
         p.id = ${id}
     `;
 

@@ -8,6 +8,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import morgan from "morgan";
+import moment from "moment";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -26,11 +27,28 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-// Define a custom token to log request body
-morgan.token("body", (req) => JSON.stringify(req.body));
+// Buat token untuk waktu aksi
+morgan.token("action-time", function (req, res) {
+  return moment().format("YYYY-MM-DD HH:mm:ss");
+});
+
+// Buat token untuk IP pengakses
+morgan.token("remote-addr", function (req, res) {
+  return req.ip;
+});
+
+// Buat token untuk body request
+morgan.token("body", function (req, res) {
+  return JSON.stringify(req.body);
+});
 
 // Use morgan middleware with custom format that includes the body
-app.use(morgan(":method :url :status :response-time ms - :body"));
+app.use(
+  morgan(
+    ":method :url :status :response-time ms - :body :action-time :remote-addr"
+  )
+);
+
 // Static folder to serve images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
