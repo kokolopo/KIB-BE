@@ -8,18 +8,7 @@ import penetapanModel from "../models/penetapan_model.js";
 import { upload } from "../utils/multer.js";
 import { promisify } from "util";
 
-const {
-  insertInventarisB,
-  insertInventarisC,
-  insertInventarisD,
-  insertInventarisE,
-  updateInventarisA,
-  updateInventarisB,
-  updateInventarisC,
-  updateInventarisD,
-  updateInventarisE,
-  SelectKIBS,
-} = inventarisModel;
+const { SelectKIBS } = inventarisModel;
 
 const { countTotalPage } = penetapanModel;
 const jakartaOffset = 7 * 60 * 60 * 1000; // Jakarta UTC+7
