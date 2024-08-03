@@ -155,14 +155,16 @@ const penetapanController = {
         }
         if (v.inv_file_nm != null || v.inv_file_nm != []) {
           // Menggabungkan kedua daftar dan memberikan uid ke item dari inv_file_nm
-          let uidCounter = v.file_nm.length + 1;
-          let mergedList = v.file_nm.concat(
-            v.inv_file_nm.map((filename) => ({
-              uid: uidCounter++,
-              filename: filename,
-            }))
-          );
-          v.file_nm = mergedList;
+          // let uidCounter = v.file_nm.length + 1;
+          // let mergedList = v.file_nm.concat(
+          //   v.inv_file_nm.map((filename) => ({
+          //     uid: uidCounter++,
+          //     filename: filename,
+          //   }))
+          // );
+          // v.file_nm = mergedList;
+
+          v.file_nm = v.inv_file_nm;
           delete v.inv_file_nm;
         }
       }
