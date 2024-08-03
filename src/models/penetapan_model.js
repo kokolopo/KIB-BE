@@ -10,14 +10,18 @@ const penetapanModel = {
         p.kategori_id as penetapan_kategori_id,
         p.thn_nilai as penetapan_thn_nilai,
         p.no_register as penetapan_no_register,
+        p.cara_perolehan as penetapan_cara_perolehan,
         p.tgl_perolehan as penetapan_tgl_perolehan,
         p.th_beli as penetapan_th_beli,
+        p.perolehan as penetapan_nilai_perolehan,
+        
         p.a_luas_m2 as penetapan_a_luas_m2,
         p.a_alamat as penetapan_a_alamat,
         p.a_penggunaan as penetapan_a_penggunaan,
         p.a_hak_tanah as penetapan_a_hak_tanah,
         p.a_sertifikat_nomor as penetapan_a_sertifikat_nomor,
         p.a_sertifikat_tanggal as penetapan_a_sertifikat_tanggal,
+        
         p.harga as penetapan_harga,
         p.asal_usul as penetapan_asal_usul,
         p.keterangan AS penetapan_keterangan,
@@ -177,10 +181,11 @@ const penetapanModel = {
         p.kategori_id as penetapan_kategori_id,
         p.thn_nilai as penetapan_thn_nilai,
         p.no_register as penetapan_no_register, -- done
+        p.cara_perolehan as penetapan_cara_perolehan,
         p.cara_perolehan as perolehan, -- done
         p.tgl_perolehan as penetapan_tgl_perolehan, -- done
         p.th_beli as penetapan_th_beli, -- done
-        p.perolehan as nilai_perolehan, -- done
+        p.perolehan as penetapan_nilai_perolehan, -- done
         p.b_merk, -- done,ok
         p.b_type, -- done,ok
         p.b_cc, -- done,ok
