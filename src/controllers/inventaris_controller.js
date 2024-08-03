@@ -112,7 +112,7 @@ const inventarisController = {
         files = inv.file_nm;
       }
 
-      prevUID = files[0].uid;
+      prevUID = files.length;
 
       await uploadAsync(req, res);
       if (!req.files || req.files.length === 0) {
