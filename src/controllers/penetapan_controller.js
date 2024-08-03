@@ -149,6 +149,10 @@ const penetapanController = {
           delete v.inv_file_nm;
           continue;
         }
+        if (v.file_nm === null) {
+          delete v.inv_file_nm;
+          continue;
+        }
         if (v.inv_file_nm != null || v.inv_file_nm != []) {
           // Menggabungkan kedua daftar dan memberikan uid ke item dari inv_file_nm
           let uidCounter = v.file_nm.length + 1;
