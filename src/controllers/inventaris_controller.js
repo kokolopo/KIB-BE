@@ -1,4 +1,3 @@
-import { Sequelize } from "sequelize";
 import initModels from "../../models/init-models.js";
 import sequelize from "../config/sequelize.js";
 import { requestBodyInventarisA } from "../dto/index.js";
@@ -13,6 +12,7 @@ const { SelectKIBS } = inventarisModel;
 const { countTotalPage } = penetapanModel;
 const jakartaOffset = 7 * 60 * 60 * 1000; // Jakarta UTC+7
 const jakartaTime = new Date(Date.now() + jakartaOffset);
+const year = jakartaTime.getUTCFullYear();
 
 const inventarisController = {
   // INSERT CONTROLLER
@@ -23,14 +23,12 @@ const inventarisController = {
     const body = requestBodyInventarisA;
 
     if (id_inventaris != undefined) {
-      body.updated = body.created;
+      req.body.updated = body.created;
     }
 
     for (let key in req.body) {
-      if (req.body[key] == null || req.body[key] == 0) {
-        continue;
-      } else {
-        body[key] = req.body[key];
+      if (req.body[key] == "" || req.body[key] == 0) {
+        req.body[key] = null;
       }
     }
 
@@ -42,19 +40,30 @@ const inventarisController = {
           order: [["id", "DESC"]],
         });
 
-        body.id = prev === null ? 1 : prev.id + 1;
-        body.created = jakartaTime;
-        body.penetapan_id = parseInt(penetapan_id);
+        req.body.id = prev === null ? 1 : prev.id + 1;
+        req.body.created = jakartaTime;
+        req.body.tahun = year;
+        req.body.penetapan_id = parseInt(penetapan_id);
+        req.body.status = 0;
+        req.body.is_api = 0;
+        if (req.body.petugas == null) {
+          req.body.petugas = [];
+        }
 
-        await initModels(sequelize).inventaris_kib.create(body);
+        await initModels(sequelize).inventaris_kib.create(req.body);
+
+        const penetapan = await initModels(sequelize).penetapan.findByPk(
+          parseInt(penetapan_id)
+        );
+
+        console.log(req.body.petugas);
 
         await initModels(sequelize).inventaris_kib.update(
-          { file_nm: [] },
+          { file_nm: penetapan.file_nm },
           {
-            where: { id: body.id },
+            where: { id: req.body.id },
           }
         );
-        body.petugas = [];
       } else {
         // file_name
         const file_name = await initModels(sequelize).inventaris_kib.findOne({
@@ -63,13 +72,12 @@ const inventarisController = {
         });
 
         // update
-        body.updated = body.created;
-        body.file_nm = file_name.dataValues.file_nm;
-        delete body.created;
-        await initModels(sequelize).inventaris_kib.update(body, {
+
+        req.body.file_nm = file_name.dataValues.file_nm;
+        delete req.body.created;
+        await initModels(sequelize).inventaris_kib.update(req.body, {
           where: { id: parseInt(id_inventaris) },
         });
-        body.petugas = [];
       }
 
       res.status(201).json(
@@ -88,6 +96,7 @@ const inventarisController = {
     let inv;
     let files;
     let fileNames;
+    let prevUID;
     const uploadAsync = promisify(upload);
 
     try {
@@ -98,6 +107,8 @@ const inventarisController = {
         files = inv.file_nm;
       }
 
+      prevUID = files[0].uid;
+
       await uploadAsync(req, res);
       if (!req.files || req.files.length === 0) {
         return res.status(400).send({ message: "No file selected!" });
@@ -106,7 +117,11 @@ const inventarisController = {
       }
 
       fileNames.forEach((v) => {
-        files.push(v);
+        prevUID = prevUID + 1;
+        files.push({
+          uid: prevUID,
+          filename: v,
+        });
       });
 
       await initModels(sequelize).inventaris_kib.update(
