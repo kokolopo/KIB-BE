@@ -19,6 +19,7 @@ const inventarisController = {
   insertInventarisA: async (req, res) => {
     const penetapan_id = req.params.penetapan_id;
     const { id_inventaris } = req.query;
+    let inv_id;
 
     const body = requestBodyInventarisA;
 
@@ -64,6 +65,8 @@ const inventarisController = {
             where: { id: req.body.id },
           }
         );
+
+        inv_id = req.body.id;
       } else {
         // file_name
         const file_name = await initModels(sequelize).inventaris_kib.findOne({
@@ -78,11 +81,13 @@ const inventarisController = {
         await initModels(sequelize).inventaris_kib.update(req.body, {
           where: { id: parseInt(id_inventaris) },
         });
+        inv_id = parseInt(id_inventaris);
       }
 
       res.status(201).json(
         responseAPI("Berhasil inventarisasi data", {
           penetapan_id,
+          inv_id,
         })
       );
     } catch (error) {
