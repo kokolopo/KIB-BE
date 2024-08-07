@@ -378,17 +378,17 @@ const penetapanModel = {
         p.cara_perolehan as perolehan, --done
         p.tgl_perolehan as penetapan_tgl_perolehan, --done
         p.th_beli as penetapan_th_beli, --done
-        p.perolehan as nilai_perolehan, --done
+        p.perolehan as penetapan_nilai_perolehan, --done
         
-        p.c_bertingkat_tidak, --done
-        p.c_beton_tidak, --done
-        p.c_luas_lantai, --done
-        p.c_lokasi,
-        p.c_dokumen_tanggal,
-        p.c_dokumen_nomor,
-        p.c_luas_bangunan, --done
-        p.c_status_tanah, --done
-        p.c_kode_tanah,
+        p.c_bertingkat_tidak as penetapan_c_bertingkat_tidak, --done
+        p.c_beton_tidak as penetapan_c_beton_tidak, --done
+        p.c_luas_lantai as penetapan_c_luas_lantai, --done
+        p.c_lokasi as penetapan_c_lokasi,
+        p.c_dokumen_tanggal as penetapan_c_dokumen_tanggal,
+        p.c_dokumen_nomor as penetapan_c_dokumen_nomor,
+        p.c_luas_bangunan as penetapan_c_luas_bangunan, --done
+        p.c_status_tanah as penetapan_c_status_tanah, --done
+        p.c_kode_tanah as penetapan_c_kode_tanah,
         
         p.harga as penetapan_harga, 
         p.asal_usul as penetapan_asal_usul, 
@@ -396,7 +396,7 @@ const penetapanModel = {
         p.kondisi as penetapan_kondisi, 
         p.jumlah as penetapan_jumlah, --done
         p.departemen_id as penetapan_departemen_id, 
-        p.b_kd_ruang as id_ruang,
+        p.b_kd_ruang as penetapan_kd_ruang,
 
         k.kode AS kategori_kd, --done
         k.nama AS kategori_nm, --done
@@ -553,16 +553,16 @@ const penetapanModel = {
         p.cara_perolehan as perolehan, --done
         p.tgl_perolehan as penetapan_tgl_perolehan, --done
         p.th_beli as penetapan_th_beli, --done
-        p.perolehan as nilai_perolehan, --done
+        p.perolehan as penetapan_nilai_perolehan, --done
         
-        p.d_konstruksi,
-        p.d_panjang,
-        p.d_lebar,
-        p.d_luas,
-        p.d_lokasi,
-        p.d_dokumen_tanggal,
-        p.d_dokumen_nomor,
-        p.d_kode_tanah,
+        p.d_konstruksi as penetapan_d_konstruksi,
+        p.d_panjang as penetapan_d_panjang,
+        p.d_lebar as penetapan_d_lebar,
+        p.d_luas as penetapan_d_luas,
+        p.d_lokasi as penetapan_d_lokasi,
+        p.d_dokumen_tanggal as penetapan_d_dokumen_tanggal,
+        p.d_dokumen_nomor as penetapan_d_dokumen_nomor,
+        p.d_kode_tanah as penetapan_d_kode_tanah,
 
         p.harga as penetapan_harga, 
         p.asal_usul as penetapan_asal_usul, 
@@ -570,7 +570,7 @@ const penetapanModel = {
         p.kondisi as penetapan_kondisi, 
         p.jumlah as penetapan_jumlah, --done
         p.departemen_id as penetapan_departemen_id, 
-        p.b_kd_ruang as id_ruang,
+        p.b_kd_ruang as penetapan_b_kd_ruang,
 
         k.kode AS kategori_kd, --done
         k.nama AS kategori_nm, --done
@@ -739,14 +739,14 @@ const penetapanModel = {
         p.cara_perolehan as perolehan, --done
         p.tgl_perolehan as penetapan_tgl_perolehan, --done
         p.th_beli as penetapan_th_beli, --done
-        p.perolehan as nilai_perolehan, --done
+        p.perolehan as penetapan_nilai_perolehan, --done
         
-        p.e_judul as judul_barang, --done
-        p.e_spek as merk_tipe_spek, --done
-        p.e_pencipta as pencipta_barang, --done
-        p.e_jenis as jenis_barang, --done
-        p.e_bahan as bahan_barang, --done
-        p.e_ukuran as ukuran_barang, --done
+        p.e_judul as penetapan_judul_barang, --done
+        p.e_spek as penetapan_merk_tipe_spek, --done
+        p.e_pencipta as penetapan_pencipta_barang, --done
+        p.e_jenis as penetapan_jenis_barang, --done
+        p.e_bahan as penetapan_bahan_barang, --done
+        p.e_ukuran as penetapan_ukuran_barang, --done
 
         p.harga as penetapan_harga, 
         p.asal_usul as penetapan_asal_usul, 
@@ -754,7 +754,7 @@ const penetapanModel = {
         p.kondisi as penetapan_kondisi, 
         p.jumlah as penetapan_jumlah, --done
         p.departemen_id as penetapan_departemen_id, 
-        p.b_kd_ruang as id_ruang,
+        p.b_kd_ruang as penetapan_b_kd_ruang,
 
         k.kode AS kategori_kd, --done
         k.nama AS kategori_nm, --done
@@ -910,10 +910,10 @@ const penetapanModel = {
         p.cara_perolehan as perolehan, --done
         p.tgl_perolehan as penetapan_tgl_perolehan, --done
         p.th_beli as penetapan_th_beli, --done
-        p.perolehan as nilai_perolehan, --done
+        p.perolehan as penetapan_nilai_perolehan, --done
         
-        p.b_merk,
-        p.b_type,
+        p.b_merk as penetapan_b_merk,
+        p.b_type as penetapan_b_type,
 
         p.harga as penetapan_harga, 
         p.asal_usul as penetapan_asal_usul, 
@@ -921,7 +921,7 @@ const penetapanModel = {
         p.kondisi as penetapan_kondisi, 
         p.jumlah as penetapan_jumlah, --done
         p.departemen_id as penetapan_departemen_id, 
-        p.b_kd_ruang as id_ruang,
+        p.b_kd_ruang as penetapan_b_kd_ruang,
 
         k.kode AS kategori_kd, --done
         k.nama AS kategori_nm, --done

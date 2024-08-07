@@ -47,7 +47,7 @@ const inventarisController = {
         req.body.penetapan_id = parseInt(penetapan_id);
         req.body.status = 0;
         req.body.is_api = 0;
-        if (req.body.petugas == null) {
+        if (req.body.petugas == null || req.body.petugas == []) {
           req.body.petugas = [];
         }
 
