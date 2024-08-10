@@ -37,6 +37,9 @@ const penetapanController = {
         case "E":
           data = await fetchAsetTetapLainnyaById(parseInt(id));
           break;
+        case "ATB":
+          data = await fetchAsetTetapLainnyaById(parseInt(id));
+          break;
         default:
           break;
       }
