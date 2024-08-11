@@ -563,6 +563,7 @@ const penetapanModel = {
         p.d_dokumen_tanggal as penetapan_d_dokumen_tanggal,
         p.d_dokumen_nomor as penetapan_d_dokumen_nomor,
         p.d_kode_tanah as penetapan_d_kode_tanah,
+        p.d_status_tanah as penetapan_d_status_tanah,
 
         p.harga as penetapan_harga, 
         p.asal_usul as penetapan_asal_usul, 
@@ -783,13 +784,13 @@ const penetapanModel = {
         inv.perolehan_status, --done
         inv.perolehan_awal, --done
         inv.perolehan_akhir, --done
-        
-        inv.b_merk_status, --done
-        inv.b_merk_awal, --done
-        inv.b_merk_akhir, --done
-        inv.b_type_status, --done
-        inv.b_type_awal, --done
-        inv.b_type_akhir, --done
+
+        inv.e_judul, --done
+        inv.e_spek, --done
+        inv.e_pencipta, --done
+        inv.e_jenis, --done
+        inv.e_bahan, --done
+        inv.e_ukuran, --done
         
         inv.file_nm, 
         inv.petugas, 
