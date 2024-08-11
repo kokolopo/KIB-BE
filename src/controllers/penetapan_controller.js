@@ -13,6 +13,7 @@ const {
   fetchJalanJaringanIrigasiByDepartemen,
   fetchAsetTetapLainnyaByDepartemen,
   fetchAsetLainLainByDepartemen,
+  fetchAsetLainLainById,
   countTotalPage,
 } = penetapanModel;
 
@@ -38,7 +39,7 @@ const penetapanController = {
           data = await fetchAsetTetapLainnyaById(parseInt(id));
           break;
         case "ATB":
-          data = await fetchAsetTetapLainnyaById(parseInt(id));
+          data = await fetchAsetLainLainById(parseInt(id));
           break;
         default:
           break;

@@ -122,18 +122,9 @@ const kategoriModel = {
 
   fetchKategoriKDP: () => {
     let query = `
-        SELECT DISTINCT
-          k.id,
-          k.kode, 
-          k.nama
-        FROM 
-          aset.penetapan AS p
-        JOIN 
-          aset.kategoris AS k ON p.kategori_id = k.id
-        WHERE
-          p.kib = 'F'
-          AND p.kondisi IN ('B', 'KB')
-
+        select id, kode, nama 
+        from aset.kategoris
+        where substr(kode,1,5) = '1.5.3'
         `;
 
     return new Promise((resolve, reject) => {

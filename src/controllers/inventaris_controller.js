@@ -95,6 +95,101 @@ const inventarisController = {
     }
   },
 
+  insertInventarisB: async (req, res) => {
+    const penetapan_id = req.params.penetapan_id;
+    const { id_inventaris } = req.query;
+    let inv_id;
+    const keys = [
+      "penggunaan_status",
+      "penggunaan_barang_pemda_status",
+      "penggunaan_barang_pempus_status",
+      "penggunaan_barang_pdl_status",
+      "penggunaan_barang_pl_status",
+    ];
+
+    const body = requestBodyInventarisA;
+
+    if (id_inventaris != undefined) {
+      req.body.updated = body.created;
+    }
+
+    for (let key in req.body) {
+      if (req.body[key] == "") {
+        req.body[key] = null;
+      }
+    }
+
+    try {
+      if (id_inventaris == undefined) {
+        // create new
+        const prev = await initModels(sequelize).inventaris_kib.findOne({
+          attributes: ["id"],
+          order: [["id", "DESC"]],
+        });
+
+        req.body.id = prev === null ? 1 : prev.id + 1;
+
+        keys.forEach((key) => {
+          req.body[key] = req.body[key] || 0;
+        });
+
+        req.body.created = jakartaTime;
+        req.body.tahun = year;
+        req.body.penetapan_id = parseInt(penetapan_id);
+
+        req.body.status = 0;
+        req.body.is_api = 0;
+        if (req.body.petugas == null || req.body.petugas == []) {
+          req.body.petugas = [];
+        }
+
+        await initModels(sequelize).inventaris_kib.create(req.body);
+
+        const penetapan = await initModels(sequelize).penetapan.findByPk(
+          parseInt(penetapan_id)
+        );
+
+        console.log({
+          penggunaan_barang_pempus_status:
+            req.body.penggunaan_barang_pempus_status,
+        });
+
+        await initModels(sequelize).inventaris_kib.update(
+          { file_nm: penetapan.file_nm },
+          {
+            where: { id: req.body.id },
+          }
+        );
+
+        inv_id = req.body.id;
+      } else {
+        // file_name
+        const file_name = await initModels(sequelize).inventaris_kib.findOne({
+          attributes: ["file_nm"],
+          where: { id: parseInt(id_inventaris) },
+        });
+
+        // update
+
+        req.body.file_nm = file_name.dataValues.file_nm;
+        delete req.body.created;
+        await initModels(sequelize).inventaris_kib.update(req.body, {
+          where: { id: parseInt(id_inventaris) },
+        });
+        inv_id = parseInt(id_inventaris);
+      }
+
+      res.status(201).json(
+        responseAPI("Berhasil inventarisasi data", {
+          penetapan_id,
+          inv_id,
+        })
+      );
+    } catch (error) {
+      res.status(400).json({ msg: "Gagal inventarisasi data!", error });
+    }
+  },
+
   // upload image
   uploadImage: async (req, res) => {
     const { id_inventaris } = req.params;
