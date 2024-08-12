@@ -369,10 +369,8 @@ const inventarisController = {
       "penggunaan_barang_pl_status",
     ];
 
-    const body = requestBodyInventarisA;
-
     if (id_inventaris != undefined) {
-      req.body.updated = body.created;
+      req.body.updated = jakartaTime;
     }
 
     for (let key in req.body) {
@@ -411,13 +409,8 @@ const inventarisController = {
           parseInt(penetapan_id)
         );
 
-        console.log({
-          penggunaan_barang_pempus_status:
-            req.body.penggunaan_barang_pempus_status,
-        });
-
         await initModels(sequelize).inventaris_kib.update(
-          { file_nm: penetapan.file_nm },
+          { file_nm: penetapan.file_nm == null ? [] : penetapan.file_nm },
           {
             where: { id: req.body.id },
           }
@@ -464,10 +457,8 @@ const inventarisController = {
       "penggunaan_barang_pl_status",
     ];
 
-    const body = requestBodyInventarisA;
-
     if (id_inventaris != undefined) {
-      req.body.updated = body.created;
+      req.body.updated = jakartaTime;
     }
 
     for (let key in req.body) {
@@ -506,13 +497,8 @@ const inventarisController = {
           parseInt(penetapan_id)
         );
 
-        console.log({
-          penggunaan_barang_pempus_status:
-            req.body.penggunaan_barang_pempus_status,
-        });
-
         await initModels(sequelize).inventaris_kib.update(
-          { file_nm: penetapan.file_nm },
+          { file_nm: penetapan.file_nm == null ? [] : penetapan.file_nm },
           {
             where: { id: req.body.id },
           }
