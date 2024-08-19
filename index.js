@@ -52,6 +52,20 @@ app.use(
 // Static folder to serve images
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// set pdf LKI
+app.get('/set-pdf/:penetapan_id', (req, res) => {
+    const penetapanID = req.params.penetapan_id;
+
+    // Set cookie
+    res.cookie('auth_tkt', 'a2082928acb5ab25d7200c00bb534c9458c25b3621763989bbaef712dd80d806081773d815436bf89ccbf6220b1e67befb5788fcab4db5d5a007a7a7e40274dc66c32a39197!userid_type:int', {
+        domain: 'simasda.kotabogor.go.id',
+        path: '/',
+    });
+
+    // Redirect to the desired URL
+    res.redirect(`https://simasda.kotabogor.go.id/devel/aset/inventaris/kiba/lki/rpt?id=${penetapanID}`);
+});
+
 app.use(router);
 
 app.listen(port, () => console.log(`run and serve on port : ${port}`));
