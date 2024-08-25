@@ -151,7 +151,7 @@ const penetapanModel = {
         inv.keterangan,
         inv.petugas,
         inv.file_nm,
-        
+        inv.status as status_inventarisasi,
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
@@ -343,7 +343,7 @@ const penetapanModel = {
         inv.lat,	
         inv.lainnya,	
         inv.keterangan,
-
+        inv.status as status_inventarisasi,
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
@@ -520,7 +520,7 @@ const penetapanModel = {
         inv.lat,	
         inv.lainnya,	
         inv.keterangan,
-
+        inv.status as status_inventarisasi,
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
@@ -707,7 +707,7 @@ const penetapanModel = {
         inv.lat,	
         inv.lainnya,	
         inv.keterangan,
-
+        inv.status as status_inventarisasi,
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
@@ -878,7 +878,7 @@ const penetapanModel = {
         inv.lat,	
         inv.lainnya,	
         inv.keterangan,
-
+        inv.status as status_inventarisasi,
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
@@ -1045,7 +1045,7 @@ const penetapanModel = {
         inv.lat,	
         inv.lainnya,	
         inv.keterangan,
-
+        inv.status as status_inventarisasi,
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
@@ -1175,7 +1175,7 @@ const penetapanModel = {
       inv.kondisi_akhir,
       p.file_nm,
       inv.file_nm as inv_file_nm,
-      CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris,
+      CASE WHEN inv.status IS NULL THEN null ELSE inv.status END AS is_inventaris,
 
       p.kategori_id,
       k.status,
@@ -1261,7 +1261,7 @@ const penetapanModel = {
         inv.kondisi_akhir,
         p.file_nm,
         inv.file_nm as inv_file_nm,
-        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris,
+        CASE WHEN inv.status IS NULL THEN null ELSE inv.status END AS is_inventaris,
 
 
         k.status,
@@ -1354,7 +1354,7 @@ const penetapanModel = {
         inv.kondisi_akhir,
         p.file_nm,
         inv.file_nm as inv_file_nm,
-        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris,
+        CASE WHEN inv.status IS NULL THEN null ELSE inv.status END AS is_inventaris,
         inv.no_register_akhir,
         k.status,
         d.id AS departement_id,
@@ -1440,7 +1440,7 @@ const penetapanModel = {
         inv.kondisi_akhir,
         p.file_nm,
         inv.file_nm as inv_file_nm,
-        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris,
+        CASE WHEN inv.status IS NULL THEN null ELSE inv.status END AS is_inventaris,
         
         inv.no_register_akhir,
         k.status,
@@ -1524,7 +1524,7 @@ const penetapanModel = {
         inv.kondisi_akhir,
         p.file_nm,
         inv.file_nm as inv_file_nm,
-        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris,
+        CASE WHEN inv.status IS NULL THEN null ELSE inv.status END AS is_inventaris,
         
         inv.no_register_akhir,
         k.status,
@@ -1613,7 +1613,7 @@ const penetapanModel = {
         inv.kondisi_akhir,
         p.file_nm,
         inv.file_nm as inv_file_nm,
-        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris,
+        CASE WHEN inv.status IS NULL THEN null ELSE inv.status END AS is_inventaris,
         
         inv.no_register_akhir,
         k.status,
