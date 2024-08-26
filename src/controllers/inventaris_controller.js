@@ -51,6 +51,17 @@ const inventarisController = {
           req.body.petugas = [];
         }
 
+        const cek = await initModels(sequelize).inventaris_kib.findOne({
+          attributes: ["penetapan_id"],
+          where: { penetapan_id },
+        });
+
+        if (cek !== null) {
+          throw new Error("Tidak dapat insert data, coba update!");
+        }
+
+        console.log(cek);
+
         await initModels(sequelize).inventaris_kib.create(req.body);
 
         const penetapan = await initModels(sequelize).penetapan.findByPk(
@@ -89,7 +100,9 @@ const inventarisController = {
         })
       );
     } catch (error) {
-      res.status(400).json({ msg: "Gagal inventarisasi data!", error });
+      res
+        .status(400)
+        .json({ msg: "Gagal inventarisasi data!", error: error.message });
     }
   },
 
@@ -137,6 +150,15 @@ const inventarisController = {
         req.body.is_api = 0;
         if (req.body.petugas == null || req.body.petugas == []) {
           req.body.petugas = [];
+        }
+
+        const cek = await initModels(sequelize).inventaris_kib.findOne({
+          attributes: ["penetapan_id"],
+          where: { penetapan_id },
+        });
+
+        if (cek !== null) {
+          throw new Error("Tidak dapat insert data, coba update!");
         }
 
         await initModels(sequelize).inventaris_kib.create(req.body);
@@ -227,6 +249,15 @@ const inventarisController = {
           req.body.petugas = [];
         }
 
+        const cek = await initModels(sequelize).inventaris_kib.findOne({
+          attributes: ["penetapan_id"],
+          where: { penetapan_id },
+        });
+
+        if (cek !== null) {
+          throw new Error("Tidak dapat insert data, coba update!");
+        }
+
         await initModels(sequelize).inventaris_kib.create(req.body);
 
         const penetapan = await initModels(sequelize).penetapan.findByPk(
@@ -313,6 +344,15 @@ const inventarisController = {
         req.body.is_api = 0;
         if (req.body.petugas == null || req.body.petugas == []) {
           req.body.petugas = [];
+        }
+
+        const cek = await initModels(sequelize).inventaris_kib.findOne({
+          attributes: ["penetapan_id"],
+          where: { penetapan_id },
+        });
+
+        if (cek !== null) {
+          throw new Error("Tidak dapat insert data, coba update!");
         }
 
         await initModels(sequelize).inventaris_kib.create(req.body);
@@ -403,6 +443,15 @@ const inventarisController = {
           req.body.petugas = [];
         }
 
+        const cek = await initModels(sequelize).inventaris_kib.findOne({
+          attributes: ["penetapan_id"],
+          where: { penetapan_id },
+        });
+
+        if (cek !== null) {
+          throw new Error("Tidak dapat insert data, coba update!");
+        }
+
         await initModels(sequelize).inventaris_kib.create(req.body);
 
         const penetapan = await initModels(sequelize).penetapan.findByPk(
@@ -489,6 +538,15 @@ const inventarisController = {
         req.body.is_api = 0;
         if (req.body.petugas == null || req.body.petugas == []) {
           req.body.petugas = [];
+        }
+
+        const cek = await initModels(sequelize).inventaris_kib.findOne({
+          attributes: ["penetapan_id"],
+          where: { penetapan_id },
+        });
+
+        if (cek !== null) {
+          throw new Error("Tidak dapat insert data, coba update!");
         }
 
         await initModels(sequelize).inventaris_kib.create(req.body);
