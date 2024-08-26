@@ -1196,9 +1196,9 @@ const penetapanModel = {
       inv.status
     FROM
       aset.penetapan AS p
-    JOIN 
+    left JOIN 
       aset.kategoris AS k ON p.kategori_id = k.id
-    JOIN
+    left JOIN
       departemen AS d ON p.departemen_id = d.id
     LEFT JOIN
       aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
@@ -1206,11 +1206,11 @@ const penetapanModel = {
       d.kode = '${idDepartemen}' AND p.thn_nilai = ${
       tahun - 1
     } AND k.kode LIKE '%1.3.1%' AND p.kondisi = 'B'
-    ORDER BY p.id ASC
+    ORDER BY p.id ASC limit ${perPage} offset ${offset}
     `;
 
-    if (perPage !== "" && page !== "")
-      query += `limit ${perPage} offset ${offset}`;
+    // if (perPage !== "" && page !== "")
+    //   query += `limit ${perPage} offset ${offset}`;
 
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
@@ -1287,11 +1287,11 @@ const penetapanModel = {
         inv.status
       FROM
         aset.penetapan AS p
-      JOIN 
+      left JOIN 
         aset.kategoris AS k ON p.kategori_id = k.id
-      JOIN 
+      left JOIN 
         aset.ruangs AS r ON p.b_kd_ruang = r.id
-      JOIN
+      left JOIN
         departemen AS d ON p.departemen_id = d.id
       LEFT JOIN
         aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
@@ -1299,11 +1299,11 @@ const penetapanModel = {
         d.kode = '${idDepartemen}' AND p.thn_nilai = ${
       tahun - 1
     } AND k.kode LIKE '%1.3.2%' AND p.kondisi = 'B' 
-    ORDER BY p.id ASC
+    ORDER BY p.id ASC limit ${perPage} offset ${offset}
     `;
 
-    if (perPage !== "" && page !== "")
-      query += `limit ${perPage} offset ${offset}`;
+    // if (perPage !== "" && page !== "")
+    //   query += `limit ${perPage} offset ${offset}`;
 
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
@@ -1374,9 +1374,9 @@ const penetapanModel = {
         inv.status
       FROM
         aset.penetapan AS p
-      JOIN 
+      left JOIN 
         aset.kategoris AS k ON p.kategori_id = k.id
-      JOIN
+      left JOIN
         departemen AS d ON p.departemen_id = d.id
       LEFT JOIN
         aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
@@ -1384,11 +1384,11 @@ const penetapanModel = {
         d.kode = '${idDepartemen}' AND p.thn_nilai = ${
       tahun - 1
     } AND k.kode LIKE '%1.3.3%' AND p.kondisi = 'B' 
-    ORDER BY p.id ASC
+    ORDER BY p.id ASC limit ${perPage} offset ${offset}
     `;
 
-    if (perPage !== "" && page !== "")
-      query += `limit ${perPage} offset ${offset}`;
+    // if (perPage !== "" && page !== "")
+    //   query += `limit ${perPage} offset ${offset}`;
 
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
@@ -1462,9 +1462,9 @@ const penetapanModel = {
         inv.status
       FROM
         aset.penetapan AS p
-      JOIN 
+      left JOIN 
         aset.kategoris AS k ON p.kategori_id = k.id
-      JOIN
+      left JOIN
         departemen AS d ON p.departemen_id = d.id
       LEFT JOIN
         aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
@@ -1472,11 +1472,11 @@ const penetapanModel = {
         d.kode = '${idDepartemen}' AND p.thn_nilai = ${
       tahun - 1
     } AND k.kode LIKE '%1.3.4%' AND p.kondisi = 'B' 
-    ORDER BY p.id ASC
+    ORDER BY p.id ASC limit ${perPage} offset ${offset}
     `;
 
-    if (perPage !== "" && page !== "")
-      query += `limit ${perPage} offset ${offset}`;
+    // if (perPage !== "" && page !== "")
+    //   query += `limit ${perPage} offset ${offset}`;
 
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
@@ -1546,9 +1546,9 @@ const penetapanModel = {
         inv.status
       FROM
         aset.penetapan AS p
-      JOIN 
+      left JOIN 
         aset.kategoris AS k ON p.kategori_id = k.id
-      JOIN
+      left JOIN
         departemen AS d ON p.departemen_id = d.id
       LEFT JOIN
         aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
@@ -1556,11 +1556,11 @@ const penetapanModel = {
         d.kode = '${idDepartemen}' AND p.thn_nilai = ${
       tahun - 1
     } AND k.kode LIKE '%1.3.5%' AND p.kondisi = 'B' 
-    ORDER BY p.id ASC
+    ORDER BY p.id ASC limit ${perPage} offset ${offset}
     `;
 
-    if (perPage !== "" && page !== "")
-      query += `limit ${perPage} offset ${offset}`;
+    // if (perPage !== "" && page !== "")
+    //   query += `limit ${perPage} offset ${offset}`;
 
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
@@ -1635,9 +1635,9 @@ const penetapanModel = {
         inv.status
       FROM
         aset.penetapan AS p
-      JOIN 
+      left JOIN 
         aset.kategoris AS k ON p.kategori_id = k.id
-      JOIN
+      left JOIN
         departemen AS d ON p.departemen_id = d.id
       LEFT JOIN
         aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
@@ -1645,11 +1645,11 @@ const penetapanModel = {
         d.kode = '${idDepartemen}' AND p.thn_nilai = ${
       tahun - 1
     } AND k.kode LIKE '%1.5.3%' AND p.kondisi = 'B' 
-      ORDER BY p.id ASC
+      ORDER BY p.id ASC limit ${perPage} offset ${offset}
     `;
 
-    if (perPage !== "" && page !== "")
-      query += `limit ${perPage} offset ${offset}`;
+    // if (perPage !== "" && page !== "")
+    //   query += `limit ${perPage} offset ${offset}`;
 
     return new Promise((resolve, reject) => {
       DB.query(query, (err, result) => {
