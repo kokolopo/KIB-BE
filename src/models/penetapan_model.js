@@ -155,9 +155,9 @@ const penetapanModel = {
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
-      JOIN 
+      LEFT JOIN 
         aset.kategoris AS k ON p.kategori_id = k.id
-      JOIN
+      LEFT JOIN
         departemen AS d ON p.departemen_id = d.id
       LEFT JOIN
         aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
@@ -347,11 +347,11 @@ const penetapanModel = {
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
-      JOIN 
+      LEFT JOIN 
         aset.kategoris AS k ON p.kategori_id = k.id
-      JOIN
+      LEFT JOIN
         departemen AS d ON p.departemen_id = d.id
-      JOIN 
+      LEFT JOIN 
         aset.ruangs AS r ON p.b_kd_ruang = r.id
       LEFT JOIN
         aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
@@ -524,9 +524,9 @@ const penetapanModel = {
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
-      JOIN 
+      LEFT JOIN 
         aset.kategoris AS k ON p.kategori_id = k.id
-      JOIN
+      LEFT JOIN
         departemen AS d ON p.departemen_id = d.id
       LEFT JOIN
         aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
@@ -711,9 +711,9 @@ const penetapanModel = {
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
-      JOIN 
+      LEFT JOIN 
         aset.kategoris AS k ON p.kategori_id = k.id
-      JOIN
+      LEFT JOIN
         departemen AS d ON p.departemen_id = d.id
       LEFT JOIN
         aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
@@ -882,9 +882,9 @@ const penetapanModel = {
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
-      JOIN 
+      LEFT JOIN 
         aset.kategoris AS k ON p.kategori_id = k.id
-      JOIN
+      LEFT JOIN
         departemen AS d ON p.departemen_id = d.id
       LEFT JOIN
         aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
@@ -1049,9 +1049,9 @@ const penetapanModel = {
         CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris
       FROM
         aset.penetapan AS p
-      JOIN 
+      LEFT JOIN 
         aset.kategoris AS k ON p.kategori_id = k.id
-      JOIN
+      LEFT JOIN
         departemen AS d ON p.departemen_id = d.id
       LEFT JOIN
         aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
