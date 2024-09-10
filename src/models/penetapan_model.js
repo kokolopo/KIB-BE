@@ -182,26 +182,25 @@ const penetapanModel = {
         p.thn_nilai as penetapan_thn_nilai,
         p.no_register as penetapan_no_register, -- done
         p.cara_perolehan as penetapan_cara_perolehan,
-        p.cara_perolehan as perolehan, -- done
         p.tgl_perolehan as penetapan_tgl_perolehan, -- done
         p.th_beli as penetapan_th_beli, -- done
         p.perolehan as penetapan_nilai_perolehan, -- done
-        p.b_merk, -- done,ok
-        p.b_type, -- done,ok
-        p.b_cc, -- done,ok
-        p.b_nomor_polisi, -- done,ok
-        p.b_nomor_rangka, -- done,ok
-        p.b_nomor_pabrik, -- done,
-        p.b_nomor_mesin, -- done,ok
-        p.b_nomor_bpkb, -- done,ok
-        p.b_bahan, -- done,ok
+        p.b_merk as penetapan_b_merk, -- done,ok
+        p.b_type as penetapan_b_type, -- done,ok
+        p.b_cc as penetapan_b_cc, -- done,ok
+        p.b_nomor_polisi as penetapan_b_nomor_polisi, -- done,ok
+        p.b_nomor_rangka as penetapan_b_nomor_rangka, -- done,ok
+        p.b_nomor_pabrik as penetapan_b_nomor_pabrik, -- done,
+        p.b_nomor_mesin as penetapan_b_nomor_mesin, -- done,ok
+        p.b_nomor_bpkb as penetapan_b_nomor_bpkb, -- done,ok
+        p.b_bahan as penetapan_b_bahan, -- done,ok
         p.harga as penetapan_harga, -- done
         p.asal_usul as penetapan_asal_usul, -- done
         p.keterangan AS penetapan_keterangan,
         p.kondisi as penetapan_kondisi, -- done
         p.jumlah as penetapan_jumlah, -- done
         p.departemen_id as penetapan_departemen_id, -- done
-        p.b_kd_ruang as id_ruang,
+        p.b_kd_ruang as penetapan_id_ruang,
         r.nama as ruang,
 
         k.kode AS kategori_kd,
