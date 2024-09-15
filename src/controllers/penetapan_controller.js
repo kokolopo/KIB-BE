@@ -15,6 +15,7 @@ const {
   fetchAsetLainLainByDepartemen,
   fetchAsetLainLainById,
   fetchAsetRusakBerat,
+  fetchAsetTGR,
   countTotalPage,
 } = penetapanModel;
 
@@ -152,6 +153,16 @@ const penetapanController = {
             perPage,
             tahun,
             "RB"
+          );
+          break;
+        case "TGR":
+          data = await fetchAsetTGR(id_departemen, perPage, page, tahun);
+          total_page = await countTotalPage(
+            null,
+            id_departemen,
+            perPage,
+            tahun,
+            "TGR"
           );
           break;
         default:
