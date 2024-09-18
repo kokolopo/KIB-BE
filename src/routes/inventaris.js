@@ -23,4 +23,7 @@ inventaris.get(
   inventarisController.selectKIBS
 );
 
+// update status inventaris
+inventaris.put("/status/:id_inv", inventarisController.upadateStatusInventaris);
+
 export default inventaris;

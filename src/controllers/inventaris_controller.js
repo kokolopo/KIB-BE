@@ -674,6 +674,34 @@ const inventarisController = {
       res.status(400).json({ msg: "gagal mengambil penetapan!", error });
     }
   },
+
+  upadateStatusInventaris: async (req, res) => {
+    const id_inv = req.params.id_inv;
+    const { status, status_keterangan } = req.body;
+
+    console.log({ status, status_keterangan });
+
+    try {
+      await initModels(sequelize).inventaris_kib.update(
+        {
+          status,
+          status_keterangan,
+        },
+        {
+          where: { id: id_inv },
+        }
+      );
+
+      res
+        .status(200)
+        .json(responseAPI("Berhasil update status inventarisasi", req.body, 1));
+    } catch (error) {
+      res.status(400).json({
+        msg: "Gagal update status inventarisasi!",
+        error: error.message,
+      });
+    }
+  },
 };
 
 export default inventarisController;
