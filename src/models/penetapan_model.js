@@ -1697,7 +1697,7 @@ const penetapanModel = {
         p.file_nm,
         inv.no_register_akhir,
         d.id AS departement_id,
-        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris,
+        CASE WHEN inv.status IS NULL THEN null ELSE inv.status END AS is_inventaris,
         CASE 
           WHEN inv.penggunaan_barang_pemda_status = 1 THEN 'Pemerintah Daerah'
           WHEN inv.penggunaan_barang_pempus_status = 1 THEN 'Pemerintah Pusat'
@@ -1776,7 +1776,7 @@ const penetapanModel = {
         p.file_nm,
         inv.no_register_akhir,
         d.id AS departement_id,
-        CASE WHEN inv.id IS NULL THEN 0 ELSE 1 END AS is_inventaris,
+        CASE WHEN inv.status IS NULL THEN null ELSE inv.status END AS is_inventaris,
         CASE 
           WHEN inv.penggunaan_barang_pemda_status = 1 THEN 'Pemerintah Daerah'
           WHEN inv.penggunaan_barang_pempus_status = 1 THEN 'Pemerintah Pusat'
