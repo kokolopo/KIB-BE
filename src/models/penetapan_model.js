@@ -1816,6 +1816,85 @@ const penetapanModel = {
     });
   },
 
+  fetchAsetEC: (idDepartemen, perPage = 10, page = 1, tahun = 2024) => {
+    const offset = (page - 1) * perPage;
+
+    let query = `
+      SELECT 
+        p.id,
+        p.id as penetapan_id,
+        p.kib_id,
+        inv.id AS inv_id,
+        d.kode AS departement_kd,
+        d.nama AS departement_nm,
+        k.kode AS kategori_kd,
+        k.nama AS kategori_nm,
+        p.kategori_id,
+        p.no_register,
+        p.tgl_perolehan,
+        p.th_beli,
+        p.b_cc,
+        p.b_bahan,
+        p.b_nomor_pabrik,
+        p.b_nomor_rangka,
+        p.b_nomor_mesin,
+        p.b_nomor_polisi,
+        p.b_nomor_bpkb,
+        p.b_merk,
+        p.b_type,
+        p.asal_usul,
+        p.keterangan,
+        p.harga,
+        p.kondisi,
+        p.b_kd_ruang as ruangan_id,
+        r.nama as ruangan,
+        inv.tgl_inventaris,
+        inv.keberadaan_barang_awal,
+        inv.penggunaan_status,
+        inv.kondisi_akhir,
+        p.file_nm,
+        inv.no_register_akhir,
+        d.id AS departement_id,
+        CASE WHEN inv.status IS NULL THEN null ELSE inv.status END AS is_inventaris,
+        CASE 
+          WHEN inv.penggunaan_barang_pemda_status = 1 THEN 'Pemerintah Daerah'
+          WHEN inv.penggunaan_barang_pempus_status = 1 THEN 'Pemerintah Pusat'
+          WHEN inv.penggunaan_barang_pdl_status = 1 THEN 'Pemerintah Daerah Lainnya'
+          WHEN inv.penggunaan_barang_pl_status = 1 THEN 'Pihak Lain'
+          ELSE ''
+        END AS penguasaan,
+        CASE 
+          WHEN inv.penggunaan_barang_pempus_y_doc IS NOT NULL THEN inv.penggunaan_barang_pempus_y_doc
+          WHEN inv.penggunaan_barang_pdl_y_doc IS NOT NULL THEN inv.penggunaan_barang_pdl_y_doc
+          WHEN inv.penggunaan_barang_pl_y_doc IS NOT NULL THEN inv.penggunaan_barang_pl_y_doc
+          ELSE ''
+        END AS doc,
+        inv.status
+      FROM
+        aset.penetapan AS p
+      left JOIN 
+        aset.kategoris AS k ON p.kategori_id = k.id
+      left JOIN 
+        aset.ruangs AS r ON p.b_kd_ruang = r.id
+      left JOIN
+        departemen AS d ON p.departemen_id = d.id
+      LEFT JOIN
+        aset.inventaris_kib AS inv ON inv.penetapan_id = p.id
+      WHERE 
+        d.kode = '${idDepartemen}' AND p.thn_nilai = ${
+      tahun - 1
+    } AND p.kondisi IN ('EC')
+      ORDER BY p.id ASC limit ${perPage} offset ${offset}
+    `;
+
+    return new Promise((resolve, reject) => {
+      DB.query(query, (err, result) => {
+        if (err) reject(err);
+        resolve(result.rows);
+      });
+    });
+  },
+
   // COUNT TOTAL PAGE
   countTotalPage: (
     kategori = null,
