@@ -13,6 +13,18 @@ inventaris.post(
   "/add/ATB/:penetapan_id",
   inventarisController.insertInventarisATB
 );
+inventaris.post(
+  "/add/RB/:penetapan_id",
+  inventarisController.insertInventarisB
+);
+inventaris.post(
+  "/add/TGR/:penetapan_id",
+  inventarisController.insertInventarisB
+);
+inventaris.post(
+  "/add/EC/:penetapan_id",
+  inventarisController.insertInventarisB
+);
 
 // UPLOAD IMAGE
 inventaris.post("/docs/:id_inventaris", inventarisController.uploadImage);

@@ -44,6 +44,15 @@ const penetapanController = {
         case "ATB":
           data = await fetchAsetLainLainById(parseInt(id));
           break;
+        case "RB":
+          data = await fetchPeralatanMesinById(parseInt(id));
+          break;
+        case "TGR":
+          data = await fetchPeralatanMesinById(parseInt(id));
+          break;
+        case "EC":
+          data = await fetchPeralatanMesinById(parseInt(id));
+          break;
         default:
           break;
       }
